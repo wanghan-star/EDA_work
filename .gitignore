@@ -1,0 +1,28 @@
+# secrets / machine-local config (never commit API keys)
+.env
+**/.env
+tools.env
+**/tools.env
+
+# third-party clone (reference: https://github.com/alex00153/opti_demo), dev scratch, course material
+opti_demo/
+scratch/
+*.pdf
+!rtl_agent/docs/report/report.pdf
+
+# run artifacts
+runs/
+**/runs/
+work/
+out/
+__pycache__/
+*.pyc
+
+# LaTeX build files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
