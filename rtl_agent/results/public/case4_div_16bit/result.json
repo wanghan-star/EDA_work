@@ -1,0 +1,2383 @@
+{
+  "top": "div_16bit",
+  "input": "/home/hansome_w/backup/rtl_agent/cases/public/case4_div_16bit/div16_v1.v",
+  "kind": "combinational",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 775.124,
+    "ltp": 59,
+    "course_area": 775.124,
+    "course_ltp": 59,
+    "cells": {
+      "AND2_X1": 26,
+      "AND3_X1": 4,
+      "AND4_X1": 1,
+      "AOI211_X1": 21,
+      "AOI21_X1": 56,
+      "AOI221_X1": 8,
+      "AOI222_X1": 4,
+      "AOI22_X1": 12,
+      "INV_X1": 53,
+      "MUX2_X1": 48,
+      "NAND2_X1": 76,
+      "NAND3_X1": 17,
+      "NOR2_X1": 144,
+      "NOR3_X1": 25,
+      "NOR4_X1": 3,
+      "OAI211_X1": 18,
+      "OAI21_X1": 54,
+      "OAI221_X1": 9,
+      "OAI22_X1": 7,
+      "OR2_X1": 28,
+      "OR3_X1": 5,
+      "XNOR2_X1": 66,
+      "XOR2_X1": 17
+    }
+  },
+  "optimized": {
+    "area": 775.124,
+    "ltp": 59,
+    "cells": {
+      "AND2_X1": 26,
+      "AND3_X1": 4,
+      "AND4_X1": 1,
+      "AOI211_X1": 21,
+      "AOI21_X1": 56,
+      "AOI221_X1": 8,
+      "AOI222_X1": 4,
+      "AOI22_X1": 12,
+      "INV_X1": 53,
+      "MUX2_X1": 48,
+      "NAND2_X1": 76,
+      "NAND3_X1": 17,
+      "NOR2_X1": 144,
+      "NOR3_X1": 25,
+      "NOR4_X1": 3,
+      "OAI211_X1": 18,
+      "OAI21_X1": 54,
+      "OAI221_X1": 9,
+      "OAI22_X1": 7,
+      "OR2_X1": 28,
+      "OR3_X1": 5,
+      "XNOR2_X1": 66,
+      "XOR2_X1": 17
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 10,
+    "logical_calls": 10,
+    "prompt_tokens": 31402,
+    "completion_tokens": 25746,
+    "reasoning_tokens": 0,
+    "cached_tokens": 10368,
+    "total_tokens": 57148,
+    "llm_seconds": 178.1
+  },
+  "runtime_s": 314.9,
+  "stop_reason": "budget exhausted",
+  "graph_trace": [
+    [
+      "setup",
+      0.89
+    ],
+    [
+      "generate",
+      13.11
+    ],
+    [
+      "evaluate",
+      1.1
+    ],
+    [
+      "repair",
+      12.28
+    ],
+    [
+      "evaluate",
+      0.83
+    ],
+    [
+      "refine",
+      63.78
+    ],
+    [
+      "evaluate_refine",
+      0.0
+    ],
+    [
+      "repair",
+      46.91
+    ],
+    [
+      "evaluate",
+      1.31
+    ],
+    [
+      "resynth",
+      95.79
+    ],
+    [
+      "evaluate_resynth",
+      62.67
+    ],
+    [
+      "rescue",
+      6.71
+    ],
+    [
+      "evaluate",
+      0.57
+    ],
+    [
+      "repair",
+      6.03
+    ],
+    [
+      "evaluate",
+      0.0
+    ],
+    [
+      "repair",
+      2.92
+    ],
+    [
+      "evaluate",
+      0.0
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at (t=12000ps, random)] output `result`: expected 128(0x80), got 257(0x101).\nInputs: A=65535(0xffff), B=255(0xff).\nExpected outputs: result=128(0x80), odd=127(0x7f).\nYour outputs: result=257(0x101), odd=0.\nAnother failing case: inputs A=6699(0x1a2b), B=6; expected result=511(0x1ff), odd=49(0x31); yours result=497(0x1f1), odd=133(0x85).\nAnother failing case: inputs A=57752(0xe198), B=108(0x6c); expected result=496(0x1f0), odd=88(0x58); yours result=495(0x1ef), odd=196(0xc4).",
+      "plan": "- Keep the exact same restoring-division structure and branch conditions.\n- Replace each `9'(B) < candidate` compare and conditional subtract with a single 9-bit subtract: `candidate - {1'b0,B}`; borrow (bit 8 of difference) indicates candidate < B. Use the difference's low 8 bits as the new remainder when no borrow, else candidate[7:0].\n- This shares the subtractor between compare and remainder update, removing the separate comparator and mux.\n- Keep `b_nonzero` gating and output assignments unchanged.",
+      "synth": {
+        "ok": true,
+        "area": 568.176,
+        "ltp": 83,
+        "cells": {
+          "AND2_X1": 28,
+          "AND3_X1": 8,
+          "AOI211_X1": 12,
+          "AOI21_X1": 26,
+          "AOI221_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 42,
+          "MUX2_X1": 37,
+          "NAND2_X1": 43,
+          "NAND3_X1": 3,
+          "NOR2_X1": 69,
+          "NOR3_X1": 3,
+          "NOR4_X1": 2,
+          "OAI211_X1": 10,
+          "OAI21_X1": 41,
+          "OAI221_X1": 2,
+          "OAI33_X1": 8,
+          "OR2_X1": 32,
+          "OR3_X1": 4,
+          "XNOR2_X1": 95,
+          "XOR2_X1": 16
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[9]"
+        ],
+        "error": "",
+        "seconds": 0.36
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "value",
+          "time": 12000,
+          "signal": "result",
+          "gold": "10000000",
+          "opt": "100000001",
+          "inputs": {
+            "A": "1111111111111111",
+            "B": "11111111"
+          },
+          "inputs_prev": {
+            "A": "0",
+            "B": "0"
+          },
+          "outputs_gold": {
+            "result": "10000000",
+            "odd": "1111111"
+          },
+          "outputs_opt": {
+            "result": "100000001",
+            "odd": "0"
+          },
+          "stimulus": "random",
+          "cycle": null,
+          "more": [
+            {
+              "time": 132000,
+              "inputs": {
+                "A": "1101000101011",
+                "B": "110"
+              },
+              "outputs_gold": {
+                "result": "111111111",
+                "odd": "110001"
+              },
+              "outputs_opt": {
+                "result": "111110001",
+                "odd": "10000101"
+              },
+              "cycle": null
+            },
+            {
+              "time": 142000,
+              "inputs": {
+                "A": "1110000110011000",
+                "B": "1101100"
+              },
+              "outputs_gold": {
+                "result": "111110000",
+                "odd": "1011000"
+              },
+              "outputs_opt": {
+                "result": "111101111",
+                "odd": "11000100"
+              },
+              "cycle": null
+            }
+          ]
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 12000,
+            "signal": "result",
+            "gold": "10000000",
+            "opt": "100000001",
+            "inputs": {
+              "A": "1111111111111111",
+              "B": "11111111"
+            },
+            "inputs_prev": {
+              "A": "0",
+              "B": "0"
+            },
+            "outputs_gold": {
+              "result": "10000000",
+              "odd": "1111111"
+            },
+            "outputs_opt": {
+              "result": "100000001",
+              "odd": "0"
+            },
+            "stimulus": "random",
+            "cycle": null,
+            "more": [
+              {
+                "time": 132000,
+                "inputs": {
+                  "A": "1101000101011",
+                  "B": "110"
+                },
+                "outputs_gold": {
+                  "result": "111111111",
+                  "odd": "110001"
+                },
+                "outputs_opt": {
+                  "result": "111110001",
+                  "odd": "10000101"
+                },
+                "cycle": null
+              },
+              {
+                "time": 142000,
+                "inputs": {
+                  "A": "1110000110011000",
+                  "B": "1101100"
+                },
+                "outputs_gold": {
+                  "result": "111110000",
+                  "odd": "1011000"
+                },
+                "outputs_opt": {
+                  "result": "111101111",
+                  "odd": "11000100"
+                },
+                "cycle": null
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 0.25
+        },
+        "formal": null,
+        "seconds": 0.52
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at (t=12000ps, random)] output `result`: expected 128(0x80), got 257(0x101).\nInputs: A=65535(0xffff), B=255(0xff).\nExpected outputs: result=128(0x80), odd=127(0x7f).\nYour outputs: result=257(0x101), odd=0.\nAnother failing case: inputs A=6699(0x1a2b), B=6; expected result=511(0x1ff), odd=49(0x31); yours result=497(0x1f1), odd=133(0x85).\nAnother failing case: inputs A=57752(0xe198), B=108(0x6c); expected result=496(0x1f0), odd=88(0x58); yours result=495(0x1ef), odd=196(0xc4).",
+      "plan": "- Replace the 9-step unrolled subtract/compare chain with a single shared unsigned division datapath: one 16-bit dividend register-free combinational divider using a loop-free formulation is not allowed (no loops in synth), so instead share one subtractor/comparator across the 9 steps is impossible combinationally without iteration.\n- Better: compute quotient/remainder with a single wide arithmetic expression: since B is only 8 bits and A is 16 bits, use the identity that the 9-bit quotient can be obtained by comparing A against multiples of B. Precompute B, 2B, 3B... is costly.\n- Cheaper equivalent: use one 16-bit by 8-bit restoring division but factor the repeated `candidate - B` and `candidate >= B` into a shared subtractor with muxed operands, and narrow candidates to 9 bits (already 9). Collapse the 9 identical compare/subtract blocks into one reused block via a small iterative structure is not synthesizable without a clock.\n- Practical area win: replace each `gt = (B < candidate)` + conditional subtract with a single 9-bit subtractor producing borrow and difference, and select difference vs candidate by borrow. This removes separate comparators (XNOR/NOR heavy) and reuses the subtract result. Also fold `b_nonzero` into the final mux and drop redundant `$unsigned` casts.\n- Additionally, since q8 uses initial_remainder (8-bit) vs B, and each subsequent step uses 9-bit candidate, unify all steps to 9-bit subtractors with B zero-extended; this lets ABC share the subtractor logic across steps.",
+      "synth": {
+        "ok": true,
+        "area": 568.176,
+        "ltp": 83,
+        "cells": {
+          "AND2_X1": 28,
+          "AND3_X1": 8,
+          "AOI211_X1": 12,
+          "AOI21_X1": 26,
+          "AOI221_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 42,
+          "MUX2_X1": 37,
+          "NAND2_X1": 43,
+          "NAND3_X1": 3,
+          "NOR2_X1": 69,
+          "NOR3_X1": 3,
+          "NOR4_X1": 2,
+          "OAI211_X1": 10,
+          "OAI21_X1": 41,
+          "OAI221_X1": 2,
+          "OAI33_X1": 8,
+          "OR2_X1": 32,
+          "OR3_X1": 4,
+          "XNOR2_X1": 95,
+          "XOR2_X1": 16
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[9]"
+        ],
+        "error": "",
+        "seconds": 0.39
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "value",
+          "time": 12000,
+          "signal": "result",
+          "gold": "10000000",
+          "opt": "100000001",
+          "inputs": {
+            "A": "1111111111111111",
+            "B": "11111111"
+          },
+          "inputs_prev": {
+            "A": "0",
+            "B": "0"
+          },
+          "outputs_gold": {
+            "result": "10000000",
+            "odd": "1111111"
+          },
+          "outputs_opt": {
+            "result": "100000001",
+            "odd": "0"
+          },
+          "stimulus": "random",
+          "cycle": null,
+          "more": [
+            {
+              "time": 132000,
+              "inputs": {
+                "A": "1101000101011",
+                "B": "110"
+              },
+              "outputs_gold": {
+                "result": "111111111",
+                "odd": "110001"
+              },
+              "outputs_opt": {
+                "result": "111110001",
+                "odd": "10000101"
+              },
+              "cycle": null
+            },
+            {
+              "time": 142000,
+              "inputs": {
+                "A": "1110000110011000",
+                "B": "1101100"
+              },
+              "outputs_gold": {
+                "result": "111110000",
+                "odd": "1011000"
+              },
+              "outputs_opt": {
+                "result": "111101111",
+                "odd": "11000100"
+              },
+              "cycle": null
+            }
+          ]
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 12000,
+            "signal": "result",
+            "gold": "10000000",
+            "opt": "100000001",
+            "inputs": {
+              "A": "1111111111111111",
+              "B": "11111111"
+            },
+            "inputs_prev": {
+              "A": "0",
+              "B": "0"
+            },
+            "outputs_gold": {
+              "result": "10000000",
+              "odd": "1111111"
+            },
+            "outputs_opt": {
+              "result": "100000001",
+              "odd": "0"
+            },
+            "stimulus": "random",
+            "cycle": null,
+            "more": [
+              {
+                "time": 132000,
+                "inputs": {
+                  "A": "1101000101011",
+                  "B": "110"
+                },
+                "outputs_gold": {
+                  "result": "111111111",
+                  "odd": "110001"
+                },
+                "outputs_opt": {
+                  "result": "111110001",
+                  "odd": "10000101"
+                },
+                "cycle": null
+              },
+              {
+                "time": 142000,
+                "inputs": {
+                  "A": "1110000110011000",
+                  "B": "1101100"
+                },
+                "outputs_gold": {
+                  "result": "111110000",
+                  "odd": "1011000"
+                },
+                "outputs_opt": {
+                  "result": "111101111",
+                  "odd": "11000100"
+                },
+                "cycle": null
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 0.41
+        },
+        "formal": null,
+        "seconds": 0.7
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "repair(c01)",
+      "parent": "c01",
+      "depth": 1,
+      "strategy": "conservative",
+      "status": "fail-lint",
+      "problem": "[lint] ERROR: Found 40 problems in 'check -assert'.",
+      "plan": "- Fix strict comparison: qi = ~diff[8] & (|diff[7:0]); remainder = qi ? diff[7:0] : candidate[7:0].\n- This affects every step where candidate == B (and the initial step where initial_remainder == B), which is exactly the failing cases.\n- Keep the shared subtractor; only the select/qualify logic changes.",
+      "synth": {
+        "ok": true,
+        "area": 678.3,
+        "ltp": 24,
+        "cells": {
+          "AND2_X1": 21,
+          "AND3_X1": 25,
+          "AND4_X1": 9,
+          "AOI211_X1": 13,
+          "AOI21_X1": 73,
+          "AOI221_X1": 8,
+          "AOI22_X1": 13,
+          "INV_X1": 34,
+          "MUX2_X1": 18,
+          "NAND2_X1": 48,
+          "NAND3_X1": 42,
+          "NAND4_X1": 5,
+          "NOR2_X1": 62,
+          "NOR3_X1": 26,
+          "NOR4_X1": 4,
+          "OAI211_X1": 13,
+          "OAI21_X1": 61,
+          "OAI221_X1": 6,
+          "OAI22_X1": 5,
+          "OAI33_X1": 1,
+          "OR2_X1": 16,
+          "OR3_X1": 23,
+          "OR4_X1": 1,
+          "XNOR2_X1": 45,
+          "XOR2_X1": 24
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[10]"
+        ],
+        "error": "",
+        "seconds": 0.3
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "lint",
+        "message": "ERROR: Found 40 problems in 'check -assert'.",
+        "mismatch": null,
+        "evidence": "",
+        "sim": null,
+        "formal": null,
+        "seconds": 0.01
+      }
+    },
+    {
+      "id": "c04",
+      "origin": "repair(c02)",
+      "parent": "c02",
+      "depth": 1,
+      "strategy": "datapath",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at (t=12000ps, random)] output `result`: expected 128(0x80), got 0.\nInputs: A=65535(0xffff), B=255(0xff).\nExpected outputs: result=128(0x80), odd=127(0x7f).\nYour outputs: result=0, odd=255(0xff).\nAnother failing case: inputs A=6699(0x1a2b), B=6; expected result=511(0x1ff), odd=49(0x31); yours result=497(0x1f1), odd=133(0x85).\nAnother failing case: inputs A=57752(0xe198), B=108(0x6c); expected result=496(0x1f0), odd=88(0x58); yours result=495(0x1ef), odd=196(0xc4).",
+      "plan": "- Step 8 (q8/remainder0): original condition is `b_reg < initial_remainder` (strict), so q8=1 iff initial_remainder > b_reg. Use 9-bit diff and require diff[8]==0 AND diff!=0, i.e. gt = ~diff[8] & |diff[7:0].\n- Steps 7..0: original gt = (b_reg < candidate) = candidate > b_reg, strict. Same fix: gt = ~diff[8] & |diff[7:0].\n- remainder selection unchanged (select diff when gt, else candidate low bits).\n- This affects all cases where candidate equals B exactly; fix applies uniformly.",
+      "synth": {
+        "ok": true,
+        "area": 728.308,
+        "ltp": 76,
+        "cells": {
+          "AND2_X1": 31,
+          "AND3_X1": 15,
+          "AND4_X1": 8,
+          "AOI211_X1": 15,
+          "AOI21_X1": 48,
+          "AOI221_X1": 6,
+          "AOI222_X1": 1,
+          "AOI22_X1": 4,
+          "INV_X1": 57,
+          "MUX2_X1": 25,
+          "NAND2_X1": 50,
+          "NAND3_X1": 19,
+          "NAND4_X1": 5,
+          "NOR2_X1": 95,
+          "NOR3_X1": 14,
+          "NOR4_X1": 11,
+          "OAI211_X1": 20,
+          "OAI21_X1": 40,
+          "OAI221_X1": 5,
+          "OAI22_X1": 6,
+          "OAI33_X1": 8,
+          "OR2_X1": 28,
+          "OR3_X1": 2,
+          "OR4_X1": 5,
+          "XNOR2_X1": 92,
+          "XOR2_X1": 24
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[9]"
+        ],
+        "error": "",
+        "seconds": 0.3
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "value",
+          "time": 12000,
+          "signal": "result",
+          "gold": "10000000",
+          "opt": "0",
+          "inputs": {
+            "A": "1111111111111111",
+            "B": "11111111"
+          },
+          "inputs_prev": {
+            "A": "0",
+            "B": "0"
+          },
+          "outputs_gold": {
+            "result": "10000000",
+            "odd": "1111111"
+          },
+          "outputs_opt": {
+            "result": "0",
+            "odd": "11111111"
+          },
+          "stimulus": "random",
+          "cycle": null,
+          "more": [
+            {
+              "time": 132000,
+              "inputs": {
+                "A": "1101000101011",
+                "B": "110"
+              },
+              "outputs_gold": {
+                "result": "111111111",
+                "odd": "110001"
+              },
+              "outputs_opt": {
+                "result": "111110001",
+                "odd": "10000101"
+              },
+              "cycle": null
+            },
+            {
+              "time": 142000,
+              "inputs": {
+                "A": "1110000110011000",
+                "B": "1101100"
+              },
+              "outputs_gold": {
+                "result": "111110000",
+                "odd": "1011000"
+              },
+              "outputs_opt": {
+                "result": "111101111",
+                "odd": "11000100"
+              },
+              "cycle": null
+            }
+          ]
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 12000,
+            "signal": "result",
+            "gold": "10000000",
+            "opt": "0",
+            "inputs": {
+              "A": "1111111111111111",
+              "B": "11111111"
+            },
+            "inputs_prev": {
+              "A": "0",
+              "B": "0"
+            },
+            "outputs_gold": {
+              "result": "10000000",
+              "odd": "1111111"
+            },
+            "outputs_opt": {
+              "result": "0",
+              "odd": "11111111"
+            },
+            "stimulus": "random",
+            "cycle": null,
+            "more": [
+              {
+                "time": 132000,
+                "inputs": {
+                  "A": "1101000101011",
+                  "B": "110"
+                },
+                "outputs_gold": {
+                  "result": "111111111",
+                  "odd": "110001"
+                },
+                "outputs_opt": {
+                  "result": "111110001",
+                  "odd": "10000101"
+                },
+                "cycle": null
+              },
+              {
+                "time": 142000,
+                "inputs": {
+                  "A": "1110000110011000",
+                  "B": "1101100"
+                },
+                "outputs_gold": {
+                  "result": "111110000",
+                  "odd": "1011000"
+                },
+                "outputs_opt": {
+                  "result": "111101111",
+                  "odd": "11000100"
+                },
+                "cycle": null
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 0.29
+        },
+        "formal": null,
+        "seconds": 0.53
+      }
+    },
+    {
+      "id": "c05",
+      "origin": "init:logic",
+      "parent": null,
+      "depth": 0,
+      "strategy": "logic",
+      "status": "format",
+      "problem": "No complete ```verilog block defining module `div_16bit` was found.",
+      "plan": "- Replace the chain of 9 identical restoring-division steps with a single loop-free expression using a shared subtractor/comparator? But the flow does no resource sharing; however, we can simplify by noting the comparison `B < candidate` is equivalent to `candidate > B`, and the subtraction is only needed when candidate > B. We can compute the remainder as `candidate - (candidate > B ? B : 0)` and quotient bit as `candidate > B`. This removes the mux on remainder (since when not >, remainder = candidate[7:0] = candidate - 0). So remainder = candidate - (gt ? B : 0). This uses one subtractor per step instead of a mux plus subtractor. But we still have 9 steps.\n- Further: the entire division can be expressed as a single combinational division using a loop? No, must be synthesizable without loops. But we can use a for loop in always @(*) to generate the same logic; Yosys will unroll it. That doesn't reduce area.\n- Key optimization: the original computes 9 separate 9-bit comparisons and 9 separate 8-bit subtractions. We can share the subtractor across steps? No, they are sequential dependencies, cannot share.\n- However, we can note that the comparison `B < candidate` where candidate = {remainder, bit} is equivalent to `remainder > B` or (`remainder == B` and bit==1)? Actually candidate = 2*remainder + bit. B < 2*remainder + bit. Since remainder is 8-bit and B is 8-bit, 2*remainder can be up to 510. This is a 9-bit comparison. We can simplify: B < 2*remainder + bit <=> remainder > (B - bit)/2? Not simpler.\n- Alternative: use a standard non-restoring division? But must match exact behavior including the equal case. The original does not subtract when candidate == B, so remainder can equal B. Standard restoring division subtracts when candidate >= B, giving remainder < B. So we must preserve the strict inequality.\n- We can reduce area by noting that the final remainder_final is only used when B != 0, and result is quotient9 when B != 0. The b_nonzero mux is already minimal.\n- The biggest area is the 9 steps. Each step has a 9-bit comparator (B < candidate) and an 8-bit subtractor (candidate - B) plus mux. We can combine: remainder_next = candidate - (gt ? B : 0). This is an 8-bit subtractor with a masked B. The mask is gt. So we need gt anyway. The comparator can be a 9-bit compare. But we can compute gt as the carry-out of candidate - B - 1? Actually B < candidate <=> candidate - B > 0 <=> (candidate - B) != 0 and no borrow? For unsigned, B < candidate <=> (candidate - B) has no borrow and is nonzero. But we need the subtraction result anyway. So we can compute diff = candidate - B (9-bit), then gt = (diff != 0) && (no borrow). The no borrow is the carry-out of candidate - B. So we can use a 9-bit subtractor to get diff and borrow. Then remainder_next = gt ? diff[7:0] : candidate[7:0]. But candidate[7:0] is just remainder (since candidate = {remainder, bit}, lower 8 bits are remainder). So remainder_next = gt ? diff[7:0] : remainder. This uses one 9-bit subtractor per step instead of a 9-bit comparator plus 8-bit subtractor. That saves area.\n- Also, we can note that the quotient bit q_i = gt. So we can compute q_i directly from the subtractor.",
+      "synth": null,
+      "verify": null
+    },
+    {
+      "id": "c06",
+      "origin": "repair(c05)",
+      "parent": "c05",
+      "depth": 1,
+      "strategy": "logic",
+      "status": "no-gain",
+      "problem": "[metrics] area 824.3 / ltp 55 is not better than baseline 775.1 / 59",
+      "plan": "- Provide the complete module with the same behavior.\n- Optimize by narrowing the output muxes to 9-bit and 8-bit before zero-extension.\n- Use the original step structure but with shared subtractor? Actually, to be safe, I will keep the original structure but apply the mux narrowing. The original area was 775.1. I need to reduce area. I will try to simplify the step logic by using the fact that gt = (candidate > B) can be computed as (remainder > B) || (remainder == B && bit). But that might increase area. Instead, I will keep the original comparator and subtractor but try to factor common terms. Actually, the original already uses a comparator and subtractor. I can try to replace the 9-bit comparator with an 8-bit comparator plus logic. Let's analyze: candidate = {remainder, bit}. B < candidate <=> B < 2*remainder + bit. Since B is 8-bit, we can compare B with 2*remainder + bit. This is a 9-bit comparison. But we can also write: if remainder > B, then true; if remainder < B, then false; if remainder == B, then true iff bit==1. So gt = (remainder > B) || (remainder == B && bit). This uses an 8-bit greater-than and an 8-bit equality. In terms of gates, an 8-bit greater-than is about 8 bits of logic, and an 8-bit equality is about 8 XNORs. That might be smaller than a 9-bit comparator. Let's estimate: 9-bit comparator is about 9 bits of logic. 8-bit greater-than + 8-bit equality is about 16 bits of logic. So it's larger. So keep the 9-bit comparator. Another idea: the subtraction candidate - B is only needed when gt is true. We can compute remainder_next = gt ? (candidate - B) : remainder. But candidate - B = 2*remainder + bit - B. We can compute this as an 8-bit subtraction: diff8 = {remainder[6:0], 1'b0} + bit - B. This is an 8-bit subtractor. The original uses a 9-bit subtractor (candidate - B) and then takes lower 8 bits. So we can replace the 9-bit subtractor with an 8-bit subtractor. That saves area. Let's verify: candidate - B = 2*remainder + bit - B. The lower 8 bits of this are (2*remainder + bit - B) mod 256. 2*remainder mod 256 = {remainder[6:0], 1'b0}. So diff8 = {remainder[6:0], 1'b0} + bit - B. This is an 8-bit operation. So we can compute diff8 using an 8-bit subtractor. Then remainder_next = gt ? diff8 : remainder. And gt = (candidate > B). We still need the 9-bit comparator. So we save the 9-bit subtractor and replace with 8-bit subtractor. That should reduce area. Also, we can compute gt using the 8-bit comparator? Actually, gt = (candidate > B) = (2*remainder + bit > B). We can compute this as: if remainder > B, then true; if remainder < B, then false; if remainder == B, then bit. So gt = (remainder > B) || (remainder == B && bit). This uses an 8-bit greater-than and an 8-bit equality. But we can also compute gt from the 8-bit subtraction? Not directly. So we have a choice: keep 9-bit comparator or use 8-bit comparator + equality. Let's compare areas: 9-bit comparator vs 8-bit greater-than + 8-bit equality. A 9-bit comparator is typically a chain of 9 bits, each bit compares. It's about 9 * (2 gates) = 18 gates. An 8-bit greater-than is about 8 * (2 gates) = 16 gates. An 8-bit equality is 8 XNORs = 8 gates. Total 24 gates. So 9-bit comparator is smaller. So keep the 9-bit comparator. So the optimization is: replace the 9-bit subtractor with an 8-bit subtractor. That saves 1 full adder. Also, narrow the output muxes. Also, we can try to share the comparator across steps? No, they are sequential. But we can try to reduce the number of steps by using a different algorithm? No, must match exactly.\nLet's write the corrected module with these optimizations.",
+      "synth": {
+        "ok": true,
+        "area": 824.334,
+        "ltp": 55,
+        "cells": {
+          "AND2_X1": 26,
+          "AND3_X1": 4,
+          "AND4_X1": 1,
+          "AOI211_X1": 38,
+          "AOI21_X1": 75,
+          "AOI221_X1": 12,
+          "AOI22_X1": 19,
+          "INV_X1": 47,
+          "MUX2_X1": 42,
+          "NAND2_X1": 75,
+          "NAND3_X1": 7,
+          "NOR2_X1": 114,
+          "NOR3_X1": 17,
+          "NOR4_X1": 2,
+          "OAI211_X1": 33,
+          "OAI21_X1": 61,
+          "OAI221_X1": 9,
+          "OAI222_X1": 2,
+          "OAI22_X1": 15,
+          "OAI33_X1": 2,
+          "OR2_X1": 22,
+          "OR3_X1": 5,
+          "XNOR2_X1": 73,
+          "XOR2_X1": 22
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[9]"
+        ],
+        "error": "",
+        "seconds": 1.31
+      },
+      "verify": null
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `result` has the same settled values but the original also produces events [(1030, '111111111'), (1370, '111111111'), (2010, '111111111')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 749.322,
+        "ltp": 66,
+        "cells": {
+          "AND2_X1": 22,
+          "AND3_X1": 8,
+          "AND4_X1": 2,
+          "AOI211_X1": 24,
+          "AOI21_X1": 70,
+          "AOI221_X1": 3,
+          "AOI22_X1": 8,
+          "INV_X1": 59,
+          "MUX2_X1": 44,
+          "NAND2_X1": 60,
+          "NAND3_X1": 13,
+          "NAND4_X1": 1,
+          "NOR2_X1": 96,
+          "NOR3_X1": 16,
+          "NOR4_X1": 3,
+          "OAI211_X1": 17,
+          "OAI21_X1": 62,
+          "OAI221_X1": 1,
+          "OAI222_X1": 1,
+          "OAI22_X1": 4,
+          "OAI33_X1": 1,
+          "OR2_X1": 30,
+          "OR3_X1": 7,
+          "XNOR2_X1": 94,
+          "XOR2_X1": 16
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[12]"
+        ],
+        "error": "",
+        "seconds": 8.54
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "event",
+          "time": 1030,
+          "signal": "result",
+          "gold_only_events": [
+            [
+              1030,
+              "111111111"
+            ],
+            [
+              1370,
+              "111111111"
+            ],
+            [
+              2010,
+              "111111111"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "A": "1110011010000111",
+            "B": "10111"
+          },
+          "inputs_prev": {
+            "A": "1000011011000110",
+            "B": "10010"
+          },
+          "outputs_gold": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "outputs_opt": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "stimulus": "course-tb:stim_div16.v",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 1030,
+            "signal": "result",
+            "gold_only_events": [
+              [
+                1030,
+                "111111111"
+              ],
+              [
+                1370,
+                "111111111"
+              ],
+              [
+                2010,
+                "111111111"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "A": "1110011010000111",
+              "B": "10111"
+            },
+            "inputs_prev": {
+              "A": "1000011011000110",
+              "B": "10010"
+            },
+            "outputs_gold": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "outputs_opt": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "stimulus": "course-tb:stim_div16.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 7.06
+        },
+        "formal": null,
+        "seconds": 36.41
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `result` has the same settled values but the original also produces events [(1030, '111111111'), (1370, '111111111'), (2010, '111111111')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 749.322,
+        "ltp": 66,
+        "cells": {
+          "AND2_X1": 22,
+          "AND3_X1": 8,
+          "AND4_X1": 2,
+          "AOI211_X1": 24,
+          "AOI21_X1": 70,
+          "AOI221_X1": 3,
+          "AOI22_X1": 8,
+          "INV_X1": 59,
+          "MUX2_X1": 44,
+          "NAND2_X1": 60,
+          "NAND3_X1": 13,
+          "NAND4_X1": 1,
+          "NOR2_X1": 96,
+          "NOR3_X1": 16,
+          "NOR4_X1": 3,
+          "OAI211_X1": 17,
+          "OAI21_X1": 62,
+          "OAI221_X1": 1,
+          "OAI222_X1": 1,
+          "OAI22_X1": 4,
+          "OAI33_X1": 1,
+          "OR2_X1": 30,
+          "OR3_X1": 7,
+          "XNOR2_X1": 94,
+          "XOR2_X1": 16
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[12]"
+        ],
+        "error": "",
+        "seconds": 7.81
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "event",
+          "time": 1030,
+          "signal": "result",
+          "gold_only_events": [
+            [
+              1030,
+              "111111111"
+            ],
+            [
+              1370,
+              "111111111"
+            ],
+            [
+              2010,
+              "111111111"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "A": "1110011010000111",
+            "B": "10111"
+          },
+          "inputs_prev": {
+            "A": "1000011011000110",
+            "B": "10010"
+          },
+          "outputs_gold": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "outputs_opt": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "stimulus": "course-tb:stim_div16.v",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 1030,
+            "signal": "result",
+            "gold_only_events": [
+              [
+                1030,
+                "111111111"
+              ],
+              [
+                1370,
+                "111111111"
+              ],
+              [
+                2010,
+                "111111111"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "A": "1110011010000111",
+              "B": "10111"
+            },
+            "inputs_prev": {
+              "A": "1000011011000110",
+              "B": "10010"
+            },
+            "outputs_gold": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "outputs_opt": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "stimulus": "course-tb:stim_div16.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 7.65
+        },
+        "formal": null,
+        "seconds": 38.11
+      }
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `result` has the same settled values but the original also produces events [(1030, '111111111'), (1370, '111111111'), (2010, '111111111')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 749.322,
+        "ltp": 66,
+        "cells": {
+          "AND2_X1": 22,
+          "AND3_X1": 8,
+          "AND4_X1": 2,
+          "AOI211_X1": 24,
+          "AOI21_X1": 70,
+          "AOI221_X1": 3,
+          "AOI22_X1": 8,
+          "INV_X1": 59,
+          "MUX2_X1": 44,
+          "NAND2_X1": 60,
+          "NAND3_X1": 13,
+          "NAND4_X1": 1,
+          "NOR2_X1": 96,
+          "NOR3_X1": 16,
+          "NOR4_X1": 3,
+          "OAI211_X1": 17,
+          "OAI21_X1": 62,
+          "OAI221_X1": 1,
+          "OAI222_X1": 1,
+          "OAI22_X1": 4,
+          "OAI33_X1": 1,
+          "OR2_X1": 30,
+          "OR3_X1": 7,
+          "XNOR2_X1": 94,
+          "XOR2_X1": 16
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[12]"
+        ],
+        "error": "",
+        "seconds": 7.92
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "event",
+          "time": 1030,
+          "signal": "result",
+          "gold_only_events": [
+            [
+              1030,
+              "111111111"
+            ],
+            [
+              1370,
+              "111111111"
+            ],
+            [
+              2010,
+              "111111111"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "A": "1110011010000111",
+            "B": "10111"
+          },
+          "inputs_prev": {
+            "A": "1000011011000110",
+            "B": "10010"
+          },
+          "outputs_gold": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "outputs_opt": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "stimulus": "course-tb:stim_div16.v",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 1030,
+            "signal": "result",
+            "gold_only_events": [
+              [
+                1030,
+                "111111111"
+              ],
+              [
+                1370,
+                "111111111"
+              ],
+              [
+                2010,
+                "111111111"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "A": "1110011010000111",
+              "B": "10111"
+            },
+            "inputs_prev": {
+              "A": "1000011011000110",
+              "B": "10010"
+            },
+            "outputs_gold": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "outputs_opt": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "stimulus": "course-tb:stim_div16.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 8.18
+        },
+        "formal": null,
+        "seconds": 40.5
+      }
+    },
+    {
+      "id": "c10",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `result` has the same settled values but the original also produces events [(1030, '111111111'), (1370, '111111111'), (2010, '111111111')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 749.322,
+        "ltp": 66,
+        "cells": {
+          "AND2_X1": 22,
+          "AND3_X1": 8,
+          "AND4_X1": 2,
+          "AOI211_X1": 24,
+          "AOI21_X1": 70,
+          "AOI221_X1": 3,
+          "AOI22_X1": 8,
+          "INV_X1": 59,
+          "MUX2_X1": 44,
+          "NAND2_X1": 60,
+          "NAND3_X1": 13,
+          "NAND4_X1": 1,
+          "NOR2_X1": 96,
+          "NOR3_X1": 16,
+          "NOR4_X1": 3,
+          "OAI211_X1": 17,
+          "OAI21_X1": 62,
+          "OAI221_X1": 1,
+          "OAI222_X1": 1,
+          "OAI22_X1": 4,
+          "OAI33_X1": 1,
+          "OR2_X1": 30,
+          "OR3_X1": 7,
+          "XNOR2_X1": 94,
+          "XOR2_X1": 16
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[12]"
+        ],
+        "error": "",
+        "seconds": 7.33
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "event",
+          "time": 1030,
+          "signal": "result",
+          "gold_only_events": [
+            [
+              1030,
+              "111111111"
+            ],
+            [
+              1370,
+              "111111111"
+            ],
+            [
+              2010,
+              "111111111"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "A": "1110011010000111",
+            "B": "10111"
+          },
+          "inputs_prev": {
+            "A": "1000011011000110",
+            "B": "10010"
+          },
+          "outputs_gold": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "outputs_opt": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "stimulus": "course-tb:stim_div16.v",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 1030,
+            "signal": "result",
+            "gold_only_events": [
+              [
+                1030,
+                "111111111"
+              ],
+              [
+                1370,
+                "111111111"
+              ],
+              [
+                2010,
+                "111111111"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "A": "1110011010000111",
+              "B": "10111"
+            },
+            "inputs_prev": {
+              "A": "1000011011000110",
+              "B": "10010"
+            },
+            "outputs_gold": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "outputs_opt": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "stimulus": "course-tb:stim_div16.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 7.76
+        },
+        "formal": null,
+        "seconds": 39.64
+      }
+    },
+    {
+      "id": "c11",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `result` has the same settled values but the original also produces events [(1030, '111111111'), (1370, '111111111'), (2010, '111111111')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 622.972,
+        "ltp": 78,
+        "cells": {
+          "AND2_X1": 27,
+          "AND3_X1": 15,
+          "AND4_X1": 1,
+          "AOI211_X1": 16,
+          "AOI21_X1": 46,
+          "AOI221_X1": 7,
+          "AOI22_X1": 5,
+          "INV_X1": 40,
+          "MUX2_X1": 11,
+          "NAND2_X1": 48,
+          "NAND3_X1": 10,
+          "NAND4_X1": 2,
+          "NOR2_X1": 104,
+          "NOR3_X1": 27,
+          "NOR4_X1": 3,
+          "OAI211_X1": 14,
+          "OAI21_X1": 28,
+          "OAI221_X1": 4,
+          "OAI22_X1": 13,
+          "OAI33_X1": 12,
+          "OR2_X1": 18,
+          "OR3_X1": 9,
+          "OR4_X1": 3,
+          "XNOR2_X1": 71,
+          "XOR2_X1": 20
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "B[1]"
+        ],
+        "error": "",
+        "seconds": 9.07
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "event",
+          "time": 1030,
+          "signal": "result",
+          "gold_only_events": [
+            [
+              1030,
+              "111111111"
+            ],
+            [
+              1370,
+              "111111111"
+            ],
+            [
+              2010,
+              "111111111"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "A": "1110011010000111",
+            "B": "10111"
+          },
+          "inputs_prev": {
+            "A": "1000011011000110",
+            "B": "10010"
+          },
+          "outputs_gold": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "outputs_opt": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "stimulus": "course-tb:stim_div16.v",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 1030,
+            "signal": "result",
+            "gold_only_events": [
+              [
+                1030,
+                "111111111"
+              ],
+              [
+                1370,
+                "111111111"
+              ],
+              [
+                2010,
+                "111111111"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "A": "1110011010000111",
+              "B": "10111"
+            },
+            "inputs_prev": {
+              "A": "1000011011000110",
+              "B": "10010"
+            },
+            "outputs_gold": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "outputs_opt": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "stimulus": "course-tb:stim_div16.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 9.27
+        },
+        "formal": null,
+        "seconds": 42.53
+      }
+    },
+    {
+      "id": "c12",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `result` has the same settled values but the original also produces events [(1030, '111111111'), (1370, '111111111'), (2010, '111111111')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 641.326,
+        "ltp": 68,
+        "cells": {
+          "AND2_X1": 18,
+          "AND3_X1": 11,
+          "AOI211_X1": 10,
+          "AOI21_X1": 49,
+          "AOI221_X1": 2,
+          "AOI22_X1": 6,
+          "INV_X1": 54,
+          "MUX2_X1": 48,
+          "NAND2_X1": 51,
+          "NAND3_X1": 8,
+          "NOR2_X1": 78,
+          "NOR3_X1": 15,
+          "NOR4_X1": 6,
+          "OAI211_X1": 12,
+          "OAI21_X1": 42,
+          "OAI221_X1": 2,
+          "OAI222_X1": 1,
+          "OAI22_X1": 4,
+          "OAI33_X1": 5,
+          "OR2_X1": 21,
+          "OR3_X1": 4,
+          "XNOR2_X1": 87,
+          "XOR2_X1": 19
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "B[1]"
+        ],
+        "error": "",
+        "seconds": 9.49
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "event",
+          "time": 1030,
+          "signal": "result",
+          "gold_only_events": [
+            [
+              1030,
+              "111111111"
+            ],
+            [
+              1370,
+              "111111111"
+            ],
+            [
+              2010,
+              "111111111"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "A": "1110011010000111",
+            "B": "10111"
+          },
+          "inputs_prev": {
+            "A": "1000011011000110",
+            "B": "10010"
+          },
+          "outputs_gold": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "outputs_opt": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "stimulus": "course-tb:stim_div16.v",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 1030,
+            "signal": "result",
+            "gold_only_events": [
+              [
+                1030,
+                "111111111"
+              ],
+              [
+                1370,
+                "111111111"
+              ],
+              [
+                2010,
+                "111111111"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "A": "1110011010000111",
+              "B": "10111"
+            },
+            "inputs_prev": {
+              "A": "1000011011000110",
+              "B": "10010"
+            },
+            "outputs_gold": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "outputs_opt": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "stimulus": "course-tb:stim_div16.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 9.34
+        },
+        "formal": null,
+        "seconds": 43.38
+      }
+    },
+    {
+      "id": "c13",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `result` has the same settled values but the original also produces events [(1030, '111111111'), (1370, '111111111'), (2010, '111111111')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 639.996,
+        "ltp": 71,
+        "cells": {
+          "AND2_X1": 32,
+          "AND3_X1": 9,
+          "AND4_X1": 1,
+          "AOI211_X1": 12,
+          "AOI21_X1": 46,
+          "AOI221_X1": 3,
+          "AOI22_X1": 6,
+          "INV_X1": 41,
+          "MUX2_X1": 47,
+          "NAND2_X1": 58,
+          "NAND3_X1": 4,
+          "NOR2_X1": 79,
+          "NOR3_X1": 8,
+          "NOR4_X1": 5,
+          "OAI211_X1": 9,
+          "OAI21_X1": 35,
+          "OAI221_X1": 2,
+          "OAI222_X1": 3,
+          "OAI22_X1": 4,
+          "OAI33_X1": 1,
+          "OR2_X1": 27,
+          "OR3_X1": 6,
+          "XNOR2_X1": 87,
+          "XOR2_X1": 22
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "B[1]"
+        ],
+        "error": "",
+        "seconds": 7.6
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "event",
+          "time": 1030,
+          "signal": "result",
+          "gold_only_events": [
+            [
+              1030,
+              "111111111"
+            ],
+            [
+              1370,
+              "111111111"
+            ],
+            [
+              2010,
+              "111111111"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "A": "1110011010000111",
+            "B": "10111"
+          },
+          "inputs_prev": {
+            "A": "1000011011000110",
+            "B": "10010"
+          },
+          "outputs_gold": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "outputs_opt": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "stimulus": "course-tb:stim_div16.v",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 1030,
+            "signal": "result",
+            "gold_only_events": [
+              [
+                1030,
+                "111111111"
+              ],
+              [
+                1370,
+                "111111111"
+              ],
+              [
+                2010,
+                "111111111"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "A": "1110011010000111",
+              "B": "10111"
+            },
+            "inputs_prev": {
+              "A": "1000011011000110",
+              "B": "10010"
+            },
+            "outputs_gold": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "outputs_opt": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "stimulus": "course-tb:stim_div16.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 8.36
+        },
+        "formal": null,
+        "seconds": 39.79
+      }
+    },
+    {
+      "id": "c14",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `result` has the same settled values but the original also produces events [(1030, '111111111'), (1370, '111111111'), (2010, '111111111')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 747.726,
+        "ltp": 55,
+        "cells": {
+          "AND2_X1": 29,
+          "AND3_X1": 1,
+          "AOI211_X1": 33,
+          "AOI21_X1": 56,
+          "AOI221_X1": 11,
+          "AOI222_X1": 2,
+          "AOI22_X1": 15,
+          "INV_X1": 50,
+          "MUX2_X1": 55,
+          "NAND2_X1": 69,
+          "NAND3_X1": 3,
+          "NOR2_X1": 83,
+          "NOR3_X1": 8,
+          "NOR4_X1": 2,
+          "OAI211_X1": 19,
+          "OAI21_X1": 44,
+          "OAI221_X1": 9,
+          "OAI222_X1": 1,
+          "OAI22_X1": 15,
+          "OAI33_X1": 2,
+          "OR2_X1": 22,
+          "OR3_X1": 3,
+          "XNOR2_X1": 81,
+          "XOR2_X1": 23
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[10]"
+        ],
+        "error": "",
+        "seconds": 7.74
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "event",
+          "time": 1030,
+          "signal": "result",
+          "gold_only_events": [
+            [
+              1030,
+              "111111111"
+            ],
+            [
+              1370,
+              "111111111"
+            ],
+            [
+              2010,
+              "111111111"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "A": "1110011010000111",
+            "B": "10111"
+          },
+          "inputs_prev": {
+            "A": "1000011011000110",
+            "B": "10010"
+          },
+          "outputs_gold": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "outputs_opt": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "stimulus": "course-tb:stim_div16.v",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 1030,
+            "signal": "result",
+            "gold_only_events": [
+              [
+                1030,
+                "111111111"
+              ],
+              [
+                1370,
+                "111111111"
+              ],
+              [
+                2010,
+                "111111111"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "A": "1110011010000111",
+              "B": "10111"
+            },
+            "inputs_prev": {
+              "A": "1000011011000110",
+              "B": "10010"
+            },
+            "outputs_gold": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "outputs_opt": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "stimulus": "course-tb:stim_div16.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 9.09
+        },
+        "formal": null,
+        "seconds": 41.53
+      }
+    },
+    {
+      "id": "c15",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `result` has the same settled values but the original also produces events [(1030, '111111111'), (1370, '111111111'), (2010, '111111111')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 726.712,
+        "ltp": 55,
+        "cells": {
+          "AND2_X1": 21,
+          "AND3_X1": 10,
+          "AOI211_X1": 16,
+          "AOI21_X1": 74,
+          "AOI221_X1": 10,
+          "AOI222_X1": 1,
+          "AOI22_X1": 13,
+          "INV_X1": 39,
+          "MUX2_X1": 17,
+          "NAND2_X1": 58,
+          "NAND3_X1": 7,
+          "NOR2_X1": 106,
+          "NOR3_X1": 19,
+          "NOR4_X1": 3,
+          "OAI211_X1": 9,
+          "OAI21_X1": 66,
+          "OAI221_X1": 8,
+          "OAI222_X1": 1,
+          "OAI22_X1": 12,
+          "OAI33_X1": 6,
+          "OR2_X1": 26,
+          "OR3_X1": 10,
+          "OR4_X1": 1,
+          "XNOR2_X1": 91,
+          "XOR2_X1": 18
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "B[3]"
+        ],
+        "error": "",
+        "seconds": 7.16
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "event",
+          "time": 1030,
+          "signal": "result",
+          "gold_only_events": [
+            [
+              1030,
+              "111111111"
+            ],
+            [
+              1370,
+              "111111111"
+            ],
+            [
+              2010,
+              "111111111"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "A": "1110011010000111",
+            "B": "10111"
+          },
+          "inputs_prev": {
+            "A": "1000011011000110",
+            "B": "10010"
+          },
+          "outputs_gold": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "outputs_opt": {
+            "result": "111111111",
+            "odd": "10011110"
+          },
+          "stimulus": "course-tb:stim_div16.v",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 1030,
+            "signal": "result",
+            "gold_only_events": [
+              [
+                1030,
+                "111111111"
+              ],
+              [
+                1370,
+                "111111111"
+              ],
+              [
+                2010,
+                "111111111"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "A": "1110011010000111",
+              "B": "10111"
+            },
+            "inputs_prev": {
+              "A": "1000011011000110",
+              "B": "10010"
+            },
+            "outputs_gold": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "outputs_opt": {
+              "result": "111111111",
+              "odd": "10011110"
+            },
+            "stimulus": "course-tb:stim_div16.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 6.22
+        },
+        "formal": null,
+        "seconds": 11.67
+      }
+    },
+    {
+      "id": "c16",
+      "origin": "rescue:minimal",
+      "parent": null,
+      "depth": 0,
+      "strategy": "minimal",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at (t=12000ps, random)] output `result`: expected 128(0x80), got 257(0x101).\nInputs: A=65535(0xffff), B=255(0xff).\nExpected outputs: result=128(0x80), odd=127(0x7f).\nYour outputs: result=257(0x101), odd=0.\nAnother failing case: inputs A=32767(0x7fff), B=127(0x7f); expected result=255(0xff), odd=126(0x7e); yours result=258(0x102), odd=1.\nAnother failing case: inputs A=32768(0x8000), B=128(0x80); expected result=255(0xff), odd=128(0x80); yours result=256(0x100), odd=0.",
+      "plan": "- Replace the 9-step restoring chain with a single behavioral `for` loop computing quotient/remainder; identical algorithm, far fewer cells.\n- Keep the exact same ternary structure for result/odd and b_nonzero to preserve X/zero behavior.\n- Use a 16-bit accumulator remainder (need up to 8 bits + shift) to avoid redundant 9-bit candidates; loop 8 times over A[7:0] after initial step.\n- Keep module name/ports identical; no resets added.",
+      "synth": {
+        "ok": true,
+        "area": 563.388,
+        "ltp": 75,
+        "cells": {
+          "AND2_X1": 27,
+          "AND3_X1": 4,
+          "AOI211_X1": 11,
+          "AOI21_X1": 29,
+          "AOI221_X1": 2,
+          "AOI22_X1": 3,
+          "INV_X1": 47,
+          "MUX2_X1": 30,
+          "NAND2_X1": 37,
+          "NAND3_X1": 9,
+          "NOR2_X1": 83,
+          "NOR3_X1": 2,
+          "NOR4_X1": 2,
+          "OAI211_X1": 12,
+          "OAI21_X1": 45,
+          "OAI22_X1": 1,
+          "OAI33_X1": 8,
+          "OR2_X1": 26,
+          "OR3_X1": 9,
+          "XNOR2_X1": 83,
+          "XOR2_X1": 21
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "A[9]"
+        ],
+        "error": "",
+        "seconds": 0.37
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result', 'odd']",
+        "mismatch": {
+          "kind": "value",
+          "time": 12000,
+          "signal": "result",
+          "gold": "10000000",
+          "opt": "100000001",
+          "inputs": {
+            "A": "1111111111111111",
+            "B": "11111111"
+          },
+          "inputs_prev": {
+            "A": "0",
+            "B": "0"
+          },
+          "outputs_gold": {
+            "result": "10000000",
+            "odd": "1111111"
+          },
+          "outputs_opt": {
+            "result": "100000001",
+            "odd": "0"
+          },
+          "stimulus": "random",
+          "cycle": null,
+          "more": [
+            {
+              "time": 192000,
+              "inputs": {
+                "A": "111111111111111",
+                "B": "1111111"
+              },
+              "outputs_gold": {
+                "result": "11111111",
+                "odd": "1111110"
+              },
+              "outputs_opt": {
+                "result": "100000010",
+                "odd": "1"
+              },
+              "cycle": null
+            },
+            {
+              "time": 542000,
+              "inputs": {
+                "A": "1000000000000000",
+                "B": "10000000"
+              },
+              "outputs_gold": {
+                "result": "11111111",
+                "odd": "10000000"
+              },
+              "outputs_opt": {
+                "result": "100000000",
+                "odd": "0"
+              },
+              "cycle": null
+            }
+          ]
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 12000,
+            "signal": "result",
+            "gold": "10000000",
+            "opt": "100000001",
+            "inputs": {
+              "A": "1111111111111111",
+              "B": "11111111"
+            },
+            "inputs_prev": {
+              "A": "0",
+              "B": "0"
+            },
+            "outputs_gold": {
+              "result": "10000000",
+              "odd": "1111111"
+            },
+            "outputs_opt": {
+              "result": "100000001",
+              "odd": "0"
+            },
+            "stimulus": "random",
+            "cycle": null,
+            "more": [
+              {
+                "time": 192000,
+                "inputs": {
+                  "A": "111111111111111",
+                  "B": "1111111"
+                },
+                "outputs_gold": {
+                  "result": "11111111",
+                  "odd": "1111110"
+                },
+                "outputs_opt": {
+                  "result": "100000010",
+                  "odd": "1"
+                },
+                "cycle": null
+              },
+              {
+                "time": 542000,
+                "inputs": {
+                  "A": "1000000000000000",
+                  "B": "10000000"
+                },
+                "outputs_gold": {
+                  "result": "11111111",
+                  "odd": "10000000"
+                },
+                "outputs_opt": {
+                  "result": "100000000",
+                  "odd": "0"
+                },
+                "cycle": null
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result",
+            "odd"
+          ],
+          "n_vectors": 6010,
+          "seconds": 0.12
+        },
+        "formal": null,
+        "seconds": 0.19
+      }
+    },
+    {
+      "id": "c17",
+      "origin": "repair(c11)",
+      "parent": "c11",
+      "depth": 1,
+      "strategy": "resynth",
+      "status": "format",
+      "problem": "No complete ```verilog block defining module `div_16bit` was found.",
+      "plan": "- Restore the exact procedural assignment sequence for `result` inside the combinational block, including all default and intermediate assignments in the same order as the original.\n- Ensure `result` is assigned in every branch exactly as the original does, even when the value is unchanged.\n- Check whether other outputs have similar procedural re-assignment patterns and replicate them too.\n- Keep the optimization only where it does not alter the assignment sequence.",
+      "synth": null,
+      "verify": null
+    },
+    {
+      "id": "c18",
+      "origin": "repair(c12)",
+      "parent": "c12",
+      "depth": 1,
+      "strategy": "resynth",
+      "status": "format",
+      "problem": "No complete ```verilog block defining module `div_16bit` was found.",
+      "plan": "- Replicate the exact procedural assignment sequence for `result` inside the `always @(*)` block, including any default assignment and intermediate reassignments, so that the same events are generated.\n- Ensure the sensitivity list and statement order match the original.\n- Check if other outputs have similar procedural reassignment patterns that were optimized away.\n- Keep the correct optimization only where it does not alter the event sequence.",
+      "synth": null,
+      "verify": null
+    },
+    {
+      "id": "c19",
+      "origin": "repair(c13)",
+      "parent": "c13",
+      "depth": 1,
+      "strategy": "resynth",
+      "status": "format",
+      "problem": "No complete ```verilog block defining module `div_16bit` was found.",
+      "plan": "- Restore the exact procedural assignment order for `result` inside the combinational block.\n- Ensure `result` is assigned in the same branch order and with the same default/intermediate values as the original.\n- Check whether other outputs are also procedurally assigned and preserve their sequence.\n- Keep the optimization only where it does not change the assignment sequence.",
+      "synth": null,
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "29234fb08eb361ace4da727583d7b5f4bed2d1a164fdff4811f3657da0a3ed84",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": "deepseek-v4.1-flash",
+    "budget": {
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 10,
+      "max_refine": 2,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "proved"
+  },
+  "run": "official",
+  "runs_compared": [
+    "official",
+    "official_hi",
+    "official2"
+  ]
+}

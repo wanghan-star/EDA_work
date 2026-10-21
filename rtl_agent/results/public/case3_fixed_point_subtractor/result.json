@@ -1,0 +1,1810 @@
+{
+  "top": "fixed_point_subtractor",
+  "input": "/home/hansome_w/backup/rtl_agent/cases/public/case3_fixed_point_subtractor/fixed_sub_v1.v",
+  "kind": "combinational",
+  "status": "optimized",
+  "tier": "strict",
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 477.736,
+    "ltp": 30,
+    "course_area": 477.736,
+    "course_ltp": 30,
+    "cells": {
+      "AND2_X1": 16,
+      "AND3_X1": 2,
+      "AOI211_X1": 2,
+      "AOI21_X1": 51,
+      "AOI221_X1": 1,
+      "AOI22_X1": 1,
+      "INV_X1": 68,
+      "MUX2_X1": 17,
+      "NAND2_X1": 65,
+      "NAND3_X1": 15,
+      "NAND4_X1": 3,
+      "NOR2_X1": 41,
+      "NOR3_X1": 13,
+      "NOR4_X1": 7,
+      "OAI211_X1": 4,
+      "OAI21_X1": 55,
+      "OAI221_X1": 1,
+      "OAI22_X1": 1,
+      "OR2_X1": 4,
+      "OR3_X1": 3,
+      "OR4_X1": 2,
+      "XNOR2_X1": 65,
+      "XOR2_X1": 13
+    }
+  },
+  "optimized": {
+    "area": 366.814,
+    "ltp": 26,
+    "cells": {
+      "AND2_X1": 12,
+      "AOI211_X1": 7,
+      "AOI21_X1": 17,
+      "AOI221_X1": 1,
+      "AOI222_X1": 4,
+      "AOI22_X1": 12,
+      "INV_X1": 44,
+      "MUX2_X1": 1,
+      "NAND2_X1": 14,
+      "NAND3_X1": 2,
+      "NAND4_X1": 3,
+      "NOR2_X1": 71,
+      "NOR4_X1": 4,
+      "OAI211_X1": 2,
+      "OAI21_X1": 6,
+      "OAI221_X1": 3,
+      "OAI222_X1": 1,
+      "OAI22_X1": 9,
+      "OAI33_X1": 9,
+      "OR2_X1": 5,
+      "OR3_X1": 3,
+      "OR4_X1": 7,
+      "XNOR2_X1": 51,
+      "XOR2_X1": 31
+    },
+    "candidate": "c11"
+  },
+  "verification": {
+    "ok": true,
+    "relaxed": false,
+    "stage": "done",
+    "message": "",
+    "mismatch": null,
+    "evidence": "sim: 20010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+    "sim": {
+      "ok": true,
+      "relaxed_ok": false,
+      "course_passed": [
+        "course-tb:stim_fixed_sub.v"
+      ],
+      "error": "",
+      "mismatch": null,
+      "bad_outputs": [],
+      "n_vectors": 20010,
+      "seconds": 4.47
+    },
+    "formal": {
+      "kind": "comb",
+      "status": "proved",
+      "depth": 0,
+      "message": "ABC iprove: miter output is constant 0",
+      "seconds": 1.48,
+      "trace_len": 0
+    },
+    "seconds": 8.47
+  },
+  "usage": {
+    "calls": 6,
+    "logical_calls": 6,
+    "prompt_tokens": 12802,
+    "completion_tokens": 4313,
+    "reasoning_tokens": 0,
+    "cached_tokens": 4096,
+    "total_tokens": 17115,
+    "llm_seconds": 37.5
+  },
+  "runtime_s": 154.5,
+  "stop_reason": "budget exhausted",
+  "graph_trace": [
+    [
+      "setup",
+      1.07
+    ],
+    [
+      "generate",
+      8.55
+    ],
+    [
+      "evaluate",
+      0.98
+    ],
+    [
+      "repair",
+      5.95
+    ],
+    [
+      "evaluate",
+      1.47
+    ],
+    [
+      "refine",
+      5.36
+    ],
+    [
+      "evaluate_refine",
+      0.69
+    ],
+    [
+      "repair",
+      7.04
+    ],
+    [
+      "evaluate",
+      0.87
+    ],
+    [
+      "resynth",
+      90.61
+    ],
+    [
+      "evaluate_resynth",
+      23.14
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at (t=32000ps, random)] output `c`: expected 4294967295(0xffffffff), got 2147483647(0x7fffffff).\nInputs: a=4294967295(0xffffffff), b=0.\nExpected outputs: c=4294967295(0xffffffff).\nYour outputs: c=2147483647(0x7fffffff).\nAnother failing case: inputs a=0, b=4294967295(0xffffffff); expected c=4294967295(0xffffffff); yours c=2147483647(0x7fffffff).\nAnother failing case: inputs a=0, b=4294967295(0xffffffff); expected c=4294967295(0xffffffff); yours c=2147483647(0x7fffffff).",
+      "plan": "- Merge the two \"one negative\" branches: they differ only in which sign is forced when |a|>|b|; compute mag=a[N-2:0]+b[N-2:0], gt=a[N-2:0]>b[N-2:0], nz=(mag!=0).\n- Sign for mixed case = (gt ? ~a[N-1] : a[N-1]) & nz, since a[N-1] is the sign of the larger-magnitude operand.\n- Same-sign case: one subtractor, sign=a[N-1].\n- Select between subtract result and add result with a single mux on sign equality; keep one adder and one comparator.\n- Keep always @(*) with single res assignment per path via one expression.",
+      "synth": {
+        "ok": true,
+        "area": 448.21,
+        "ltp": 25,
+        "cells": {
+          "AND2_X1": 18,
+          "AND3_X1": 9,
+          "AOI211_X1": 4,
+          "AOI21_X1": 35,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 43,
+          "MUX2_X1": 16,
+          "NAND2_X1": 48,
+          "NAND3_X1": 3,
+          "NAND4_X1": 5,
+          "NOR2_X1": 49,
+          "NOR3_X1": 7,
+          "NOR4_X1": 2,
+          "OAI211_X1": 8,
+          "OAI21_X1": 41,
+          "OAI221_X1": 1,
+          "OAI22_X1": 4,
+          "OR2_X1": 10,
+          "OR3_X1": 7,
+          "OR4_X1": 6,
+          "XNOR2_X1": 50,
+          "XOR2_X1": 31
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[1]"
+        ],
+        "error": "",
+        "seconds": 0.67
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['c']",
+        "mismatch": {
+          "kind": "value",
+          "time": 32000,
+          "signal": "c",
+          "gold": "11111111111111111111111111111111",
+          "opt": "1111111111111111111111111111111",
+          "inputs": {
+            "a": "11111111111111111111111111111111",
+            "b": "0"
+          },
+          "inputs_prev": {
+            "a": "1",
+            "b": "0"
+          },
+          "outputs_gold": {
+            "c": "11111111111111111111111111111111"
+          },
+          "outputs_opt": {
+            "c": "1111111111111111111111111111111"
+          },
+          "stimulus": "random",
+          "cycle": null,
+          "more": [
+            {
+              "time": 72000,
+              "inputs": {
+                "a": "0",
+                "b": "11111111111111111111111111111111"
+              },
+              "outputs_gold": {
+                "c": "11111111111111111111111111111111"
+              },
+              "outputs_opt": {
+                "c": "1111111111111111111111111111111"
+              },
+              "cycle": null
+            },
+            {
+              "time": 102000,
+              "inputs": {
+                "a": "0",
+                "b": "11111111111111111111111111111111"
+              },
+              "outputs_gold": {
+                "c": "11111111111111111111111111111111"
+              },
+              "outputs_opt": {
+                "c": "1111111111111111111111111111111"
+              },
+              "cycle": null
+            }
+          ]
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 32000,
+            "signal": "c",
+            "gold": "11111111111111111111111111111111",
+            "opt": "1111111111111111111111111111111",
+            "inputs": {
+              "a": "11111111111111111111111111111111",
+              "b": "0"
+            },
+            "inputs_prev": {
+              "a": "1",
+              "b": "0"
+            },
+            "outputs_gold": {
+              "c": "11111111111111111111111111111111"
+            },
+            "outputs_opt": {
+              "c": "1111111111111111111111111111111"
+            },
+            "stimulus": "random",
+            "cycle": null,
+            "more": [
+              {
+                "time": 72000,
+                "inputs": {
+                  "a": "0",
+                  "b": "11111111111111111111111111111111"
+                },
+                "outputs_gold": {
+                  "c": "11111111111111111111111111111111"
+                },
+                "outputs_opt": {
+                  "c": "1111111111111111111111111111111"
+                },
+                "cycle": null
+              },
+              {
+                "time": 102000,
+                "inputs": {
+                  "a": "0",
+                  "b": "11111111111111111111111111111111"
+                },
+                "outputs_gold": {
+                  "c": "11111111111111111111111111111111"
+                },
+                "outputs_opt": {
+                  "c": "1111111111111111111111111111111"
+                },
+                "cycle": null
+              }
+            ]
+          },
+          "bad_outputs": [
+            "c"
+          ],
+          "n_vectors": 6010,
+          "seconds": 0.09
+        },
+        "formal": null,
+        "seconds": 0.21
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at (t=522000ps, random)] output `c`: expected 2147483646(0x7ffffffe), got 4294967294(0xfffffffe).\nInputs: a=4294967295(0xffffffff), b=2147483647(0x7fffffff).\nExpected outputs: c=2147483646(0x7ffffffe).\nYour outputs: c=4294967294(0xfffffffe).\nAnother failing case: inputs a=2147483647(0x7fffffff), b=4294967295(0xffffffff); expected c=4294967294(0xfffffffe); yours c=2147483646(0x7ffffffe).\nAnother failing case: inputs a=2147483647(0x7fffffff), b=4294967295(0xffffffff); expected c=4294967294(0xfffffffe); yours c=2147483646(0x7ffffffe).",
+      "plan": "- Compute one shared sum S=A+B and one shared difference D=A-B; select low bits by sign equality (mux on sa^sb), not two adders.\n- Sign for unequal signs: positive operand wins iff (A>B)==sa (i.e. sa=0 & A>B, or sa=1 & A<=B); use borrow of A-B: A>B == ~borrow, A<=B == borrow. So win = (sa==0 & ~borrow) | (sa==1 & borrow) = ~(sa ^ ~borrow)... derive as sa ? borrow : ~borrow = ~(sa ^ borrow)? check: sa=0 -> ~borrow; sa=1 -> borrow. That equals ~(sa ^ borrow)? sa=0: ~borrow yes; sa=1: ~(1^borrow)=~(~borrow)=borrow yes. So win = ~(sa ^ borrow).\n- Unequal-sign sign = win ? 0 : 1, forced 0 if S==0. Equal-sign sign = sa.\n- Final sign = (sa==sb) ? sa : (S==0 ? 0 : ~win).\n- Use single N-1 bit subtractor with borrow, single adder; narrow to N-1 bits.",
+      "synth": {
+        "ok": true,
+        "area": 402.724,
+        "ltp": 32,
+        "cells": {
+          "AND2_X1": 9,
+          "AND3_X1": 6,
+          "AOI211_X1": 2,
+          "AOI21_X1": 26,
+          "INV_X1": 44,
+          "MUX2_X1": 19,
+          "NAND2_X1": 65,
+          "NAND3_X1": 13,
+          "NAND4_X1": 1,
+          "NOR2_X1": 34,
+          "NOR3_X1": 5,
+          "NOR4_X1": 5,
+          "OAI211_X1": 6,
+          "OAI21_X1": 33,
+          "OAI221_X1": 2,
+          "OAI22_X1": 3,
+          "OR2_X1": 11,
+          "OR3_X1": 5,
+          "XNOR2_X1": 34,
+          "XOR2_X1": 42
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[1]"
+        ],
+        "error": "",
+        "seconds": 0.63
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['c']",
+        "mismatch": {
+          "kind": "value",
+          "time": 522000,
+          "signal": "c",
+          "gold": "1111111111111111111111111111110",
+          "opt": "11111111111111111111111111111110",
+          "inputs": {
+            "a": "11111111111111111111111111111111",
+            "b": "1111111111111111111111111111111"
+          },
+          "inputs_prev": {
+            "a": "10011101000110011110111001000101",
+            "b": "10011101000110011110111001000101"
+          },
+          "outputs_gold": {
+            "c": "1111111111111111111111111111110"
+          },
+          "outputs_opt": {
+            "c": "11111111111111111111111111111110"
+          },
+          "stimulus": "random",
+          "cycle": null,
+          "more": [
+            {
+              "time": 572000,
+              "inputs": {
+                "a": "1111111111111111111111111111111",
+                "b": "11111111111111111111111111111111"
+              },
+              "outputs_gold": {
+                "c": "11111111111111111111111111111110"
+              },
+              "outputs_opt": {
+                "c": "1111111111111111111111111111110"
+              },
+              "cycle": null
+            },
+            {
+              "time": 1462000,
+              "inputs": {
+                "a": "1111111111111111111111111111111",
+                "b": "11111111111111111111111111111111"
+              },
+              "outputs_gold": {
+                "c": "11111111111111111111111111111110"
+              },
+              "outputs_opt": {
+                "c": "1111111111111111111111111111110"
+              },
+              "cycle": null
+            }
+          ]
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 522000,
+            "signal": "c",
+            "gold": "1111111111111111111111111111110",
+            "opt": "11111111111111111111111111111110",
+            "inputs": {
+              "a": "11111111111111111111111111111111",
+              "b": "1111111111111111111111111111111"
+            },
+            "inputs_prev": {
+              "a": "10011101000110011110111001000101",
+              "b": "10011101000110011110111001000101"
+            },
+            "outputs_gold": {
+              "c": "1111111111111111111111111111110"
+            },
+            "outputs_opt": {
+              "c": "11111111111111111111111111111110"
+            },
+            "stimulus": "random",
+            "cycle": null,
+            "more": [
+              {
+                "time": 572000,
+                "inputs": {
+                  "a": "1111111111111111111111111111111",
+                  "b": "11111111111111111111111111111111"
+                },
+                "outputs_gold": {
+                  "c": "11111111111111111111111111111110"
+                },
+                "outputs_opt": {
+                  "c": "1111111111111111111111111111110"
+                },
+                "cycle": null
+              },
+              {
+                "time": 1462000,
+                "inputs": {
+                  "a": "1111111111111111111111111111111",
+                  "b": "11111111111111111111111111111111"
+                },
+                "outputs_gold": {
+                  "c": "11111111111111111111111111111110"
+                },
+                "outputs_opt": {
+                  "c": "1111111111111111111111111111110"
+                },
+                "cycle": null
+              }
+            ]
+          },
+          "bad_outputs": [
+            "c"
+          ],
+          "n_vectors": 6010,
+          "seconds": 0.15
+        },
+        "formal": null,
+        "seconds": 0.31
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "repair(c01)",
+      "parent": "c01",
+      "depth": 1,
+      "strategy": "conservative",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `c` has the right values but your design produces extra zero-width events [(7522000, '1111111111111111111111111111111'), (11092000, '11111111111111111111111111111111'), (27282000, '11111111111111111111111111111111')] (the output is assigned more than once in a time step). Assign it exactly once per evaluation: compute intermediates first, use `assign` or a single final assignment, no default-then-override, no explicit sensitivity lists.",
+      "plan": "- Fix mixed_sign: when gt, larger operand is a so sign=a[N-1]; when !gt, larger operand is b so sign=b[N-1]=~a[N-1]. So mixed_sign = (gt ? a[N-1] : ~a[N-1]) & nz.\n- Equivalently sign = gt ? a[N-1] : b[N-1], masked by nz.\n- Same-sign path unaffected; other mixed cases (a>=0,b<0) now correct too.",
+      "synth": {
+        "ok": true,
+        "area": 452.732,
+        "ltp": 25,
+        "cells": {
+          "AND2_X1": 19,
+          "AND3_X1": 6,
+          "AOI211_X1": 6,
+          "AOI21_X1": 31,
+          "AOI221_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 46,
+          "MUX2_X1": 26,
+          "NAND2_X1": 41,
+          "NAND3_X1": 6,
+          "NAND4_X1": 4,
+          "NOR2_X1": 49,
+          "NOR3_X1": 1,
+          "NOR4_X1": 3,
+          "OAI211_X1": 6,
+          "OAI21_X1": 38,
+          "OAI221_X1": 1,
+          "OR2_X1": 2,
+          "OR3_X1": 8,
+          "OR4_X1": 7,
+          "XNOR2_X1": 65,
+          "XOR2_X1": 26
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[1]"
+        ],
+        "error": "",
+        "seconds": 0.59
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['c'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 7522000,
+          "signal": "c",
+          "gold_only_events": [],
+          "opt_only_events": [
+            [
+              7522000,
+              "1111111111111111111111111111111"
+            ],
+            [
+              11092000,
+              "11111111111111111111111111111111"
+            ],
+            [
+              27282000,
+              "11111111111111111111111111111111"
+            ]
+          ],
+          "inputs": {
+            "a": "100100111110010111110101101010",
+            "b": "100100111110010111110101101011"
+          },
+          "inputs_prev": {
+            "a": "1111111111111111111111111111111",
+            "b": "10000000000000000000000000000000"
+          },
+          "outputs_gold": {
+            "c": "1111111111111111111111111111111"
+          },
+          "outputs_opt": {
+            "c": "1111111111111111111111111111111"
+          },
+          "stimulus": "random",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 7522000,
+            "signal": "c",
+            "gold_only_events": [],
+            "opt_only_events": [
+              [
+                7522000,
+                "1111111111111111111111111111111"
+              ],
+              [
+                11092000,
+                "11111111111111111111111111111111"
+              ],
+              [
+                27282000,
+                "11111111111111111111111111111111"
+              ]
+            ],
+            "inputs": {
+              "a": "100100111110010111110101101010",
+              "b": "100100111110010111110101101011"
+            },
+            "inputs_prev": {
+              "a": "1111111111111111111111111111111",
+              "b": "10000000000000000000000000000000"
+            },
+            "outputs_gold": {
+              "c": "1111111111111111111111111111111"
+            },
+            "outputs_opt": {
+              "c": "1111111111111111111111111111111"
+            },
+            "stimulus": "random",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "c"
+          ],
+          "n_vectors": 6010,
+          "seconds": 0.22
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 0.4,
+          "trace_len": 0
+        },
+        "seconds": 0.74
+      }
+    },
+    {
+      "id": "c04",
+      "origin": "repair(c02)",
+      "parent": "c02",
+      "depth": 1,
+      "strategy": "datapath",
+      "status": "fail-sim-relaxed",
+      "problem": "[waveform-events] Output `c` has the right values but your design produces extra zero-width events [(7522000, '1111111111111111111111111111111'), (11092000, '11111111111111111111111111111111'), (27282000, '11111111111111111111111111111111')] (the output is assigned more than once in a time step). Assign it exactly once per evaluation: compute intermediates first, use `assign` or a single final assignment, no default-then-override, no explicit sensitivity lists.",
+      "plan": "- Recompute win correctly: for sa=0 win = A>B = ~borrow & ~eq; for sa=1 win = A<=B = borrow | eq, where eq = (A==B).\n- Equivalent: win = sa ? (borrow | eq) : (~borrow & ~eq).\n- Also verify equal-sign path unaffected (uses diff only), and sum==0 forcing sign 0 unaffected.\n- Same bug affected all unequal-sign cases where A==B (and possibly others via borrow/eq confusion); fix covers them.",
+      "synth": {
+        "ok": true,
+        "area": 431.186,
+        "ltp": 32,
+        "cells": {
+          "AND2_X1": 20,
+          "AND3_X1": 2,
+          "AOI211_X1": 3,
+          "AOI21_X1": 26,
+          "AOI221_X1": 1,
+          "INV_X1": 39,
+          "MUX2_X1": 27,
+          "NAND2_X1": 43,
+          "NAND3_X1": 10,
+          "NAND4_X1": 1,
+          "NOR2_X1": 39,
+          "NOR3_X1": 6,
+          "NOR4_X1": 5,
+          "OAI211_X1": 4,
+          "OAI21_X1": 28,
+          "OAI22_X1": 1,
+          "OR2_X1": 11,
+          "OR3_X1": 6,
+          "OR4_X1": 11,
+          "XNOR2_X1": 46,
+          "XOR2_X1": 41
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[1]"
+        ],
+        "error": "",
+        "seconds": 0.55
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['c'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 7522000,
+          "signal": "c",
+          "gold_only_events": [],
+          "opt_only_events": [
+            [
+              7522000,
+              "1111111111111111111111111111111"
+            ],
+            [
+              11092000,
+              "11111111111111111111111111111111"
+            ],
+            [
+              27282000,
+              "11111111111111111111111111111111"
+            ]
+          ],
+          "inputs": {
+            "a": "100100111110010111110101101010",
+            "b": "100100111110010111110101101011"
+          },
+          "inputs_prev": {
+            "a": "1111111111111111111111111111111",
+            "b": "10000000000000000000000000000000"
+          },
+          "outputs_gold": {
+            "c": "1111111111111111111111111111111"
+          },
+          "outputs_opt": {
+            "c": "1111111111111111111111111111111"
+          },
+          "stimulus": "random",
+          "cycle": null
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 7522000,
+            "signal": "c",
+            "gold_only_events": [],
+            "opt_only_events": [
+              [
+                7522000,
+                "1111111111111111111111111111111"
+              ],
+              [
+                11092000,
+                "11111111111111111111111111111111"
+              ],
+              [
+                27282000,
+                "11111111111111111111111111111111"
+              ]
+            ],
+            "inputs": {
+              "a": "100100111110010111110101101010",
+              "b": "100100111110010111110101101011"
+            },
+            "inputs_prev": {
+              "a": "1111111111111111111111111111111",
+              "b": "10000000000000000000000000000000"
+            },
+            "outputs_gold": {
+              "c": "1111111111111111111111111111111"
+            },
+            "outputs_opt": {
+              "c": "1111111111111111111111111111111"
+            },
+            "stimulus": "random",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "c"
+          ],
+          "n_vectors": 6010,
+          "seconds": 0.22
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 0.49,
+          "trace_len": 0
+        },
+        "seconds": 0.87
+      }
+    },
+    {
+      "id": "c05",
+      "origin": "init:logic",
+      "parent": null,
+      "depth": 0,
+      "strategy": "logic",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at (t=42000ps, random)] output `c`: expected 0, got 'bx0000000000000000000000000000000.\nInputs: a=2147483648(0x80000000), b=0.\nExpected outputs: c=0.\nYour outputs: c='bx0000000000000000000000000000000.\nAnother failing case: inputs a=0, b=4294967295(0xffffffff); expected c=4294967295(0xffffffff); yours c='bx1111111111111111111111111111111.\nAnother failing case: inputs a=0, b=4294967295(0xffffffff); expected c=4294967295(0xffffffff); yours c='bx1111111111111111111111111111111.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "- Single magnitude datapath: compute S=A+B and D=A-B once; select by sign-equality (mux on operands, one adder each — but D only needed when sa==sb, S otherwise; still two ops, keep both since both used).\n- Sign bit: when sa!=sb, sign = (A>B) ? sa : (A+B!=0). Note A>B equals borrow of A-B, so reuse D's carry/borrow instead of a separate comparator.\n- Replace nested if/else with flat assign expressions; no reg, no always block.\n- Keep widths N-1 for magnitude; sign assembled at top.",
+      "synth": {
+        "ok": true,
+        "area": 412.832,
+        "ltp": 32,
+        "cells": {
+          "AND2_X1": 16,
+          "AND3_X1": 6,
+          "AOI211_X1": 2,
+          "AOI21_X1": 32,
+          "AOI221_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 40,
+          "MUX2_X1": 17,
+          "NAND2_X1": 55,
+          "NAND3_X1": 15,
+          "NOR2_X1": 33,
+          "NOR3_X1": 3,
+          "NOR4_X1": 3,
+          "OAI211_X1": 6,
+          "OAI21_X1": 35,
+          "OAI22_X1": 4,
+          "OR2_X1": 11,
+          "OR3_X1": 9,
+          "OR4_X1": 4,
+          "XNOR2_X1": 47,
+          "XOR2_X1": 29
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[2]"
+        ],
+        "error": "",
+        "seconds": 0.51
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['c']",
+        "mismatch": {
+          "kind": "value",
+          "time": 42000,
+          "signal": "c",
+          "gold": "0",
+          "opt": "x0000000000000000000000000000000",
+          "inputs": {
+            "a": "10000000000000000000000000000000",
+            "b": "0"
+          },
+          "inputs_prev": {
+            "a": "11111111111111111111111111111111",
+            "b": "0"
+          },
+          "outputs_gold": {
+            "c": "0"
+          },
+          "outputs_opt": {
+            "c": "x0000000000000000000000000000000"
+          },
+          "stimulus": "random",
+          "cycle": null,
+          "more": [
+            {
+              "time": 72000,
+              "inputs": {
+                "a": "0",
+                "b": "11111111111111111111111111111111"
+              },
+              "outputs_gold": {
+                "c": "11111111111111111111111111111111"
+              },
+              "outputs_opt": {
+                "c": "x1111111111111111111111111111111"
+              },
+              "cycle": null
+            },
+            {
+              "time": 102000,
+              "inputs": {
+                "a": "0",
+                "b": "11111111111111111111111111111111"
+              },
+              "outputs_gold": {
+                "c": "11111111111111111111111111111111"
+              },
+              "outputs_opt": {
+                "c": "x1111111111111111111111111111111"
+              },
+              "cycle": null
+            }
+          ]
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 42000,
+            "signal": "c",
+            "gold": "0",
+            "opt": "x0000000000000000000000000000000",
+            "inputs": {
+              "a": "10000000000000000000000000000000",
+              "b": "0"
+            },
+            "inputs_prev": {
+              "a": "11111111111111111111111111111111",
+              "b": "0"
+            },
+            "outputs_gold": {
+              "c": "0"
+            },
+            "outputs_opt": {
+              "c": "x0000000000000000000000000000000"
+            },
+            "stimulus": "random",
+            "cycle": null,
+            "more": [
+              {
+                "time": 72000,
+                "inputs": {
+                  "a": "0",
+                  "b": "11111111111111111111111111111111"
+                },
+                "outputs_gold": {
+                  "c": "11111111111111111111111111111111"
+                },
+                "outputs_opt": {
+                  "c": "x1111111111111111111111111111111"
+                },
+                "cycle": null
+              },
+              {
+                "time": 102000,
+                "inputs": {
+                  "a": "0",
+                  "b": "11111111111111111111111111111111"
+                },
+                "outputs_gold": {
+                  "c": "11111111111111111111111111111111"
+                },
+                "outputs_opt": {
+                  "c": "x1111111111111111111111111111111"
+                },
+                "cycle": null
+              }
+            ]
+          },
+          "bad_outputs": [
+            "c"
+          ],
+          "n_vectors": 6010,
+          "seconds": 0.08
+        },
+        "formal": null,
+        "seconds": 0.18
+      }
+    },
+    {
+      "id": "c06",
+      "origin": "repair(c05)",
+      "parent": "c05",
+      "depth": 1,
+      "strategy": "logic",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at (t=142000ps, random)] output `c`: expected 1637386968(0x61988ad8), got 3784870616(0xe1988ad8).\nInputs: a=3784870617(0xe1988ad9), b=2147483647(0x7fffffff).\nExpected outputs: c=1637386968(0x61988ad8).\nYour outputs: c=3784870616(0xe1988ad8).\nAnother failing case: inputs a=3280070799(0xc381e88f), b=1484771968(0x587fd280); expected c=469875471(0x1c01bb0f); yours c=2617359119(0x9c01bb0f).\nAnother failing case: inputs a=2147483648(0x80000000), b=36422432(0x22bc320); expected c=36422432(0x22bc320); yours c=2183906080(0x822bc320).",
+      "plan": "- Replace the bogus borrow-based `agtb` with a genuine `A > B` comparison (matches original exactly, including X semantics).\n- Keep the flat structure but ensure the sign selection mirrors the original's nested if/else so X on the comparison propagates identically.\n- Magnitude mux (dif vs sum) is correct and kept; only the sign logic was wrong.\n- No other cases affected beyond the sign bit when sa!=sb.",
+      "synth": {
+        "ok": true,
+        "area": 458.584,
+        "ltp": 25,
+        "cells": {
+          "AND2_X1": 18,
+          "AND3_X1": 13,
+          "AOI211_X1": 5,
+          "AOI21_X1": 30,
+          "AOI222_X1": 1,
+          "AOI22_X1": 2,
+          "INV_X1": 45,
+          "MUX2_X1": 23,
+          "NAND2_X1": 40,
+          "NAND3_X1": 5,
+          "NAND4_X1": 4,
+          "NOR2_X1": 56,
+          "NOR3_X1": 4,
+          "NOR4_X1": 7,
+          "OAI211_X1": 8,
+          "OAI21_X1": 38,
+          "OAI22_X1": 1,
+          "OR2_X1": 3,
+          "OR3_X1": 9,
+          "OR4_X1": 3,
+          "XNOR2_X1": 55,
+          "XOR2_X1": 32
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[1]"
+        ],
+        "error": "",
+        "seconds": 0.62
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['c']",
+        "mismatch": {
+          "kind": "value",
+          "time": 142000,
+          "signal": "c",
+          "gold": "1100001100110001000101011011000",
+          "opt": "11100001100110001000101011011000",
+          "inputs": {
+            "a": "11100001100110001000101011011001",
+            "b": "1111111111111111111111111111111"
+          },
+          "inputs_prev": {
+            "a": "1111111111111111111111111111111",
+            "b": "1111111111111111111111111111111"
+          },
+          "outputs_gold": {
+            "c": "1100001100110001000101011011000"
+          },
+          "outputs_opt": {
+            "c": "11100001100110001000101011011000"
+          },
+          "stimulus": "random",
+          "cycle": null,
+          "more": [
+            {
+              "time": 152000,
+              "inputs": {
+                "a": "11000011100000011110100010001111",
+                "b": "1011000011111111101001010000000"
+              },
+              "outputs_gold": {
+                "c": "11100000000011011101100001111"
+              },
+              "outputs_opt": {
+                "c": "10011100000000011011101100001111"
+              },
+              "cycle": null
+            },
+            {
+              "time": 392000,
+              "inputs": {
+                "a": "10000000000000000000000000000000",
+                "b": "10001010111100001100100000"
+              },
+              "outputs_gold": {
+                "c": "10001010111100001100100000"
+              },
+              "outputs_opt": {
+                "c": "10000010001010111100001100100000"
+              },
+              "cycle": null
+            }
+          ]
+        },
+        "evidence": "sim: 6010 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 142000,
+            "signal": "c",
+            "gold": "1100001100110001000101011011000",
+            "opt": "11100001100110001000101011011000",
+            "inputs": {
+              "a": "11100001100110001000101011011001",
+              "b": "1111111111111111111111111111111"
+            },
+            "inputs_prev": {
+              "a": "1111111111111111111111111111111",
+              "b": "1111111111111111111111111111111"
+            },
+            "outputs_gold": {
+              "c": "1100001100110001000101011011000"
+            },
+            "outputs_opt": {
+              "c": "11100001100110001000101011011000"
+            },
+            "stimulus": "random",
+            "cycle": null,
+            "more": [
+              {
+                "time": 152000,
+                "inputs": {
+                  "a": "11000011100000011110100010001111",
+                  "b": "1011000011111111101001010000000"
+                },
+                "outputs_gold": {
+                  "c": "11100000000011011101100001111"
+                },
+                "outputs_opt": {
+                  "c": "10011100000000011011101100001111"
+                },
+                "cycle": null
+              },
+              {
+                "time": 392000,
+                "inputs": {
+                  "a": "10000000000000000000000000000000",
+                  "b": "10001010111100001100100000"
+                },
+                "outputs_gold": {
+                  "c": "10001010111100001100100000"
+                },
+                "outputs_opt": {
+                  "c": "10000010001010111100001100100000"
+                },
+                "cycle": null
+              }
+            ]
+          },
+          "bad_outputs": [
+            "c"
+          ],
+          "n_vectors": 6010,
+          "seconds": 0.11
+        },
+        "formal": null,
+        "seconds": 0.25
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 422.1 is good, but ltp=33 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 422.142,
+        "ltp": 33,
+        "cells": {
+          "AND2_X1": 7,
+          "AND3_X1": 5,
+          "AOI211_X1": 5,
+          "AOI21_X1": 40,
+          "AOI221_X1": 3,
+          "INV_X1": 48,
+          "MUX2_X1": 15,
+          "NAND2_X1": 42,
+          "NAND3_X1": 4,
+          "NAND4_X1": 7,
+          "NOR2_X1": 58,
+          "NOR3_X1": 6,
+          "NOR4_X1": 5,
+          "OAI211_X1": 7,
+          "OAI21_X1": 31,
+          "OAI221_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 10,
+          "OR3_X1": 7,
+          "OR4_X1": 3,
+          "XNOR2_X1": 48,
+          "XOR2_X1": 29
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[2]"
+        ],
+        "error": "",
+        "seconds": 3.43
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 2.79
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 3.25,
+          "trace_len": 0
+        },
+        "seconds": 15.87
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 376.1 is good, but ltp=32 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 376.124,
+        "ltp": 32,
+        "cells": {
+          "AND2_X1": 10,
+          "AOI211_X1": 3,
+          "AOI21_X1": 32,
+          "AOI221_X1": 4,
+          "AOI22_X1": 2,
+          "INV_X1": 44,
+          "MUX2_X1": 25,
+          "NAND2_X1": 38,
+          "NAND3_X1": 2,
+          "NAND4_X1": 3,
+          "NOR2_X1": 50,
+          "NOR3_X1": 3,
+          "NOR4_X1": 6,
+          "OAI211_X1": 2,
+          "OAI21_X1": 22,
+          "OAI221_X1": 3,
+          "OAI22_X1": 7,
+          "OR2_X1": 10,
+          "OR4_X1": 8,
+          "XNOR2_X1": 26,
+          "XOR2_X1": 35
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[0]"
+        ],
+        "error": "",
+        "seconds": 3.39
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 2.97
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 3.15,
+          "trace_len": 0
+        },
+        "seconds": 15.61
+      }
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 422.1 is good, but ltp=33 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 422.142,
+        "ltp": 33,
+        "cells": {
+          "AND2_X1": 7,
+          "AND3_X1": 5,
+          "AOI211_X1": 5,
+          "AOI21_X1": 40,
+          "AOI221_X1": 3,
+          "INV_X1": 48,
+          "MUX2_X1": 15,
+          "NAND2_X1": 42,
+          "NAND3_X1": 4,
+          "NAND4_X1": 7,
+          "NOR2_X1": 58,
+          "NOR3_X1": 6,
+          "NOR4_X1": 5,
+          "OAI211_X1": 7,
+          "OAI21_X1": 31,
+          "OAI221_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 10,
+          "OR3_X1": 7,
+          "OR4_X1": 3,
+          "XNOR2_X1": 48,
+          "XOR2_X1": 29
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[2]"
+        ],
+        "error": "",
+        "seconds": 3.53
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 2.64
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.18,
+          "trace_len": 0
+        },
+        "seconds": 13.53
+      }
+    },
+    {
+      "id": "c10",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 376.1 is good, but ltp=32 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 376.124,
+        "ltp": 32,
+        "cells": {
+          "AND2_X1": 10,
+          "AOI211_X1": 3,
+          "AOI21_X1": 32,
+          "AOI221_X1": 4,
+          "AOI22_X1": 2,
+          "INV_X1": 44,
+          "MUX2_X1": 25,
+          "NAND2_X1": 38,
+          "NAND3_X1": 2,
+          "NAND4_X1": 3,
+          "NOR2_X1": 50,
+          "NOR3_X1": 3,
+          "NOR4_X1": 6,
+          "OAI211_X1": 2,
+          "OAI21_X1": 22,
+          "OAI221_X1": 3,
+          "OAI22_X1": 7,
+          "OR2_X1": 10,
+          "OR4_X1": 8,
+          "XNOR2_X1": 26,
+          "XOR2_X1": 35
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[0]"
+        ],
+        "error": "",
+        "seconds": 3.42
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 3.01
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 3.1,
+          "trace_len": 0
+        },
+        "seconds": 15.87
+      }
+    },
+    {
+      "id": "c11",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 366.814,
+        "ltp": 26,
+        "cells": {
+          "AND2_X1": 12,
+          "AOI211_X1": 7,
+          "AOI21_X1": 17,
+          "AOI221_X1": 1,
+          "AOI222_X1": 4,
+          "AOI22_X1": 12,
+          "INV_X1": 44,
+          "MUX2_X1": 1,
+          "NAND2_X1": 14,
+          "NAND3_X1": 2,
+          "NAND4_X1": 3,
+          "NOR2_X1": 71,
+          "NOR4_X1": 4,
+          "OAI211_X1": 2,
+          "OAI21_X1": 6,
+          "OAI221_X1": 3,
+          "OAI222_X1": 1,
+          "OAI22_X1": 9,
+          "OAI33_X1": 9,
+          "OR2_X1": 5,
+          "OR3_X1": 3,
+          "OR4_X1": 7,
+          "XNOR2_X1": 51,
+          "XOR2_X1": 31
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[0]"
+        ],
+        "error": "",
+        "seconds": 3.42
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 2.86
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.99,
+          "trace_len": 0
+        },
+        "seconds": 15.4
+      }
+    },
+    {
+      "id": "c12",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 426.9 is good, but ltp=33 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 426.93,
+        "ltp": 33,
+        "cells": {
+          "AND2_X1": 10,
+          "AND3_X1": 8,
+          "AND4_X1": 1,
+          "AOI211_X1": 6,
+          "AOI21_X1": 33,
+          "AOI221_X1": 1,
+          "INV_X1": 53,
+          "MUX2_X1": 26,
+          "NAND2_X1": 38,
+          "NAND3_X1": 3,
+          "NAND4_X1": 5,
+          "NOR2_X1": 52,
+          "NOR3_X1": 2,
+          "NOR4_X1": 8,
+          "OAI211_X1": 5,
+          "OAI21_X1": 29,
+          "OAI221_X1": 2,
+          "OR2_X1": 10,
+          "OR3_X1": 7,
+          "OR4_X1": 3,
+          "XNOR2_X1": 52,
+          "XOR2_X1": 25
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[2]"
+        ],
+        "error": "",
+        "seconds": 3.65
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 2.92
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 3.2,
+          "trace_len": 0
+        },
+        "seconds": 15.29
+      }
+    },
+    {
+      "id": "c13",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 383.6 is good, but ltp=33 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 383.572,
+        "ltp": 33,
+        "cells": {
+          "AND2_X1": 12,
+          "AND4_X1": 1,
+          "AOI211_X1": 5,
+          "AOI21_X1": 30,
+          "AOI221_X1": 2,
+          "AOI22_X1": 6,
+          "INV_X1": 41,
+          "MUX2_X1": 27,
+          "NAND2_X1": 40,
+          "NAND3_X1": 1,
+          "NAND4_X1": 6,
+          "NOR2_X1": 41,
+          "NOR4_X1": 3,
+          "OAI211_X1": 1,
+          "OAI21_X1": 26,
+          "OAI221_X1": 2,
+          "OAI22_X1": 5,
+          "OR2_X1": 14,
+          "OR3_X1": 2,
+          "OR4_X1": 6,
+          "XNOR2_X1": 48,
+          "XOR2_X1": 17
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[0]"
+        ],
+        "error": "",
+        "seconds": 3.5
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 2.79
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.82,
+          "trace_len": 0
+        },
+        "seconds": 15.77
+      }
+    },
+    {
+      "id": "c14",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 434.1 is good, but ltp=32 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 434.112,
+        "ltp": 32,
+        "cells": {
+          "AND2_X1": 12,
+          "AND3_X1": 1,
+          "AOI211_X1": 1,
+          "AOI21_X1": 34,
+          "AOI221_X1": 1,
+          "INV_X1": 43,
+          "MUX2_X1": 26,
+          "NAND2_X1": 44,
+          "NAND3_X1": 6,
+          "NAND4_X1": 3,
+          "NOR2_X1": 42,
+          "NOR3_X1": 4,
+          "NOR4_X1": 2,
+          "OAI211_X1": 5,
+          "OAI21_X1": 38,
+          "OAI22_X1": 2,
+          "OR2_X1": 13,
+          "OR3_X1": 4,
+          "OR4_X1": 5,
+          "XNOR2_X1": 70,
+          "XOR2_X1": 22
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[0]"
+        ],
+        "error": "",
+        "seconds": 3.84
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 3.19
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 3.0,
+          "trace_len": 0
+        },
+        "seconds": 16.09
+      }
+    },
+    {
+      "id": "c15",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 486.8 / ltp 19 is not better than baseline 477.7 / 30",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 486.78,
+        "ltp": 19,
+        "cells": {
+          "AND2_X1": 7,
+          "AND3_X1": 2,
+          "AND4_X1": 1,
+          "AOI211_X1": 13,
+          "AOI21_X1": 52,
+          "AOI221_X1": 8,
+          "AOI22_X1": 11,
+          "INV_X1": 59,
+          "MUX2_X1": 11,
+          "NAND2_X1": 49,
+          "NAND3_X1": 8,
+          "NAND4_X1": 3,
+          "NOR2_X1": 63,
+          "NOR3_X1": 8,
+          "NOR4_X1": 3,
+          "OAI211_X1": 10,
+          "OAI21_X1": 28,
+          "OAI221_X1": 4,
+          "OAI22_X1": 11,
+          "OR2_X1": 6,
+          "OR3_X1": 2,
+          "OR4_X1": 4,
+          "XNOR2_X1": 56,
+          "XOR2_X1": 25
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[4]"
+        ],
+        "error": "",
+        "seconds": 3.63
+      },
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "96e42185df9b7b350ba6e0196ffe431a7057bbb97d92eecc7246c2a321341fbf",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": "deepseek-v4.1-flash",
+    "budget": {
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 6,
+      "max_refine": 1,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "proved"
+  },
+  "gain": {
+    "area_pct": -23.22,
+    "ltp_pct": -13.33
+  },
+  "run": "official",
+  "runs_compared": [
+    "official",
+    "official2"
+  ]
+}

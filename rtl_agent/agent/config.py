@@ -71,7 +71,7 @@ class Config:
         self.llm_thinking = _pick("LLM_THINKING", files, default="off").lower()
         self.llm_timeout = int(_pick("LLM_TIMEOUT", files, default="300"))
         self.llm_max_tokens = int(_pick("LLM_MAX_TOKENS", files, default="12000"))
-        self.jobs = int(_pick("RTL_AGENT_JOBS", files, default=str(min(8, os.cpu_count() or 4))))
+        self.jobs = max(1, int(_pick("RTL_AGENT_JOBS", files, default=str(min(8, os.cpu_count() or 4)))))
 
     def yosys_version(self):
         """(major, minor) of the yosys binary, cached; (0, 0) if unknown."""
@@ -102,4 +102,4 @@ class Config:
         return missing
 
     def masked_key(self):
-        return (self.llm_key[:6] + "****") if self.llm_key else "<unset>"
+        return "<configured>" if self.llm_key else "<unset>"

@@ -17,9 +17,11 @@ class SimResult:
         self.n_vectors = 0
         self.seconds = 0.0
         self.relaxed_ok = False
+        self.course_passed = []    # provided course testbenches passed strictly
 
     def to_dict(self):
-        return {"ok": self.ok, "relaxed_ok": self.relaxed_ok, "error": self.error[-600:],
+        return {"ok": self.ok, "relaxed_ok": self.relaxed_ok, "course_passed": self.course_passed,
+                "error": self.error[-600:],
                 "mismatch": self.mismatch,
                 "bad_outputs": self.bad_outputs, "n_vectors": self.n_vectors,
                 "seconds": round(self.seconds, 2)}
@@ -37,6 +39,32 @@ def _simulate(cfg, tb_file, rtl_files, vcd, vec, workdir, label, timeout):
     return True, "", s1 + s2
 
 
+class CourseTB:
+    """A provided course-style stimulus testbench (stim_*.v with __VCD__ / __SEED__ placeholders).
+
+    Rendered exactly like opti_demo/equiv_agent.py:load_preset_tb, so passing it is the course
+    checker's own verdict.  Differences on it are never relaxed.
+    """
+
+    SEED = 0xDEADBEEF        # same fixed seed as equiv_agent.AUTO_STIM_SEED
+
+    def __init__(self, path):
+        self.path = os.path.abspath(path)
+        self.kind = "course-tb:" + os.path.basename(path)
+        self.vectors = []
+        self.x_window_end = 0
+        self.strict_required = True
+
+    def hex_lines(self):
+        return []
+
+    def render(self):
+        with open(self.path, encoding="utf-8", errors="replace") as fh:
+            text = fh.read()
+        text = text.replace('"__VCD__"', "`VCD_PATH").replace("__VCD__", "`VCD_PATH")
+        return text.replace("__SEED__", f"32'h{self.SEED:08X}")
+
+
 class GoldSim:
     """Runs the reference design once per stimulus and caches the parsed waveforms."""
 
@@ -48,35 +76,50 @@ class GoldSim:
         self.tb_files = []
         self.vec_files = []
         self.error = ""
+        self.dropped = []           # provided testbenches that could not run with the original
         self.event_sensitive = []   # outputs whose gold waveform contains same-value re-dumps
 
     def prepare(self):
         os.makedirs(self.workdir, exist_ok=True)
         outs = self.info.outputs()
         sens = set()
+        kept = []
         for i, st in enumerate(self.stimuli):
             vec = os.path.join(self.workdir, f"stim{i}.hex")
             write_text(vec, "\n".join(st.hex_lines()) + "\n")
             tb = os.path.join(self.workdir, f"tb{i}.v")
-            write_text(tb, gen_testbench(self.info, st))
+            write_text(tb, st.render() if isinstance(st, CourseTB) else gen_testbench(self.info, st))
             vcd = os.path.join(self.workdir, f"gold{i}.vcd")
             ok, err, _ = _simulate(self.cfg, tb, self.gold_files, vcd, vec, self.workdir, f"gold{i}", self.timeout)
+            if not ok and isinstance(st, CourseTB):
+                # a provided testbench that does not even run with the original is not usable
+                self.dropped.append(f"{st.kind}: {err.splitlines()[0] if err else 'failed'}")
+                continue
             if not ok:
                 self.error = err
                 return False
             wave = parse_vcd(vcd)
             missing = [o for o in outs if o not in wave]
+            if missing and isinstance(st, CourseTB):
+                self.dropped.append(f"{st.kind}: outputs not dumped {missing}")
+                continue
             if missing:
                 self.error = f"outputs missing from gold VCD: {missing}"
                 return False
             for o in outs:
                 if has_duplicate_events(wave.get(o)):
                     sens.add(o)
+            kept.append(st)
             self.waves.append(wave)
             self.tb_files.append(tb)
             self.vec_files.append(vec)
+        self.stimuli = kept
         self.event_sensitive = sorted(sens)
         return True
+
+    @property
+    def course_tbs(self):
+        return [st for st in self.stimuli if isinstance(st, CourseTB)]
 
     def check(self, opt_files, label):
         """Compare a candidate against the cached gold waveforms.
@@ -106,7 +149,8 @@ class GoldSim:
             res.n_vectors += len(st.vectors)
             if not good:
                 strict_all = False
-                rel = relaxed_equal(self.waves[i], wave, bad, getattr(st, "x_window_end", 0))
+                rel = (not getattr(st, "strict_required", False)
+                       and relaxed_equal(self.waves[i], wave, bad, getattr(st, "x_window_end", 0)))
                 relaxed_all &= rel
                 if res.mismatch is None or (not rel and not hard_recorded):
                     hard_recorded = not rel
@@ -127,6 +171,8 @@ class GoldSim:
                             res.mismatch["more"] = extra
                 if not rel:
                     break          # a real functional difference: no need to simulate further
+            elif isinstance(st, CourseTB):
+                res.course_passed.append(st.kind)
             try:
                 os.remove(vcd)
             except OSError:

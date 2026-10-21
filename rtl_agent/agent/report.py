@@ -1,7 +1,9 @@
 """Per-case markdown/JSON reports."""
 
 import datetime
+import hashlib
 import os
+import platform
 
 from .util import write_text, write_json
 
@@ -21,6 +23,8 @@ def result_dict(st):
         "kind": ("sequential" if st.info and st.info.is_sequential else "combinational") if st.info else None,
         "status": "optimized" if st.final else ("error" if st.error else "no-gain"),
         "tier": getattr(st, "final_tier", None),
+        "policy": {"accept": getattr(st.budget, "accept", "proved"),
+                   "allow_relaxed": bool(getattr(st.budget, "allow_relaxed", False))},
         "error": st.error,
         "baseline": {"area": base.area if base else None, "ltp": base.ltp if base else None,
                      "course_area": st.base_course.area if st.base_course else None,
@@ -28,15 +32,24 @@ def result_dict(st):
                      "cells": base.cells if base else {}},
         "optimized": {"area": fin.area if fin else (base.area if base else None),
                       "ltp": fin.ltp if fin else (base.ltp if base else None),
-                      "cells": fin.cells if fin else {}, "candidate": st.final.id if st.final else None},
+                      "cells": fin.cells if fin else (base.cells if base else {}),
+                      "candidate": st.final.id if st.final else None},
         "verification": st.final_verify.to_dict() if st.final_verify else None,
         "usage": st.usage.to_dict(),
         "runtime_s": round(st.elapsed(), 1),
         "stop_reason": st.stop_reason,
         "graph_trace": st.trace,
         "candidates": [c.to_dict() for c in st.candidates],
+        "reproducibility": {
+            "input_sha256": hashlib.sha256(st.src.encode("utf-8")).hexdigest(),
+            "python": platform.python_version(),
+            "yosys_version": ".".join(map(str, st.cfg.yosys_version())),
+            "llm_model": st.cfg.llm_model if st.cfg.llm_key else None,
+            "budget": vars(st.budget),
+            "formal_required": "proved",
+        },
     }
-    if base and base.ok and fin:
+    if base and base.ok and base.area and fin:
         d["gain"] = {"area_pct": round((fin.area - base.area) / base.area * 100, 2),
                      "ltp_pct": round((fin.ltp - base.ltp) / max(1, base.ltp) * 100, 2)}
     return d
@@ -50,7 +63,9 @@ def write_reports(st):
          f"- input: `{st.rtl_file}`",
          f"- design: {st.info.summary() if st.info else 'n/a'}",
          f"- result: **{d['status'].upper()}**" + (f" ({st.error})" if st.error else "")
-         + (f", verification tier: **{d['tier']}**" if d.get("tier") else ""), ""]
+         + (f", verification tier: **{d['tier']}**" if d.get("tier") else ""),
+         f"- acceptance policy: formal `--accept {d['policy']['accept']}`, relaxed fallback "
+         f"{'on' if d['policy']['allow_relaxed'] else 'off'}", ""]
     base = st.base
     if base and base.ok:
         fin = st.final.synth if st.final else base

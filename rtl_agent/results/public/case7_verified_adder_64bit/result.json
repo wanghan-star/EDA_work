@@ -1,0 +1,1758 @@
+{
+  "top": "verified_adder_64bit",
+  "input": "/home/hansome_w/backup/rtl_agent/cases/public/case7_verified_adder_64bit/adder64_v1_pipe.v",
+  "kind": "sequential",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 484.386,
+    "ltp": 57,
+    "course_area": 484.386,
+    "course_ltp": 57,
+    "cells": {
+      "$_DFFE_PN0P_": 68,
+      "$_DFF_PN0_": 292,
+      "AND2_X1": 23,
+      "AND3_X1": 4,
+      "AOI211_X1": 5,
+      "AOI21_X1": 30,
+      "AOI221_X1": 3,
+      "INV_X1": 4,
+      "NAND2_X1": 57,
+      "NAND3_X1": 9,
+      "NAND4_X1": 3,
+      "NOR2_X1": 53,
+      "NOR3_X1": 9,
+      "OAI211_X1": 3,
+      "OAI21_X1": 21,
+      "OR2_X1": 14,
+      "OR3_X1": 6,
+      "OR4_X1": 3,
+      "XNOR2_X1": 81,
+      "XOR2_X1": 72
+    }
+  },
+  "optimized": {
+    "area": 484.386,
+    "ltp": 57,
+    "cells": {
+      "$_DFFE_PN0P_": 68,
+      "$_DFF_PN0_": 292,
+      "AND2_X1": 23,
+      "AND3_X1": 4,
+      "AOI211_X1": 5,
+      "AOI21_X1": 30,
+      "AOI221_X1": 3,
+      "INV_X1": 4,
+      "NAND2_X1": 57,
+      "NAND3_X1": 9,
+      "NAND4_X1": 3,
+      "NOR2_X1": 53,
+      "NOR3_X1": 9,
+      "OAI211_X1": 3,
+      "OAI21_X1": 21,
+      "OR2_X1": 14,
+      "OR3_X1": 6,
+      "OR4_X1": 3,
+      "XNOR2_X1": 81,
+      "XOR2_X1": 72
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 9,
+    "logical_calls": 9,
+    "prompt_tokens": 23159,
+    "completion_tokens": 14457,
+    "reasoning_tokens": 0,
+    "cached_tokens": 6784,
+    "total_tokens": 37616,
+    "llm_seconds": 89.9
+  },
+  "runtime_s": 152.5,
+  "stop_reason": "no further gain",
+  "graph_trace": [
+    [
+      "setup",
+      0.61
+    ],
+    [
+      "generate",
+      13.78
+    ],
+    [
+      "evaluate",
+      1.7
+    ],
+    [
+      "repair",
+      12.71
+    ],
+    [
+      "evaluate",
+      0.27
+    ],
+    [
+      "refine",
+      9.35
+    ],
+    [
+      "evaluate_refine",
+      0.26
+    ],
+    [
+      "resynth",
+      54.86
+    ],
+    [
+      "evaluate_resynth",
+      40.5
+    ],
+    [
+      "rescue",
+      15.52
+    ],
+    [
+      "evaluate",
+      0.26
+    ],
+    [
+      "repair",
+      2.68
+    ],
+    [
+      "evaluate",
+      0.0
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "no-gain",
+      "problem": "[metrics] area 484.4 / ltp 57 is not better than baseline 484.4 / 57",
+      "plan": "- Keep the exact same pipeline structure, enables, and reset style; only narrow where provably safe.\n- The a/b slice registers are 16-bit and must stay 16-bit (they feed 16-bit adds).\n- s1..s4 are 16-bit sums; c1..c4 are 1-bit carries. No narrowing possible without changing result bits.\n- Share nothing across stages (each stage is a distinct adder with distinct operands and distinct enable), so keep four adders.\n- Remove the redundant `else c<=c; s<=s;` self-assignments (they are no-ops; the enable already holds the value) — this is behavior-preserving and reduces mux logic.\n- Keep all explicit X-free reset values and the same if/else priority so X-before-reset semantics are unchanged.",
+      "synth": {
+        "ok": true,
+        "area": 484.386,
+        "ltp": 57,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 23,
+          "AND3_X1": 4,
+          "AOI211_X1": 5,
+          "AOI21_X1": 30,
+          "AOI221_X1": 3,
+          "INV_X1": 4,
+          "NAND2_X1": 57,
+          "NAND3_X1": 9,
+          "NAND4_X1": 3,
+          "NOR2_X1": 53,
+          "NOR3_X1": 9,
+          "OAI211_X1": 3,
+          "OAI21_X1": 21,
+          "OR2_X1": 14,
+          "OR3_X1": 6,
+          "OR4_X1": 3,
+          "XNOR2_X1": 81,
+          "XOR2_X1": 72
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[14]"
+        ],
+        "error": "",
+        "seconds": 0.29
+      },
+      "verify": null
+    },
+    {
+      "id": "c02",
+      "origin": "init:sequential",
+      "parent": null,
+      "depth": 0,
+      "strategy": "sequential",
+      "status": "no-gain",
+      "problem": "[metrics] area 484.4 / ltp 57 is not better than baseline 484.4 / 57",
+      "plan": "- Keep identical pipeline timing: same stage enables, same alignment delays, same reset.\n- Replace the 4 separate adders with one shared 16-bit adder/subtractor structure per stage is impossible (different operands per stage), but each stage adder is already minimal; instead narrow nothing (values are full 16-bit).\n- Merge the three separate always blocks that only shift a/b and s into fewer blocks to reduce mux/enable logic; keep flops.\n- Fold the carry-in into the adder as a single `+` with concatenated carry (already done) — keep.\n- Reduce logic levels by computing each stage sum as `a + b + cin` in one expression (already) and removing redundant `c<=c; s<=s;` else branches (enable folding is free).",
+      "synth": {
+        "ok": true,
+        "area": 484.386,
+        "ltp": 57,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 23,
+          "AND3_X1": 4,
+          "AOI211_X1": 5,
+          "AOI21_X1": 30,
+          "AOI221_X1": 3,
+          "INV_X1": 4,
+          "NAND2_X1": 57,
+          "NAND3_X1": 9,
+          "NAND4_X1": 3,
+          "NOR2_X1": 53,
+          "NOR3_X1": 9,
+          "OAI211_X1": 3,
+          "OAI21_X1": 21,
+          "OR2_X1": 14,
+          "OR3_X1": 6,
+          "OR4_X1": 3,
+          "XNOR2_X1": 81,
+          "XOR2_X1": 72
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[14]"
+        ],
+        "error": "",
+        "seconds": 0.27
+      },
+      "verify": null
+    },
+    {
+      "id": "c03",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 481.5 is good, but ltp=59 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "- Keep exact pipeline structure and FF reset/hold semantics; only simplify arithmetic.\n- Replace `{c,s} <= a+b+cin` with a single 16-bit adder plus carry-out: `{c,s} <= a + b + cin` is already one adder; use `a + b + {15'b0,cin}` to make carry-in explicit and cheap.\n- Narrow nothing (16-bit chunks are required by result width); remove redundant hold branches by using enable-only FFs.\n- Merge the three stage-enable FFs (stage1/2/3) into a single 3-bit shift register to cut FF count and logic.\n- Keep all data FFs as-is but write them with `if (en)` to let Yosys fold enables into FF enables (free), reducing mux logic.\n- Use one shared carry chain expression per stage; no resource sharing needed since stages are time-multiplexed.",
+      "synth": {
+        "ok": true,
+        "area": 481.46,
+        "ltp": 59,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 22,
+          "AND3_X1": 3,
+          "AOI211_X1": 4,
+          "AOI21_X1": 29,
+          "AOI221_X1": 4,
+          "INV_X1": 3,
+          "NAND2_X1": 56,
+          "NAND3_X1": 8,
+          "NAND4_X1": 3,
+          "NOR2_X1": 53,
+          "NOR3_X1": 7,
+          "OAI211_X1": 3,
+          "OAI21_X1": 23,
+          "OR2_X1": 13,
+          "OR3_X1": 4,
+          "OR4_X1": 2,
+          "XNOR2_X1": 81,
+          "XOR2_X1": 77
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[14]"
+        ],
+        "error": "",
+        "seconds": 0.28
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.07
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 1.27,
+          "trace_len": 0
+        },
+        "seconds": 1.41
+      }
+    },
+    {
+      "id": "c04",
+      "origin": "repair(c03)",
+      "parent": "c03",
+      "depth": 1,
+      "strategy": "datapath",
+      "status": "no-gain",
+      "problem": "[metrics] area 484.4 / ltp 57 is not better than baseline 484.4 / 57",
+      "plan": "- Restore stage1/stage2/stage3 as three independent FFs (as in original) instead of a 3-bit shift register, so enables are direct flop outputs.\n- Keep the explicit `else` hold branches in the adder stages to match the original enable logic exactly.\n- Keep the rest of the optimization (same arithmetic, same FFs) unchanged.\n- This affects only the enable path; the adder chain is unchanged, so function is preserved.",
+      "synth": {
+        "ok": true,
+        "area": 484.386,
+        "ltp": 57,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 23,
+          "AND3_X1": 4,
+          "AOI211_X1": 5,
+          "AOI21_X1": 30,
+          "AOI221_X1": 3,
+          "INV_X1": 4,
+          "NAND2_X1": 57,
+          "NAND3_X1": 9,
+          "NAND4_X1": 3,
+          "NOR2_X1": 53,
+          "NOR3_X1": 9,
+          "OAI211_X1": 3,
+          "OAI21_X1": 21,
+          "OR2_X1": 14,
+          "OR3_X1": 6,
+          "OR4_X1": 3,
+          "XNOR2_X1": 81,
+          "XOR2_X1": 72
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[14]"
+        ],
+        "error": "",
+        "seconds": 0.27
+      },
+      "verify": null
+    },
+    {
+      "id": "c05",
+      "origin": "init:logic",
+      "parent": null,
+      "depth": 0,
+      "strategy": "logic",
+      "status": "no-gain",
+      "problem": "[metrics] area 484.4 / ltp 57 is not better than baseline 484.4 / 57",
+      "plan": "- The four 16-bit adders are independent and each is a single + with carry-in; keep them but share nothing since they are in different pipeline stages (no resource sharing possible across stages).\n- The only real area is the 4 adders (each ~16 bits) plus the carry chain; the control is trivial. Reduce adder cost by using a single 17-bit add per stage instead of {c,s} concatenation, which is identical logic.\n- Remove redundant `else c<=c; s<=s;` hold branches by using enable-style if (they synthesize to the same enable, but cleaner).\n- Keep all pipeline registers and reset behavior identical; no logic reduction is possible without changing latency.\n- The XNOR/XOR count (81+72) comes from the adders; nothing to factor there.",
+      "synth": {
+        "ok": true,
+        "area": 484.386,
+        "ltp": 57,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 23,
+          "AND3_X1": 4,
+          "AOI211_X1": 5,
+          "AOI21_X1": 30,
+          "AOI221_X1": 3,
+          "INV_X1": 4,
+          "NAND2_X1": 57,
+          "NAND3_X1": 9,
+          "NAND4_X1": 3,
+          "NOR2_X1": 53,
+          "NOR3_X1": 9,
+          "OAI211_X1": 3,
+          "OAI21_X1": 21,
+          "OR2_X1": 14,
+          "OR3_X1": 6,
+          "OR4_X1": 3,
+          "XNOR2_X1": 81,
+          "XOR2_X1": 72
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[14]"
+        ],
+        "error": "",
+        "seconds": 0.26
+      },
+      "verify": null
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 345.3 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 345.268,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 9,
+          "AND3_X1": 5,
+          "AOI211_X1": 2,
+          "AOI21_X1": 26,
+          "INV_X1": 5,
+          "NAND2_X1": 14,
+          "NOR2_X1": 33,
+          "OAI21_X1": 36,
+          "OR2_X1": 25,
+          "OR3_X1": 4,
+          "XNOR2_X1": 89,
+          "XOR2_X1": 29
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[3]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.16
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.31
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 8.94,
+          "trace_len": 0
+        },
+        "seconds": 14.85
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 353.5 is good, but ltp=71 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 353.514,
+        "ltp": 71,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 21,
+          "AND3_X1": 10,
+          "AOI211_X1": 4,
+          "AOI21_X1": 32,
+          "INV_X1": 10,
+          "NAND2_X1": 17,
+          "NOR2_X1": 32,
+          "OAI21_X1": 30,
+          "OR2_X1": 17,
+          "OR3_X1": 10,
+          "XNOR2_X1": 83,
+          "XOR2_X1": 24
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[3]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.24
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.56
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 9.1,
+          "trace_len": 0
+        },
+        "seconds": 15.82
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 345.3 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 345.268,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 9,
+          "AND3_X1": 5,
+          "AOI211_X1": 2,
+          "AOI21_X1": 26,
+          "INV_X1": 5,
+          "NAND2_X1": 14,
+          "NOR2_X1": 33,
+          "OAI21_X1": 36,
+          "OR2_X1": 25,
+          "OR3_X1": 4,
+          "XNOR2_X1": 89,
+          "XOR2_X1": 29
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[3]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.06
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.67
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 9.04,
+          "trace_len": 0
+        },
+        "seconds": 16.36
+      }
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 353.5 is good, but ltp=71 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 353.514,
+        "ltp": 71,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 21,
+          "AND3_X1": 10,
+          "AOI211_X1": 4,
+          "AOI21_X1": 32,
+          "INV_X1": 10,
+          "NAND2_X1": 17,
+          "NOR2_X1": 32,
+          "OAI21_X1": 30,
+          "OR2_X1": 17,
+          "OR3_X1": 10,
+          "XNOR2_X1": 83,
+          "XOR2_X1": 24
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[3]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.19
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.61
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 9.2,
+          "trace_len": 0
+        },
+        "seconds": 14.87
+      }
+    },
+    {
+      "id": "c10",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 345.3 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 345.268,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 9,
+          "AND3_X1": 5,
+          "AOI211_X1": 2,
+          "AOI21_X1": 26,
+          "INV_X1": 5,
+          "NAND2_X1": 14,
+          "NOR2_X1": 33,
+          "OAI21_X1": 36,
+          "OR2_X1": 25,
+          "OR3_X1": 4,
+          "XNOR2_X1": 89,
+          "XOR2_X1": 29
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[3]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.23
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.66
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 9.1,
+          "trace_len": 0
+        },
+        "seconds": 16.18
+      }
+    },
+    {
+      "id": "c11",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 345.3 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 345.268,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 9,
+          "AND3_X1": 5,
+          "AOI211_X1": 2,
+          "AOI21_X1": 26,
+          "INV_X1": 5,
+          "NAND2_X1": 14,
+          "NOR2_X1": 33,
+          "OAI21_X1": 36,
+          "OR2_X1": 25,
+          "OR3_X1": 4,
+          "XNOR2_X1": 89,
+          "XOR2_X1": 29
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[3]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.61
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.83
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 9.63,
+          "trace_len": 0
+        },
+        "seconds": 17.06
+      }
+    },
+    {
+      "id": "c12",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 353.5 is good, but ltp=71 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 353.514,
+        "ltp": 71,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 21,
+          "AND3_X1": 10,
+          "AOI211_X1": 4,
+          "AOI21_X1": 32,
+          "INV_X1": 10,
+          "NAND2_X1": 17,
+          "NOR2_X1": 32,
+          "OAI21_X1": 30,
+          "OR2_X1": 17,
+          "OR3_X1": 10,
+          "XNOR2_X1": 83,
+          "XOR2_X1": 24
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[3]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.59
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.69
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 9.63,
+          "trace_len": 0
+        },
+        "seconds": 17.2
+      }
+    },
+    {
+      "id": "c13",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 524.6 / ltp 57 is not better than baseline 484.4 / 57",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 524.552,
+        "ltp": 57,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 41,
+          "AND3_X1": 15,
+          "AOI211_X1": 4,
+          "AOI21_X1": 30,
+          "INV_X1": 18,
+          "NAND2_X1": 40,
+          "NAND3_X1": 3,
+          "NOR2_X1": 52,
+          "NOR3_X1": 18,
+          "OAI211_X1": 7,
+          "OAI21_X1": 22,
+          "OR2_X1": 30,
+          "OR3_X1": 24,
+          "OR4_X1": 9,
+          "XNOR2_X1": 73,
+          "XOR2_X1": 57
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[0]",
+          "c1",
+          "c2",
+          "c3",
+          "result_reg[62]"
+        ],
+        "error": "",
+        "seconds": 3.18
+      },
+      "verify": null
+    },
+    {
+      "id": "c14",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 569.0 / ltp 44 is not better than baseline 484.4 / 57",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 568.974,
+        "ltp": 44,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 18,
+          "AND3_X1": 4,
+          "AND4_X1": 3,
+          "AOI211_X1": 12,
+          "AOI21_X1": 33,
+          "AOI221_X1": 3,
+          "AOI222_X1": 1,
+          "AOI22_X1": 8,
+          "INV_X1": 14,
+          "NAND2_X1": 57,
+          "NAND3_X1": 13,
+          "NAND4_X1": 6,
+          "NOR2_X1": 76,
+          "NOR3_X1": 6,
+          "NOR4_X1": 2,
+          "OAI211_X1": 12,
+          "OAI21_X1": 39,
+          "OAI22_X1": 9,
+          "OAI33_X1": 1,
+          "OR2_X1": 25,
+          "OR3_X1": 4,
+          "OR4_X1": 1,
+          "XNOR2_X1": 86,
+          "XOR2_X1": 53
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[0]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 4.73
+      },
+      "verify": null
+    },
+    {
+      "id": "c15",
+      "origin": "resynth:deep(c03)",
+      "parent": "c03",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 374.8 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep) of c03",
+      "synth": {
+        "ok": true,
+        "area": 374.794,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 20,
+          "AND3_X1": 20,
+          "AOI211_X1": 3,
+          "AOI21_X1": 33,
+          "INV_X1": 30,
+          "NAND2_X1": 40,
+          "NAND3_X1": 1,
+          "NOR2_X1": 35,
+          "NOR3_X1": 2,
+          "OAI211_X1": 4,
+          "OAI21_X1": 27,
+          "OR2_X1": 7,
+          "OR3_X1": 13,
+          "XNOR2_X1": 77,
+          "XOR2_X1": 17
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.83
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.86
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 8.9,
+          "trace_len": 0
+        },
+        "seconds": 16.37
+      }
+    },
+    {
+      "id": "c16",
+      "origin": "resynth:deep_s7(c03)",
+      "parent": "c03",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 364.7 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7) of c03",
+      "synth": {
+        "ok": true,
+        "area": 364.686,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 9,
+          "AND3_X1": 13,
+          "AOI211_X1": 4,
+          "AOI21_X1": 29,
+          "INV_X1": 23,
+          "NAND2_X1": 17,
+          "NAND3_X1": 2,
+          "NOR2_X1": 45,
+          "NOR3_X1": 4,
+          "OAI211_X1": 2,
+          "OAI21_X1": 27,
+          "OR2_X1": 23,
+          "OR3_X1": 4,
+          "XNOR2_X1": 87,
+          "XOR2_X1": 21
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[3]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.73
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 4.22
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 8.68,
+          "trace_len": 0
+        },
+        "seconds": 14.53
+      }
+    },
+    {
+      "id": "c17",
+      "origin": "resynth:deep_j400(c03)",
+      "parent": "c03",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 374.8 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_j400) of c03",
+      "synth": {
+        "ok": true,
+        "area": 374.794,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 20,
+          "AND3_X1": 20,
+          "AOI211_X1": 3,
+          "AOI21_X1": 33,
+          "INV_X1": 30,
+          "NAND2_X1": 40,
+          "NAND3_X1": 1,
+          "NOR2_X1": 35,
+          "NOR3_X1": 2,
+          "OAI211_X1": 4,
+          "OAI21_X1": 27,
+          "OR2_X1": 7,
+          "OR3_X1": 13,
+          "XNOR2_X1": 77,
+          "XOR2_X1": 17
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.64
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.48
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 8.8,
+          "trace_len": 0
+        },
+        "seconds": 14.17
+      }
+    },
+    {
+      "id": "c18",
+      "origin": "resynth:deep_s7_j400(c03)",
+      "parent": "c03",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 364.7 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of c03",
+      "synth": {
+        "ok": true,
+        "area": 364.686,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 9,
+          "AND3_X1": 13,
+          "AOI211_X1": 4,
+          "AOI21_X1": 29,
+          "INV_X1": 23,
+          "NAND2_X1": 17,
+          "NAND3_X1": 2,
+          "NOR2_X1": 45,
+          "NOR3_X1": 4,
+          "OAI211_X1": 2,
+          "OAI21_X1": 27,
+          "OR2_X1": 23,
+          "OR3_X1": 4,
+          "XNOR2_X1": 87,
+          "XOR2_X1": 21
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[3]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.69
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.71
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 8.66,
+          "trace_len": 0
+        },
+        "seconds": 14.08
+      }
+    },
+    {
+      "id": "c19",
+      "origin": "resynth:deep_i3(c03)",
+      "parent": "c03",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 374.8 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_i3) of c03",
+      "synth": {
+        "ok": true,
+        "area": 374.794,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 20,
+          "AND3_X1": 20,
+          "AOI211_X1": 3,
+          "AOI21_X1": 33,
+          "INV_X1": 30,
+          "NAND2_X1": 40,
+          "NAND3_X1": 1,
+          "NOR2_X1": 35,
+          "NOR3_X1": 2,
+          "OAI211_X1": 4,
+          "OAI21_X1": 27,
+          "OR2_X1": 7,
+          "OR3_X1": 13,
+          "XNOR2_X1": 77,
+          "XOR2_X1": 17
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 2.66
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.89
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 8.41,
+          "trace_len": 0
+        },
+        "seconds": 14.19
+      }
+    },
+    {
+      "id": "c20",
+      "origin": "resynth:deep_bd(c03)",
+      "parent": "c03",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 374.8 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_bd) of c03",
+      "synth": {
+        "ok": true,
+        "area": 374.794,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 20,
+          "AND3_X1": 20,
+          "AOI211_X1": 3,
+          "AOI21_X1": 33,
+          "INV_X1": 30,
+          "NAND2_X1": 40,
+          "NAND3_X1": 1,
+          "NOR2_X1": 35,
+          "NOR3_X1": 2,
+          "OAI211_X1": 4,
+          "OAI21_X1": 27,
+          "OR2_X1": 7,
+          "OR3_X1": 13,
+          "XNOR2_X1": 77,
+          "XOR2_X1": 17
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 3.28
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 4.44
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 8.56,
+          "trace_len": 0
+        },
+        "seconds": 15.2
+      }
+    },
+    {
+      "id": "c21",
+      "origin": "resynth:deep_s7_bds(c03)",
+      "parent": "c03",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 364.7 is good, but ltp=72 exceeds the baseline ltp=57. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of c03",
+      "synth": {
+        "ok": true,
+        "area": 364.686,
+        "ltp": 72,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 9,
+          "AND3_X1": 13,
+          "AOI211_X1": 4,
+          "AOI21_X1": 29,
+          "INV_X1": 23,
+          "NAND2_X1": 17,
+          "NAND3_X1": 2,
+          "NOR2_X1": 45,
+          "NOR3_X1": 4,
+          "OAI211_X1": 2,
+          "OAI21_X1": 27,
+          "OR2_X1": 23,
+          "OR3_X1": 4,
+          "XNOR2_X1": 87,
+          "XOR2_X1": 21
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[3]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 3.22
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_adder64.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 4.31
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 8.42,
+          "trace_len": 0
+        },
+        "seconds": 15.42
+      }
+    },
+    {
+      "id": "c22",
+      "origin": "resynth:dc2x3(c03)",
+      "parent": "c03",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 524.6 / ltp 57 is not better than baseline 484.4 / 57",
+      "plan": "ABC logic re-synthesis (dc2x3) of c03",
+      "synth": {
+        "ok": true,
+        "area": 524.552,
+        "ltp": 57,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 41,
+          "AND3_X1": 15,
+          "AOI211_X1": 4,
+          "AOI21_X1": 30,
+          "INV_X1": 18,
+          "NAND2_X1": 40,
+          "NAND3_X1": 3,
+          "NOR2_X1": 52,
+          "NOR3_X1": 18,
+          "OAI211_X1": 7,
+          "OAI21_X1": 22,
+          "OR2_X1": 30,
+          "OR3_X1": 24,
+          "OR4_X1": 9,
+          "XNOR2_X1": 73,
+          "XOR2_X1": 57
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[0]",
+          "c1",
+          "c2",
+          "c3",
+          "result_reg[62]"
+        ],
+        "error": "",
+        "seconds": 3.02
+      },
+      "verify": null
+    },
+    {
+      "id": "c23",
+      "origin": "resynth:syn2_dch(c03)",
+      "parent": "c03",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 602.8 / ltp 46 is not better than baseline 484.4 / 57",
+      "plan": "ABC logic re-synthesis (syn2_dch) of c03",
+      "synth": {
+        "ok": true,
+        "area": 602.756,
+        "ltp": 46,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 24,
+          "AND3_X1": 13,
+          "AND4_X1": 1,
+          "AOI211_X1": 11,
+          "AOI21_X1": 36,
+          "AOI221_X1": 3,
+          "AOI222_X1": 1,
+          "AOI22_X1": 7,
+          "INV_X1": 16,
+          "NAND2_X1": 71,
+          "NAND3_X1": 9,
+          "NAND4_X1": 8,
+          "NOR2_X1": 82,
+          "NOR3_X1": 11,
+          "NOR4_X1": 5,
+          "OAI211_X1": 13,
+          "OAI21_X1": 47,
+          "OAI221_X1": 6,
+          "OAI222_X1": 1,
+          "OAI22_X1": 7,
+          "OR2_X1": 19,
+          "OR3_X1": 9,
+          "OR4_X1": 3,
+          "XNOR2_X1": 80,
+          "XOR2_X1": 42
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[0]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 3.72
+      },
+      "verify": null
+    },
+    {
+      "id": "c24",
+      "origin": "rescue:pipeline",
+      "parent": null,
+      "depth": 0,
+      "strategy": "pipeline",
+      "status": "no-gain",
+      "problem": "[metrics] area 484.4 / ltp 57 is not better than baseline 484.4 / 57",
+      "plan": "- Keep the same 4-stage pipeline and same per-stage add/hold enables; only restructure operand capture.\n- Capture each 16-bit operand slice into flops at the same time as the corresponding add stage, so the adder inputs come straight from flops (shorter input-to-carry path), preserving exact cycle alignment.\n- Replace the wide 17-bit add with explicit 16-bit ripple add + carry-in, and precompute nothing extra that changes values.\n- Keep all output taps (s1_ff3, s2_ff2, s3_ff1, s4/c4) at identical delays; keep reset style and X behavior.\n- Narrow nothing observable; keep 16-bit slices and 1-bit carries exactly.",
+      "synth": {
+        "ok": true,
+        "area": 484.386,
+        "ltp": 57,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 23,
+          "AND3_X1": 4,
+          "AOI211_X1": 5,
+          "AOI21_X1": 30,
+          "AOI221_X1": 3,
+          "INV_X1": 4,
+          "NAND2_X1": 57,
+          "NAND3_X1": 9,
+          "NAND4_X1": 3,
+          "NOR2_X1": 53,
+          "NOR3_X1": 9,
+          "OAI211_X1": 3,
+          "OAI21_X1": 21,
+          "OR2_X1": 14,
+          "OR3_X1": 6,
+          "OR4_X1": 3,
+          "XNOR2_X1": 81,
+          "XOR2_X1": 72
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[14]"
+        ],
+        "error": "",
+        "seconds": 0.25
+      },
+      "verify": null
+    },
+    {
+      "id": "c25",
+      "origin": "rescue:storage",
+      "parent": null,
+      "depth": 0,
+      "strategy": "storage",
+      "status": "no-gain",
+      "problem": "[metrics] area 484.4 / ltp 57 is not better than baseline 484.4 / 57",
+      "plan": "- Keep the exact same pipeline registers and update conditions; only remove the redundant aN_ff/bN_ff chains by re-timing the operand capture into the stage that uses them (a2_ff1 == a2 delayed 1, used at stage1; a3_ff2 == a3 delayed 2, used at stage2; a4_ff3 == a4 delayed 3, used at stage3). Replace each with a single register capturing the operand at the cycle it is needed, i.e. capture aN/bN directly into the adder stage's input register with the same enable condition as the adder, eliminating the 1/2/3-deep shift chains.\n- Since s1_ff3/s2_ff2/s3_ff1 are just s1/s2/s3 delayed, and the adder stages already hold their sums, drop the separate s-delay chains and instead read the held sum registers directly at the output with the correct stage alignment: keep s1,s2,s3,s4 as the single sum registers and form result from them via the same number of pipeline delays already present in the enable chain.\n- Keep all reset values, X behaviour, and update conditions identical; only remove registers whose values are never observable (the intermediate aN_ff/bN_ff and sN_ff chains that are only used to feed later stages can be folded into the stage operand registers).\n- Narrow nothing that is observable; keep 16-bit datapath and 1-bit carries.",
+      "synth": {
+        "ok": true,
+        "area": 484.386,
+        "ltp": 57,
+        "cells": {
+          "$_DFFE_PN0P_": 68,
+          "$_DFF_PN0_": 292,
+          "AND2_X1": 23,
+          "AND3_X1": 4,
+          "AOI211_X1": 5,
+          "AOI21_X1": 30,
+          "AOI221_X1": 3,
+          "INV_X1": 4,
+          "NAND2_X1": 57,
+          "NAND3_X1": 9,
+          "NAND4_X1": 3,
+          "NOR2_X1": 53,
+          "NOR3_X1": 9,
+          "OAI211_X1": 3,
+          "OAI21_X1": 21,
+          "OR2_X1": 14,
+          "OR3_X1": 6,
+          "OR4_X1": 3,
+          "XNOR2_X1": 81,
+          "XOR2_X1": 72
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[14]"
+        ],
+        "error": "",
+        "seconds": 0.25
+      },
+      "verify": null
+    },
+    {
+      "id": "c26",
+      "origin": "repair(c06)",
+      "parent": "c06",
+      "depth": 1,
+      "strategy": "resynth",
+      "status": "format",
+      "problem": "No complete ```verilog block defining module `verified_adder_64bit` was found.",
+      "plan": "- I cannot produce a valid TRACE without the original RTL and the failing testcase.\n- I cannot safely “keep the logic” while shortening the longest path without seeing the current logic.\n- Please provide the original Verilog module, the testbench or first failing vector, and the timing/area constraints.\n- With that, I can restructure the critical path (e.g., rebalance combinational logic, pipeline where allowed, or factor shared terms) and return the corrected module.",
+      "synth": null,
+      "verify": null
+    },
+    {
+      "id": "c27",
+      "origin": "repair(c07)",
+      "parent": "c07",
+      "depth": 1,
+      "strategy": "resynth",
+      "status": "format",
+      "problem": "No complete ```verilog block defining module `verified_adder_64bit` was found.",
+      "plan": "- Reduce logic depth by restructuring the critical path into fewer combinational levels between registers.\n- Preserve the functionally correct area-optimized structure; only pipeline/rebalance the long chain.\n- Check whether the same long-chain pattern appears on other paths and apply the same shortening there.\n- Verify that the shortened chain still matches the original behavior on all cases.",
+      "synth": null,
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "46d9489de2181a12c39e9d46f2c2a2e2b76343ada7785915e65767143d5fd700",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": "deepseek-v4.1-flash",
+    "budget": {
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 9,
+      "max_refine": 2,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "proved"
+  },
+  "run": "official",
+  "runs_compared": [
+    "official",
+    "official_hi",
+    "official2"
+  ]
+}

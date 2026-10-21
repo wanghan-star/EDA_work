@@ -153,7 +153,7 @@ def prove_seq(cfg, gold_files, opt_files, top, info, workdir, depth=24, timeout=
     os.makedirs(workdir, exist_ok=True)
     if len(info.clocks) > 1:
         res.status = "skipped"
-        res.message = "multi-clock design: formal skipped, relying on simulation"
+        res.message = "multi-clock design: formal proof unsupported"
         return res
     vcd = os.path.join(workdir, "cex.vcd")
     script = miter_script(gold_files, opt_files, top, seq=True, ignore_x=True, modern=cfg.modern_yosys())

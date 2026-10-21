@@ -1,0 +1,1769 @@
+{
+  "top": "verified_asyn_fifo",
+  "input": "/home/hansome_w/backup/rtl_agent/cases/extra/asyn_fifo/verified_asyn_fifo.v",
+  "kind": "sequential",
+  "status": "optimized",
+  "tier": "relaxed",
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 72.618,
+    "ltp": 39,
+    "course_area": 54.264,
+    "course_ltp": 36,
+    "cells": {
+      "$_DFFE_PN0P_": 10,
+      "$_DFFE_PP_": 8,
+      "$_DFF_PN0_": 30,
+      "$memrd": 1,
+      "$memwr_v2": 1,
+      "$scopeinfo": 1,
+      "AND2_X1": 1,
+      "AND3_X1": 1,
+      "AOI21_X1": 1,
+      "AOI221_X1": 2,
+      "AOI22_X1": 1,
+      "INV_X1": 20,
+      "NAND2_X1": 2,
+      "NAND3_X1": 2,
+      "NAND4_X1": 1,
+      "NOR2_X1": 1,
+      "NOR3_X1": 13,
+      "OAI221_X1": 1,
+      "OAI22_X1": 1,
+      "OR2_X1": 1,
+      "XNOR2_X1": 7,
+      "XOR2_X1": 12
+    }
+  },
+  "optimized": {
+    "area": 67.564,
+    "ltp": 37,
+    "cells": {
+      "$_DFFE_PN0P_": 10,
+      "$_DFFE_PP_": 8,
+      "$_DFF_PN0_": 30,
+      "$memrd": 1,
+      "$memwr_v2": 1,
+      "AND2_X1": 14,
+      "AOI21_X1": 2,
+      "AOI22_X1": 1,
+      "INV_X1": 6,
+      "NAND2_X1": 2,
+      "NAND3_X1": 2,
+      "NAND4_X1": 2,
+      "NOR2_X1": 1,
+      "NOR3_X1": 2,
+      "OAI221_X1": 1,
+      "XNOR2_X1": 9,
+      "XOR2_X1": 13
+    },
+    "candidate": "c05"
+  },
+  "verification": {
+    "ok": false,
+    "relaxed": true,
+    "stage": "sim-relaxed",
+    "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+    "mismatch": {
+      "kind": "event",
+      "time": 165000,
+      "signal": "rempty",
+      "gold_only_events": [
+        [
+          165000,
+          "0"
+        ],
+        [
+          205000,
+          "1"
+        ],
+        [
+          255000,
+          "1"
+        ]
+      ],
+      "opt_only_events": [],
+      "inputs": {
+        "wclk": "1",
+        "rclk": "1",
+        "wrstn": "1",
+        "rrstn": "1",
+        "winc": "0",
+        "rinc": "0",
+        "wdata": "111110"
+      },
+      "inputs_prev": {
+        "wclk": "1",
+        "rclk": "0",
+        "wrstn": "1",
+        "rrstn": "1",
+        "winc": "0",
+        "rinc": "0",
+        "wdata": "111110"
+      },
+      "outputs_gold": {
+        "wfull": "0",
+        "rempty": "0"
+      },
+      "outputs_opt": {
+        "wfull": "0",
+        "rempty": "0"
+      },
+      "stimulus": "reset_first",
+      "cycle": 16
+    },
+    "evidence": "sim: 15000 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+    "sim": {
+      "ok": false,
+      "relaxed_ok": true,
+      "error": "",
+      "mismatch": {
+        "kind": "event",
+        "time": 165000,
+        "signal": "rempty",
+        "gold_only_events": [
+          [
+            165000,
+            "0"
+          ],
+          [
+            205000,
+            "1"
+          ],
+          [
+            255000,
+            "1"
+          ]
+        ],
+        "opt_only_events": [],
+        "inputs": {
+          "wclk": "1",
+          "rclk": "1",
+          "wrstn": "1",
+          "rrstn": "1",
+          "winc": "0",
+          "rinc": "0",
+          "wdata": "111110"
+        },
+        "inputs_prev": {
+          "wclk": "1",
+          "rclk": "0",
+          "wrstn": "1",
+          "rrstn": "1",
+          "winc": "0",
+          "rinc": "0",
+          "wdata": "111110"
+        },
+        "outputs_gold": {
+          "wfull": "0",
+          "rempty": "0"
+        },
+        "outputs_opt": {
+          "wfull": "0",
+          "rempty": "0"
+        },
+        "stimulus": "reset_first",
+        "cycle": 16
+      },
+      "bad_outputs": [
+        "wfull",
+        "rempty"
+      ],
+      "n_vectors": 15000,
+      "seconds": 1.3
+    },
+    "formal": {
+      "kind": "seq",
+      "status": "skipped",
+      "depth": 0,
+      "message": "multi-clock design: formal proof unsupported",
+      "seconds": 0.0,
+      "trace_len": 0
+    },
+    "seconds": 1.65
+  },
+  "usage": {
+    "calls": 7,
+    "logical_calls": 7,
+    "prompt_tokens": 18322,
+    "completion_tokens": 10229,
+    "reasoning_tokens": 0,
+    "cached_tokens": 8704,
+    "total_tokens": 28551,
+    "llm_seconds": 61.3
+  },
+  "runtime_s": 51.5,
+  "stop_reason": "no further gain",
+  "graph_trace": [
+    [
+      "setup",
+      0.59
+    ],
+    [
+      "generate",
+      9.34
+    ],
+    [
+      "evaluate",
+      0.31
+    ],
+    [
+      "refine",
+      9.35
+    ],
+    [
+      "evaluate_refine",
+      0.34
+    ],
+    [
+      "resynth",
+      6.57
+    ],
+    [
+      "evaluate_resynth",
+      2.21
+    ],
+    [
+      "rescue",
+      10.7
+    ],
+    [
+      "evaluate",
+      0.37
+    ],
+    [
+      "refine",
+      9.24
+    ],
+    [
+      "evaluate_refine",
+      0.37
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Inline dual_port_RAM into top module (no submodule).\n- Keep all registers and control structure identical.\n- Narrow waddr_bin/raddr_bin to ADDR_WIDTH bits (they only need ADDR_WIDTH bits for addressing; the extra bit is used for full/empty detection via Gray code, so must keep ADDR_WIDTH+1 bits).\n- Actually the extra bit is needed for full/empty detection. Keep as is.\n- Remove redundant wire declarations and simplify.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.3
+      },
+      "verify": null
+    },
+    {
+      "id": "c02",
+      "origin": "init:sequential",
+      "parent": null,
+      "depth": 0,
+      "strategy": "sequential",
+      "status": "no-gain",
+      "problem": "[metrics] area 76.9 / ltp 34 is not better than baseline 72.6 / 39",
+      "plan": "- Inline `dual_port_RAM` into top module to eliminate hierarchy overhead.\n- Replace separate `waddr_bin`/`wptr` registers with a single gray-coded pointer register, computing binary address from gray for RAM addressing (saves XOR logic and one register stage).\n- Compute `wfull`/`rempty` directly from gray pointers using the standard gray comparison, eliminating binary-to-gray conversion logic.\n- Keep sync chains but narrow them to only the bits needed for comparison (ADDR_WIDTH bits instead of ADDR_WIDTH+1).\n- Use `assign` for combinational outputs and keep procedural assignments for `wfull`/`rempty` as required.",
+      "synth": {
+        "ok": true,
+        "area": 76.874,
+        "ltp": 34,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 20,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 1,
+          "AOI211_X1": 2,
+          "AOI21_X1": 4,
+          "INV_X1": 21,
+          "MUX2_X1": 4,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NOR2_X1": 3,
+          "NOR3_X1": 13,
+          "OAI21_X1": 2,
+          "OAI221_X1": 1,
+          "OAI22_X1": 2,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 8
+        },
+        "n_ff": 38,
+        "ltp_path": [
+          "wrstn",
+          "rptr_syn[4]",
+          "wptr[0]",
+          "wptr_buff[0]",
+          "wptr_syn[0]",
+          "rptr[0]",
+          "rptr_buff[0]",
+          "rptr_syn[0]"
+        ],
+        "error": "",
+        "seconds": 0.3
+      },
+      "verify": null
+    },
+    {
+      "id": "c03",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Keep all registers and their reset/enable structure identical; only simplify combinational Gray/compare logic.\n- Replace the two-stage synchronizer chain with identical register stages (no change) but compute `wfull`/`rempty` with narrower XOR/compare logic by comparing Gray codes directly via the known relation: full/empty tests can be expressed on the binary counters to reduce XOR/XNOR area.\n- Since `wptr`/`rptr` are registered Gray codes, keep them as registers but derive `wfull`/`rempty` from the synchronized Gray values using a compact equality test (XOR-reduce) rather than wide XNOR trees.\n- Narrow the address outputs to `ADDR_WIDTH` bits (already done) and keep RAM inline to remove submodule overhead.\n- Preserve exact procedural assignment style for `wfull`/`rempty` as continuous assigns (original uses assign), and keep all reset/clock edges.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.3
+      },
+      "verify": null
+    },
+    {
+      "id": "c04",
+      "origin": "init:logic",
+      "parent": null,
+      "depth": 0,
+      "strategy": "logic",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Keep all registers and reset structure identical (registers are free; sync/enable folding not applicable since resets are async).\n- Replace the two separate gray encoders with a single shared function/inline expression; gray = bin ^ (bin>>1) is already minimal (XOR2 per bit).\n- wfull comparison: instead of comparing full (ADDR_WIDTH+1) bits with inverted top bit, note it equals `wptr == (rptr_syn ^ {1'b1,{ADDR_WIDTH{1'b0}}})` — same XOR2 cost; keep as-is but factor the inverted-top constant.\n- rempty: direct equality of two (ADDR_WIDTH+1)-bit vectors — keep.\n- Remove redundant `waddr[ADDR_WIDTH-1:0]` re-slicing (already correct width); inline RAM to avoid hierarchy overhead but keep identical behavior.\n- No logic reduction possible without changing cycle behavior; focus on removing duplicate slicing and keeping minimal XOR/XNOR compare trees.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.33
+      },
+      "verify": null
+    },
+    {
+      "id": "c05",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `rempty` has the same settled values but the original also produces events [(165000, '0'), (205000, '1'), (255000, '1')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "rptr_buff[0]",
+          "rptr_syn[0]",
+          "dual_port_RAM.waddr[3]",
+          "waddr_bin_reg[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "dual_port_RAM.raddr[3]",
+          "raddr_bin_reg[4]",
+          "rptr[4]",
+          "rptr_buff[4]",
+          "rptr_syn[4]"
+        ],
+        "error": "",
+        "seconds": 0.9
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 165000,
+          "signal": "rempty",
+          "gold_only_events": [
+            [
+              165000,
+              "0"
+            ],
+            [
+              205000,
+              "1"
+            ],
+            [
+              255000,
+              "1"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "wclk": "1",
+            "rclk": "1",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "inputs_prev": {
+            "wclk": "1",
+            "rclk": "0",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "outputs_gold": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "outputs_opt": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 16
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 165000,
+            "signal": "rempty",
+            "gold_only_events": [
+              [
+                165000,
+                "0"
+              ],
+              [
+                205000,
+                "1"
+              ],
+              [
+                255000,
+                "1"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "wclk": "1",
+              "rclk": "1",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "inputs_prev": {
+              "wclk": "1",
+              "rclk": "0",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "outputs_gold": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "outputs_opt": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 16
+          },
+          "bad_outputs": [
+            "wfull",
+            "rempty"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.53
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "skipped",
+          "depth": 0,
+          "message": "multi-clock design: formal proof unsupported",
+          "seconds": 0.0,
+          "trace_len": 0
+        },
+        "seconds": 0.77
+      }
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `rempty` has the same settled values but the original also produces events [(165000, '0'), (205000, '1'), (255000, '1')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "rptr_buff[0]",
+          "rptr_syn[0]",
+          "dual_port_RAM.waddr[3]",
+          "waddr_bin_reg[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "dual_port_RAM.raddr[3]",
+          "raddr_bin_reg[4]",
+          "rptr[4]",
+          "rptr_buff[4]",
+          "rptr_syn[4]"
+        ],
+        "error": "",
+        "seconds": 0.83
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 165000,
+          "signal": "rempty",
+          "gold_only_events": [
+            [
+              165000,
+              "0"
+            ],
+            [
+              205000,
+              "1"
+            ],
+            [
+              255000,
+              "1"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "wclk": "1",
+            "rclk": "1",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "inputs_prev": {
+            "wclk": "1",
+            "rclk": "0",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "outputs_gold": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "outputs_opt": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 16
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 165000,
+            "signal": "rempty",
+            "gold_only_events": [
+              [
+                165000,
+                "0"
+              ],
+              [
+                205000,
+                "1"
+              ],
+              [
+                255000,
+                "1"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "wclk": "1",
+              "rclk": "1",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "inputs_prev": {
+              "wclk": "1",
+              "rclk": "0",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "outputs_gold": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "outputs_opt": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 16
+          },
+          "bad_outputs": [
+            "wfull",
+            "rempty"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.52
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "skipped",
+          "depth": 0,
+          "message": "multi-clock design: formal proof unsupported",
+          "seconds": 0.0,
+          "trace_len": 0
+        },
+        "seconds": 0.77
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `rempty` has the same settled values but the original also produces events [(165000, '0'), (205000, '1'), (255000, '1')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "rptr_buff[0]",
+          "rptr_syn[0]",
+          "dual_port_RAM.waddr[3]",
+          "waddr_bin_reg[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "dual_port_RAM.raddr[3]",
+          "raddr_bin_reg[4]",
+          "rptr[4]",
+          "rptr_buff[4]",
+          "rptr_syn[4]"
+        ],
+        "error": "",
+        "seconds": 0.88
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 165000,
+          "signal": "rempty",
+          "gold_only_events": [
+            [
+              165000,
+              "0"
+            ],
+            [
+              205000,
+              "1"
+            ],
+            [
+              255000,
+              "1"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "wclk": "1",
+            "rclk": "1",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "inputs_prev": {
+            "wclk": "1",
+            "rclk": "0",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "outputs_gold": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "outputs_opt": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 16
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 165000,
+            "signal": "rempty",
+            "gold_only_events": [
+              [
+                165000,
+                "0"
+              ],
+              [
+                205000,
+                "1"
+              ],
+              [
+                255000,
+                "1"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "wclk": "1",
+              "rclk": "1",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "inputs_prev": {
+              "wclk": "1",
+              "rclk": "0",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "outputs_gold": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "outputs_opt": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 16
+          },
+          "bad_outputs": [
+            "wfull",
+            "rempty"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.49
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "skipped",
+          "depth": 0,
+          "message": "multi-clock design: formal proof unsupported",
+          "seconds": 0.0,
+          "trace_len": 0
+        },
+        "seconds": 0.72
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `rempty` has the same settled values but the original also produces events [(165000, '0'), (205000, '1'), (255000, '1')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "rptr_buff[0]",
+          "rptr_syn[0]",
+          "dual_port_RAM.waddr[3]",
+          "waddr_bin_reg[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "dual_port_RAM.raddr[3]",
+          "raddr_bin_reg[4]",
+          "rptr[4]",
+          "rptr_buff[4]",
+          "rptr_syn[4]"
+        ],
+        "error": "",
+        "seconds": 0.83
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 165000,
+          "signal": "rempty",
+          "gold_only_events": [
+            [
+              165000,
+              "0"
+            ],
+            [
+              205000,
+              "1"
+            ],
+            [
+              255000,
+              "1"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "wclk": "1",
+            "rclk": "1",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "inputs_prev": {
+            "wclk": "1",
+            "rclk": "0",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "outputs_gold": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "outputs_opt": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 16
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 165000,
+            "signal": "rempty",
+            "gold_only_events": [
+              [
+                165000,
+                "0"
+              ],
+              [
+                205000,
+                "1"
+              ],
+              [
+                255000,
+                "1"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "wclk": "1",
+              "rclk": "1",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "inputs_prev": {
+              "wclk": "1",
+              "rclk": "0",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "outputs_gold": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "outputs_opt": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 16
+          },
+          "bad_outputs": [
+            "wfull",
+            "rempty"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.52
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "skipped",
+          "depth": 0,
+          "message": "multi-clock design: formal proof unsupported",
+          "seconds": 0.0,
+          "trace_len": 0
+        },
+        "seconds": 0.69
+      }
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `rempty` has the same settled values but the original also produces events [(165000, '0'), (205000, '1'), (255000, '1')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "rptr_buff[0]",
+          "rptr_syn[0]",
+          "dual_port_RAM.waddr[3]",
+          "waddr_bin_reg[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "dual_port_RAM.raddr[3]",
+          "raddr_bin_reg[4]",
+          "rptr[4]",
+          "rptr_buff[4]",
+          "rptr_syn[4]"
+        ],
+        "error": "",
+        "seconds": 0.85
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 165000,
+          "signal": "rempty",
+          "gold_only_events": [
+            [
+              165000,
+              "0"
+            ],
+            [
+              205000,
+              "1"
+            ],
+            [
+              255000,
+              "1"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "wclk": "1",
+            "rclk": "1",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "inputs_prev": {
+            "wclk": "1",
+            "rclk": "0",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "outputs_gold": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "outputs_opt": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 16
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 165000,
+            "signal": "rempty",
+            "gold_only_events": [
+              [
+                165000,
+                "0"
+              ],
+              [
+                205000,
+                "1"
+              ],
+              [
+                255000,
+                "1"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "wclk": "1",
+              "rclk": "1",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "inputs_prev": {
+              "wclk": "1",
+              "rclk": "0",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "outputs_gold": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "outputs_opt": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 16
+          },
+          "bad_outputs": [
+            "wfull",
+            "rempty"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.47
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "skipped",
+          "depth": 0,
+          "message": "multi-clock design: formal proof unsupported",
+          "seconds": 0.0,
+          "trace_len": 0
+        },
+        "seconds": 0.71
+      }
+    },
+    {
+      "id": "c10",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 73.2 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 73.15,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 19,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 14,
+          "OAI21_X1": 1,
+          "OAI221_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 11
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "rptr_buff[0]",
+          "rptr_syn[0]",
+          "dual_port_RAM.waddr[3]",
+          "waddr_bin_reg[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "dual_port_RAM.raddr[3]",
+          "raddr_bin_reg[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 0.87
+      },
+      "verify": null
+    },
+    {
+      "id": "c11",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 73.2 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 73.15,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 19,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 14,
+          "OAI21_X1": 1,
+          "OAI221_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 11
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "rptr_buff[0]",
+          "rptr_syn[0]",
+          "dual_port_RAM.waddr[3]",
+          "waddr_bin_reg[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "dual_port_RAM.raddr[3]",
+          "raddr_bin_reg[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 0.89
+      },
+      "verify": null
+    },
+    {
+      "id": "c12",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 77.4 / ltp 46 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 77.406,
+        "ltp": 46,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 2,
+          "AOI211_X1": 14,
+          "AOI21_X1": 2,
+          "INV_X1": 15,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 4,
+          "NOR3_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 6,
+          "XOR2_X1": 16
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "rptr_buff[0]",
+          "rptr_syn[0]",
+          "waddr_bin_reg[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "...",
+          "wptr[3]",
+          "wptr_buff[3]",
+          "wptr_syn[3]",
+          "dual_port_RAM.raddr[3]",
+          "rptr[2]",
+          "rptr_buff[2]",
+          "rptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.86
+      },
+      "verify": null
+    },
+    {
+      "id": "c13",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 73.2 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 73.15,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "INV_X1": 21,
+          "NAND2_X1": 3,
+          "NAND3_X1": 3,
+          "NAND4_X1": 1,
+          "NOR2_X1": 2,
+          "NOR3_X1": 13,
+          "NOR4_X1": 1,
+          "OAI21_X1": 1,
+          "OAI221_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 11
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "rptr_buff[0]",
+          "rptr_syn[0]",
+          "dual_port_RAM.waddr[3]",
+          "waddr_bin_reg[4]",
+          "wptr[3]",
+          "wptr_buff[3]",
+          "wptr_syn[3]",
+          "dual_port_RAM.raddr[3]",
+          "raddr_bin_reg[4]",
+          "rptr[4]",
+          "rptr_buff[4]",
+          "rptr_syn[4]"
+        ],
+        "error": "",
+        "seconds": 0.59
+      },
+      "verify": null
+    },
+    {
+      "id": "c14",
+      "origin": "rescue:pipeline",
+      "parent": null,
+      "depth": 0,
+      "strategy": "pipeline",
+      "status": "no-gain",
+      "problem": "[metrics] area 74.7 / ltp 38 is not better than baseline 72.6 / 39",
+      "plan": "- Keep all registers, reset style, and the exact procedural assignment structure for `wfull`/`rempty` (they are `assign` wires in original, keep as continuous assigns).\n- Precompute the Gray-code compare operands one stage earlier: register `rptr_syn` already exists; instead of comparing `wptr` against a transformed `rptr_syn` combinationally, register the transformed value `{~rptr_syn[ADDR_WIDTH], rptr_syn[ADDR_WIDTH-1:0]}` as `rptr_syn_cmp` in the same wclk sync stage, so `wfull` is a plain equality of two registers (shallow XOR/XNOR tree only).\n- Similarly register `wptr_syn` directly (already done) so `rempty` is a plain equality of two registers.\n- Compute `waddr_gray`/`raddr_gray` from `waddr_bin`/`raddr_bin` and register into `wptr`/`rptr` as before; move the Gray XOR into the flop input (free, since flops are not counted) — keep the same next-state function.\n- Narrow nothing (addresses must stay full width for correctness); eliminate the redundant `waddr`/`raddr` wire slicing by using `waddr_bin[ADDR_WIDTH-1:0]` directly in RAM instantiation.",
+      "synth": {
+        "ok": true,
+        "area": 74.746,
+        "ltp": 38,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 23,
+          "NAND2_X1": 2,
+          "NAND3_X1": 3,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 14,
+          "OAI221_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 10,
+          "XOR2_X1": 10
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[4]",
+          "rptr_buff[4]",
+          "rptr_syn_cmp[4]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.37
+      },
+      "verify": null
+    },
+    {
+      "id": "c15",
+      "origin": "rescue:storage",
+      "parent": null,
+      "depth": 0,
+      "strategy": "storage",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Replace the dual_port_RAM submodule with an inline memory array and registered read data, keeping identical write/read enable and address behavior.\n- Keep all pointer registers, Gray encoding, synchronizers, and comparison logic exactly as in the original to preserve cycle-exact outputs.\n- Remove the separate `waddr`/`raddr` wires and use `waddr_bin[ADDR_WIDTH-1:0]`/`raddr_bin[ADDR_WIDTH-1:0]` directly as addresses.\n- Keep `wfull` and `rempty` as continuous assignments with the same expressions and intermediate values.\n- Inline the RAM to eliminate submodule overhead and allow synthesis to optimize the memory read path.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.37
+      },
+      "verify": null
+    },
+    {
+      "id": "c16",
+      "origin": "init:minimal",
+      "parent": null,
+      "depth": 0,
+      "strategy": "minimal",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Inline `dual_port_RAM` as a memory array with the same write/read always blocks (registers/memory free; keeps exact behavior).\n- Keep all registers and their reset/if-else structure identical to preserve X and cycle behavior.\n- Replace the two separate `waddr_bin`/`wptr` register pairs with the same logic but compute Gray directly in the pointer register update to remove the separate `waddr_gray`/`raddr_gray` wires and one register stage of combinational XOR (fold XOR into the flop input).\n- Keep `wfull`/`rempty` compares as-is (they are the minimal compare logic); no extra operators.\n- Narrow nothing observable; keep ADDR_WIDTH+1 bits since full/empty compares use the MSB.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.37
+      },
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "9d197e9a06e2f1144fbda0f41ac3e989f55ccbe8079e1e4021127b8d6dbc93dc",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": "deepseek-v4.1-flash",
+    "budget": {
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 8,
+      "max_refine": 2,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "proved"
+  },
+  "gain": {
+    "area_pct": -6.96,
+    "ltp_pct": -5.13
+  },
+  "run": "final2x",
+  "runs_compared": [
+    "final2x",
+    "extra2"
+  ]
+}

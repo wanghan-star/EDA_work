@@ -38,7 +38,7 @@ STRATEGIES = {
     "fsm": "Focus: control/FSM. Re-encode states (one-hot or output-encoded) so that outputs and frequently decoded conditions come directly from flops; merge equivalent states and counters; simplify next-state logic. Keep outputs identical every cycle, including before reset if the original drives them through if/else.",
 }
 
-RESCUE_SEQ = ["pipeline", "storage", "fsm", "minimal", "logic"]
+RESCUE_SEQ = ["pipeline", "logic", "minimal", "storage", "fsm"]
 RESCUE_COMB = ["minimal", "logic", "datapath"]
 
 

@@ -3,7 +3,7 @@
 import os
 
 from . import formal
-from .simcheck import GoldSim, replay_trace
+from .simcheck import CourseTB, GoldSim, replay_trace
 from .synth import analyze, lint
 from .tbgen import default_stimuli
 
@@ -25,6 +25,8 @@ class VerifyResult:
             verdict = "PASS" if self.sim.ok else ("RELAXED-PASS (power-up X / glitch events differ)"
                                                   if self.sim.relaxed_ok else "FAIL")
             parts.append(f"sim: {self.sim.n_vectors} vectors/cycles strict-VCD {verdict}")
+            if getattr(self.sim, "course_passed", None):
+                parts.append("course stimuli PASS: " + ", ".join(k.split(":", 1)[-1] for k in self.sim.course_passed))
         if self.formal is not None:
             f = self.formal
             if f.status == "proved":
@@ -43,15 +45,25 @@ class VerifyResult:
                 "seconds": round(self.seconds, 2)}
 
 
+# Formal outcomes accepted per policy (strict 4-state simulation must pass in every case).
+#   proved : only complete proofs (ABC iprove for comb, temporal induction for seq)
+#   bounded: also bounded model checks without counter-example, multi-clock designs that cannot be
+#            modelled (simulation only) and solver time-outs / non-reproducible 2-valued traces
+ACCEPTED_FORMAL = {"proved": ("proved",), "bounded": ("proved", "bounded", "skipped", "unknown")}
+
+
 class Verifier:
-    def __init__(self, cfg, info, gold_files, workdir, budget="normal", formal_timeout=90):
+    def __init__(self, cfg, info, gold_files, workdir, budget="normal", formal_timeout=90, accept="bounded",
+                 course_tbs=()):
+        self.accept = accept if accept in ACCEPTED_FORMAL else "bounded"
         self.cfg, self.info = cfg, info
         self.gold_files = [os.path.abspath(f) for f in gold_files]
         self.workdir = workdir
         self.budget = budget
         self.formal_timeout = formal_timeout
-        self.gold = GoldSim(cfg, info, self.gold_files, default_stimuli(info, budget),
-                            os.path.join(workdir, "sim"))
+        # provided course testbenches (stim_*.v) are run exactly like the course checker, strictly
+        stimuli = list(default_stimuli(info, budget)) + [CourseTB(p) for p in course_tbs]
+        self.gold = GoldSim(cfg, info, self.gold_files, stimuli, os.path.join(workdir, "sim"))
         self.ready = False
 
     def prepare(self):
@@ -103,9 +115,9 @@ class Verifier:
             res.message = f"simulation mismatch on {sres.bad_outputs}"
             res.seconds = time.time() - t0
             return res
-        if sres.relaxed_ok:
+        waveform_relaxed = not sres.ok and sres.relaxed_ok
+        if waveform_relaxed:
             # functionally identical after reset; differs only in power-up X / zero-width events
-            res.relaxed = True
             res.mismatch = sres.mismatch
             res.message = f"strict waveform mismatch on {sres.bad_outputs} (power-up X / zero-width events only)"
         if do_formal:
@@ -128,9 +140,22 @@ class Verifier:
                     res.message = "formal counter-example confirmed in simulation"
                     res.seconds = time.time() - t0
                     return res
-                fr.status = "unknown"
+                # never accepted: the 2-valued trace may be an X artefact or a real bug the replay missed
+                fr.status = "unconfirmed-cex"
                 fr.message = "2-valued counter-example not reproducible in 4-state simulation (X semantics)"
-        if res.relaxed:
+            if fr.status not in ACCEPTED_FORMAL[self.accept]:
+                res.stage = "formal"
+                res.message = (f"formal evidence not accepted under --accept {self.accept}: "
+                               f"{fr.status} ({fr.message})")
+                res.seconds = time.time() - t0
+                return res
+        else:
+            res.stage = "formal"
+            res.message = "formal proof required: verification was disabled"
+            res.seconds = time.time() - t0
+            return res
+        if waveform_relaxed:
+            res.relaxed = True
             res.stage = "sim-relaxed"
             res.seconds = time.time() - t0
             return res

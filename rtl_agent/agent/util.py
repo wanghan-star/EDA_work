@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+import signal
 import subprocess
 import sys
 import threading
@@ -35,11 +36,25 @@ def run_cmd(cmd, cwd=None, timeout=None, env=None, input_text=None):
     """Run a command; returns (returncode, stdout, stderr, seconds). Never raises on failure."""
     t0 = time.time()
     try:
-        p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, errors="replace",
-                           timeout=timeout, env=env, input=input_text)
-        return p.returncode, p.stdout, p.stderr, time.time() - t0
-    except subprocess.TimeoutExpired as e:
-        return -9, _to_text(e.stdout), _to_text(e.stderr) + "\n[TIMEOUT]", time.time() - t0
+        # Yosys launches ABC children. A separate POSIX session lets a timeout stop
+        # only this invocation's process tree, including children holding pipe handles.
+        with subprocess.Popen(cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                              stdin=subprocess.PIPE if input_text is not None else None,
+                              text=True, errors="replace", env=env,
+                              start_new_session=(os.name == "posix")) as p:
+            try:
+                out, err = p.communicate(input=input_text, timeout=timeout)
+                return p.returncode, out, err, time.time() - t0
+            except subprocess.TimeoutExpired:
+                if os.name == "posix":
+                    try:
+                        os.killpg(p.pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+                else:
+                    p.kill()
+                out, err = p.communicate()
+                return -9, out, err + "\n[TIMEOUT]", time.time() - t0
     except FileNotFoundError as e:
         return -127, "", f"[NOT FOUND] {e}", time.time() - t0
 

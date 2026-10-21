@@ -6,7 +6,9 @@
 """
 
 import argparse
+import re
 import glob
+import hashlib
 import os
 import sys
 import time
@@ -34,7 +36,8 @@ def _looks_like_testbench(path):
     if re.match(r"^(tb|stim|test|testbench)[_.]", base) or re.search(r"_(tb|test|testbench)\.v$", base):
         return True
     try:
-        text = open(path, encoding="utf-8", errors="replace").read()
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            text = fh.read()
     except OSError:
         return True
     text = re.sub(r"//[^\n]*|/\*.*?\*/", "", text, flags=re.S)
@@ -42,11 +45,24 @@ def _looks_like_testbench(path):
     return bool(mods) and all(sep == ";" for _p, sep in mods)
 
 
-def run_one(cfg, rtl, outdir, top, budget, keep, resynth="full", allow_mem=False):
+def course_testbenches(rtl, explicit=()):
+    """Explicit --tb files, else course-style stimuli (stim_*.v / tb_*.v) next to the design."""
+    if explicit:
+        return [os.path.abspath(p) for p in explicit]
+    folder = os.path.dirname(os.path.abspath(rtl))
+    return sorted(os.path.join(folder, f) for f in os.listdir(folder)
+                  if f.endswith(".v") and re.match(r"^(stim|tb)_", f, re.I))
+
+
+def run_one(cfg, rtl, outdir, top, budget, keep, resynth="full", allow_mem=False, allow_relaxed=True,
+            accept="bounded", tbs=()):
     b = dict(BUDGETS[budget])
     b["resynth"] = resynth
     b["allow_mem"] = allow_mem
-    st = optimize(cfg, rtl, outdir, top=top, budget=Budget(**b), keep_work=keep)
+    b["allow_relaxed"] = allow_relaxed
+    b["accept"] = accept
+    st = optimize(cfg, rtl, outdir, top=top, budget=Budget(**b), keep_work=keep,
+                  course_tbs=course_testbenches(rtl, tbs))
     u = st.usage.to_dict()
     if st.final:
         b, f = st.base, st.final.synth
@@ -58,15 +74,79 @@ def run_one(cfg, rtl, outdir, top, budget, keep, resynth="full", allow_mem=False
     return st
 
 
+def batch_cases(folder, out_root):
+    """Discover designs once, exclude prior output, and assign unique directory names."""
+    folder, out_root = os.path.abspath(folder), os.path.abspath(out_root)
+    def in_output(path):
+        try:
+            return os.path.commonpath([os.path.abspath(path), out_root]) == out_root
+        except ValueError:
+            return False  # different Windows drives
+
+    files = [f for f in sorted(glob.glob(os.path.join(folder, "**", "*.v"), recursive=True))
+             if not in_output(f)
+             and not _looks_like_testbench(f)]
+    names = []
+    for f in files:
+        parent = os.path.basename(os.path.dirname(f))
+        stem = os.path.splitext(os.path.basename(f))[0]
+        siblings = sum(os.path.dirname(g) == os.path.dirname(f) for g in files)
+        names.append(parent if siblings == 1 else f"{parent}_{stem}")
+    used = set()
+    cases = []
+    for f, name in zip(files, names):
+        if names.count(name) > 1 or name.casefold() in used:
+            rel = os.path.relpath(f, folder).replace(os.sep, "/")
+            name += "_" + hashlib.sha256(rel.encode("utf-8")).hexdigest()[:12]
+        while name.casefold() in used:
+            name += "_"
+        used.add(name.casefold())
+        cases.append((f, name))
+    return cases
+
+
+def failure_result(rtl, outdir, exc):
+    """Persist a case failure so a batch can continue and reports remain consumable."""
+    message = f"{type(exc).__name__}: {exc}"
+    d = {"input": os.path.abspath(rtl), "top": None, "kind": None, "status": "error",
+         "error": message, "tier": None, "baseline": {"area": None, "ltp": None},
+         "optimized": {"area": None, "ltp": None, "candidate": None},
+         "verification": None, "candidates": [], "runtime_s": None,
+         "usage": {"total_tokens": None, "calls": None}}
+    write_json(os.path.join(outdir, "result.json"), d)
+    write_text(os.path.join(outdir, "report.md"), f"# Optimization failed\n\n{message}\n")
+    # Remove stale successful output only from this case's output, never the input.
+    old_output = os.path.join(outdir, "optimized.v")
+    if os.path.isfile(old_output) and os.path.realpath(old_output) != os.path.realpath(rtl):
+        os.remove(old_output)
+    log(message, "run")
+    return message
+
+
 def main():
     ap = argparse.ArgumentParser(description="LLM + Yosys closed-loop RTL optimizer")
-    ap.add_argument("--rtl", help="input Verilog file")
+    source = ap.add_mutually_exclusive_group(required=True)
+    source.add_argument("--rtl", help="input Verilog file")
     ap.add_argument("--top", default=None, help="top module (auto-detected)")
-    ap.add_argument("--batch", help="folder: optimize every .v file found below it")
+    source.add_argument("--batch", help="folder: optimize every .v file found below it")
     ap.add_argument("--out", default=None, help="output folder")
     ap.add_argument("--budget", default="normal", choices=sorted(BUDGETS))
     ap.add_argument("--env-file", default=None)
     ap.add_argument("--keep-work", action="store_true")
+    ap.add_argument("--offline", action="store_true", help="disable LLM requests, use ABC only")
+    ap.add_argument("--accept", choices=["bounded", "proved"], default="bounded",
+                    help="formal evidence accepted on top of strict simulation: bounded (default: complete "
+                         "proof, bounded model check, simulation-only for multi-clock designs) or proved "
+                         "(complete proofs only)")
+    ap.add_argument("--no-relaxed", dest="allow_relaxed", action="store_false",
+                    help="never fall back to candidates that differ only in power-up X / zero-width events")
+    ap.add_argument("--allow-relaxed", dest="allow_relaxed", action="store_true",
+                    help="(default) use such candidates only when no strict candidate has a gain")
+    ap.add_argument("--strict", action="store_true", help="shortcut for --accept proved --no-relaxed")
+    ap.add_argument("--tb", action="append", default=[],
+                    help="course-style stimulus testbench (__VCD__/__SEED__ placeholders) that every output must "
+                         "pass strictly; default: stim_*.v / tb_*.v next to the design")
+    ap.set_defaults(allow_relaxed=True)
     ap.add_argument("--resynth", default=os.environ.get("RTL_AGENT_RESYNTH", "full"),
                     choices=["full", "fallback", "off"],
                     help="zero-token ABC re-synthesis candidates (gate-level output): full = also applied to "
@@ -75,8 +155,32 @@ def main():
                     help="accept candidates that infer extra memories (their logic is not counted by the "
                          "course script; off by default because it is not a real saving)")
     args = ap.parse_args()
+    if args.strict:
+        args.accept, args.allow_relaxed = "proved", False
 
-    cfg = Config(env_file=args.env_file)
+    if args.rtl and not os.path.isfile(args.rtl):
+        ap.error(f"input file does not exist: {args.rtl}")
+    if args.batch and not os.path.isdir(args.batch):
+        ap.error(f"batch folder does not exist: {args.batch}")
+    if args.batch and args.top:
+        ap.error("--top is only supported with --rtl")
+    cases = None
+    if args.batch:
+        out_root = args.out or os.path.join("runs", time.strftime("batch_%m%d_%H%M%S"))
+        cases = batch_cases(args.batch, out_root)
+        if not cases:
+            ap.error("no design .v files found (testbenches and output folder are excluded)")
+    else:
+        name = os.path.splitext(os.path.basename(args.rtl))[0]
+        out = args.out or os.path.join("runs", name)
+        if os.path.realpath(args.rtl) == os.path.realpath(os.path.join(out, "optimized.v")):
+            ap.error("output optimized.v would overwrite the input; choose a different --out")
+    try:
+        cfg = Config(env_file=args.env_file)
+    except (OSError, ValueError) as exc:
+        ap.error(f"invalid configuration: {exc}")
+    if args.offline:
+        cfg.llm_key = ""
     missing = cfg.check_tools()
     if missing:
         log("missing tools: " + ", ".join(missing), "run")
@@ -84,24 +188,33 @@ def main():
     log(f"model={cfg.llm_model} base={cfg.llm_base} key={cfg.masked_key()} thinking={cfg.llm_thinking}", "run")
 
     if args.rtl:
-        name = os.path.splitext(os.path.basename(args.rtl))[0]
-        out = args.out or os.path.join("runs", name)
-        st = run_one(cfg, args.rtl, out, args.top, args.budget, args.keep_work, args.resynth, args.allow_mem)
+        try:
+            st = run_one(cfg, args.rtl, out, args.top, args.budget, args.keep_work, args.resynth,
+                         args.allow_mem, args.allow_relaxed, args.accept,
+                         args.tb)
+        except (OSError, ValueError, RuntimeError) as exc:
+            failure_result(args.rtl, out, exc)
+            return 1
         return 0 if (st.final or not st.error) else 1
 
     if args.batch:
-        files = [f for f in sorted(glob.glob(os.path.join(args.batch, "**", "*.v"), recursive=True))
-                 if not _looks_like_testbench(f)]
-        out_root = args.out or os.path.join("runs", time.strftime("batch_%m%d_%H%M"))
         rows = []
+        failed = False
         t0 = time.time()
-        for f in files:
-            folder = os.path.basename(os.path.dirname(f))
-            stem = os.path.splitext(os.path.basename(f))[0]
-            siblings = [g for g in files if os.path.dirname(g) == os.path.dirname(f)]
-            name = folder if (folder and len(siblings) == 1) else (f"{folder}_{stem}" if folder else stem)
-            st = run_one(cfg, f, os.path.join(out_root, name), None, args.budget, args.keep_work, args.resynth,
-                         args.allow_mem)
+        for f, name in cases:
+            case_out = os.path.join(out_root, name)
+            try:
+                st = run_one(cfg, f, case_out, None, args.budget, args.keep_work, args.resynth,
+                             args.allow_mem, args.allow_relaxed, args.accept,
+                         args.tb)
+            except (OSError, ValueError, RuntimeError) as exc:
+                failed = True
+                error = failure_result(f, case_out, exc)
+                rows.append({"case": name, "top": None, "base_area": None, "base_ltp": None,
+                             "opt_area": None, "opt_ltp": None, "tokens": None, "calls": None,
+                             "seconds": None, "status": "error", "error": error, "evidence": ""})
+                continue
+            failed |= bool(st.error)
             b = st.base
             fin = st.final.synth if st.final else b
             u = st.usage.to_dict()
@@ -109,19 +222,21 @@ def main():
                          "base_ltp": b.ltp if b else None, "opt_area": fin.area if fin else None,
                          "opt_ltp": fin.ltp if fin else None, "tokens": u["total_tokens"],
                          "calls": u["calls"], "seconds": round(st.elapsed(), 1),
-                         "status": "optimized" if st.final else (st.error or "no-gain"),
+                         "status": "optimized" if st.final else ("error" if st.error else "no-gain"),
+                         "error": st.error, "tier": st.final_tier,
                          "evidence": st.final_verify.evidence() if st.final_verify else ""})
         L = ["# Batch summary", "", f"total wall time {time.time() - t0:.0f}s", "",
              "| case | area base | area opt | d_area | ltp base | ltp opt | tokens | calls | time(s) | status |",
              "|---|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
         for r in rows:
-            da = (f"{(r['opt_area'] / r['base_area'] - 1) * 100:+.1f}%" if r["base_area"] else "n/a")
+            da = (f"{(r['opt_area'] / r['base_area'] - 1) * 100:+.1f}%"
+                  if r["base_area"] and r["opt_area"] is not None else "n/a")
             L.append(f"| {r['case']} | {r['base_area']} | {r['opt_area']} | {da} | {r['base_ltp']} | "
                      f"{r['opt_ltp']} | {r['tokens']} | {r['calls']} | {r['seconds']} | {r['status']} |")
         write_text(os.path.join(out_root, "summary.md"), "\n".join(L) + "\n")
         write_json(os.path.join(out_root, "summary.json"), rows)
         print("\n".join(L))
-        return 0
+        return 1 if failed else 0
     ap.print_help()
     return 1
 

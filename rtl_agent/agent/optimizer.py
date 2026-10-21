@@ -60,8 +60,10 @@ class Candidate:
 class Budget:
     def __init__(self, max_calls=12, max_refine=3, max_repair=2, time_limit=1500, n_init=2,
                  patience=1, min_gain=0.005, resynth="full", resynth_seconds=30, allow_mem=False,
-                 rescue_calls=4):
+                 rescue_calls=4, allow_relaxed=True, accept="bounded"):
         self.allow_mem = allow_mem
+        self.allow_relaxed = allow_relaxed
+        self.accept = accept
         self.rescue_calls = rescue_calls
         self.resynth = resynth
         self.resynth_seconds = resynth_seconds
@@ -76,6 +78,7 @@ class Budget:
 
 class OptState:
     def __init__(self, cfg, rtl_file, top, outdir, budget, workdir=None, keep_work=False):
+        self.course_tbs = []
         self.cfg = cfg
         self.rtl_file = os.path.abspath(rtl_file)
         self.src = read_text(self.rtl_file)
@@ -126,6 +129,9 @@ class OptState:
         return (self.usage.logical_calls < self.budget.max_calls and self.elapsed() < self.budget.time_limit
                 and self.llm.available())
 
+    def calls_left(self):
+        return max(0, self.budget.max_calls - self.usage.logical_calls)
+
     def thinking_for(self, kind, index=0):
         mode = self.cfg.llm_thinking
         if mode in ("on", "true", "1", "yes"):
@@ -154,18 +160,25 @@ def node_setup(st):
         return
     log(f"baseline {st.top}: area={st.base.area:.3f} ltp={st.base.ltp} "
         f"(course-literal area={st.base_course.area} ltp={st.base_course.ltp}); {info.summary()}", "setup")
-    st.verifier = Verifier(st.cfg, info, [st.rtl_file], os.path.join(st.workdir, "verify"))
+    st.verifier = Verifier(st.cfg, info, [st.rtl_file], os.path.join(st.workdir, "verify"),
+                           accept=st.budget.accept, course_tbs=st.course_tbs)
     ok, err = st.verifier.prepare()
     if not ok:
         st.error = f"reference simulation failed: {err}"
         return
+    if st.verifier.gold.course_tbs:
+        log("course stimuli used as strict acceptance check: "
+            + ", ".join(t.kind.split(":", 1)[-1] for t in st.verifier.gold.course_tbs), "setup")
+    for d in st.verifier.gold.dropped:
+        log(f"provided testbench ignored: {d}", "setup")
     if st.verifier.event_sensitive:
         log(f"event-sensitive outputs: {st.verifier.event_sensitive}", "setup")
 
 
 def _strategies(st):
     if st.info.is_sequential:
-        order = ["conservative", "sequential", "datapath", "logic", "minimal"]
+        # measured verified-gain rate per strategy: storage 25%, conservative/datapath ~17%, sequential 5%
+        order = ["conservative", "storage", "datapath", "logic", "minimal"]
         n = st.budget.n_init + 1          # sequential designs benefit most from extra diversity
     else:
         order = ["conservative", "datapath", "logic", "minimal"]
@@ -185,7 +198,9 @@ def _call(st, cand, thinking, temperature=0.2):
 
 
 def node_generate(st):
-    strategies = _strategies(st)
+    strategies = _strategies(st)[:st.calls_left()]
+    if not strategies:
+        return
     cands = []
     for i, s in enumerate(strategies):
         c = st.new_cand(f"init:{s}", strategy=s)
@@ -232,7 +247,12 @@ def _prepare(st, c):
         return
     c.file = os.path.join(st.outdir, "candidates", f"{c.id}.v")
     write_text(c.file, c.text)
-    c.synth = synth_eval(st.cfg, [c.file], st.top)
+    # a candidate that synthesizes far slower than the original (e.g. an exploding unrolled loop)
+    # is abandoned early instead of blocking the round for the global 600 s limit
+    limit = max(60, int(8 * (st.base.seconds or 0)))
+    c.synth = synth_eval(st.cfg, [c.file], st.top, timeout=limit)
+    if not c.synth.ok and "[TIMEOUT]" in (c.synth.error or ""):
+        c.synth.error = f"synthesis exceeded {limit}s (original needs {st.base.seconds:.0f}s); avoid constructs that unroll into huge logic"
     if not c.synth.ok:
         c.status, c.repairable = "synth-error", True
         c.problem = f"[yosys] {c.synth.error}"
@@ -309,7 +329,8 @@ def _verify(st, c):
         c.status = "verified"
     else:
         c.status = f"fail-{r.stage}"
-        c.repairable = True
+        # a netlist from ABC has no conversation to continue: never send it to the LLM for repair
+        c.repairable = c.strategy != "resynth"
         c.problem = prompts.describe_failure(r, st.info)
 
 
@@ -317,7 +338,8 @@ def _repairable(st):
     thr = st.best_score()
     out = []
     for c in st.candidates:
-        if not c.repairable or c.depth >= st.budget.max_repair or getattr(c, "repaired", False):
+        if (not c.repairable or c.strategy == "resynth" or c.depth >= st.budget.max_repair
+                or getattr(c, "repaired", False)):
             continue
         if c.synth and c.synth.ok and c.status not in ("ltp-worse",) and c.score(st.base) >= thr:
             continue
@@ -342,6 +364,13 @@ def _pending_resynth_sources(st):
                    and c.id not in st.resynth_sources], key=lambda c: c.synth.area)
     if deep and mode != "off":
         srcs.append((deep[0].id, [deep[0].file]))
+    # a smaller LLM design that only failed strict waveforms (e.g. its own zero-width glitches): the
+    # single-evaluation netlist form removes self-inflicted glitches and often makes it strict
+    relaxed = sorted([c for c in st.candidates if c.status == "relaxed" and c.strategy != "resynth"
+                      and c.synth is not None and c.synth.area < best_area
+                      and c.id not in st.resynth_sources], key=lambda c: c.synth.area)
+    if relaxed and mode != "off":
+        srcs.append((relaxed[0].id, [relaxed[0].file]))
     return srcs
 
 
@@ -380,8 +409,8 @@ def node_resynth(st):
         text, msg = resynth(st.cfg, files, st.top, os.path.join(st.workdir, "resynth", f"{sid}_{script}"),
                             script=script, seconds=st.budget.resynth_seconds, orig_src=st.src)
         return sid, script, text, msg
-    # independent single-threaded ABC processes: use (almost) all cores
-    with ThreadPoolExecutor(min(len(jobs), max(st.cfg.jobs, (os.cpu_count() or 4) - 2))) as ex:
+    # Independent ABC processes share the configured concurrency ceiling.
+    with ThreadPoolExecutor(min(len(jobs), st.cfg.jobs)) as ex:
         results = list(ex.map(work, jobs))
     seen = set()
     for sid, script, text, msg in results:
@@ -400,7 +429,8 @@ def route_after_resynth(st):
         # A combinational original whose own waveform has zero-width re-dumps cannot be matched
         # event-by-event by ANY restructured design; a relaxed gain is the best attainable there.
         relaxed_gain = any(c.status == "relaxed" and _gainful(st, c) for c in st.candidates)
-        if relaxed_gain and not st.info.is_sequential and st.verifier.event_sensitive:
+        if (st.budget.allow_relaxed and relaxed_gain and not st.info.is_sequential
+                and st.verifier.event_sensitive):
             st.stop_reason = st.stop_reason or "relaxed gain; original has glitch events (rescue skipped)"
             return "finalize"
         return "rescue"
@@ -415,7 +445,9 @@ def node_rescue(st):
     st.no_gain_rounds = 0
     used = {c.strategy for c in st.candidates}
     pool = prompts.RESCUE_SEQ if st.info.is_sequential else prompts.RESCUE_COMB
-    picks = [s for s in pool if s not in used][:2] or pool[:2]
+    picks = ([s for s in pool if s not in used][:2] or pool[:2])[:st.calls_left()]
+    if not picks:
+        return
     cands = []
     for i, s in enumerate(picks):
         c = st.new_cand(f"rescue:{s}", strategy=s)
@@ -430,7 +462,9 @@ def node_rescue(st):
 
 
 def node_repair(st):
-    todo = _repairable(st)[:2]
+    todo = _repairable(st)[:min(2, st.calls_left())]
+    if not todo:
+        return
     news = []
     for c in todo:
         c.repaired = True
@@ -485,25 +519,30 @@ def node_finalize(st):
     strict = sorted([c for c in st.candidates if c.status == "verified" and _gainful(st, c)],
                     key=lambda c: c.score(st.base))
     relaxed = sorted([c for c in st.candidates if c.status == "relaxed" and _gainful(st, c)],
-                     key=lambda c: c.score(st.base))
+                     key=lambda c: c.score(st.base)) if st.budget.allow_relaxed else []
     chosen = None
     st.final_tier = None
     if st.verifier is not None and (strict or relaxed):
         deep = Verifier(st.cfg, st.info, [st.rtl_file], os.path.join(st.workdir, "final"), budget="high",
-                        formal_timeout=240)
+                        formal_timeout=240, accept=st.budget.accept, course_tbs=st.course_tbs)
         ok, err = deep.prepare()
+        if not ok:
+            st.error = f"final reference simulation failed: {err}"
+            st.stop_reason = "final verification unavailable; original RTL retained"
         # strict candidates first; relaxed ones only if no strict candidate has a gain
-        for tier, pool in (("strict", strict), ("relaxed", relaxed)):
+        for tier, pool in ((("strict", strict), ("relaxed", relaxed)) if ok else ()):
             for c in pool[:4]:
-                r = deep.verify([c.file], f"final_{c.id}") if ok else None
-                good = r is None or r.ok or (tier == "relaxed" and r.relaxed)
+                r = deep.verify([c.file], f"final_{c.id}")
+                good = r.ok or (tier == "relaxed" and r.relaxed)
                 if good:
                     chosen = c
-                    st.final_tier = tier if (r is None or r.ok) else "relaxed"
-                    st.final_verify = r or c.verify
+                    st.final_tier = "strict" if r.ok else "relaxed"
+                    st.final_verify = r
                     break
                 c.status = f"fail-final-{r.stage}"
                 c.problem = prompts.describe_failure(r, st.info)
+                c.verify = r
+                write_json(os.path.join(st.outdir, "candidates", f"{c.id}.json"), c.to_dict())
                 log(f"{c.id} rejected by deep verification: {c.problem[:200]}", "final")
             if chosen is not None:
                 break
@@ -511,6 +550,8 @@ def node_finalize(st):
         log(f"using RELAXED candidate {chosen.id}: identical after reset, differs only in power-up X or "
             f"zero-width waveform events", "final")
     st.final = chosen
+    if not st.stop_reason:
+        st.stop_reason = "verified improvement" if chosen else "no verified gain"
     out_v = os.path.join(st.outdir, "optimized.v")
     write_text(out_v, chosen.text if chosen else st.src)
     write_reports(st)
@@ -544,11 +585,12 @@ def build_graph():
     return g
 
 
-def optimize(cfg, rtl_file, outdir, top=None, budget=None, workdir=None, keep_work=False):
+def optimize(cfg, rtl_file, outdir, top=None, budget=None, workdir=None, keep_work=False, course_tbs=()):
     from .verilog_utils import detect_top
     src = read_text(rtl_file)
     top = top or detect_top(src)
     st = OptState(cfg, rtl_file, top, outdir, budget or Budget(), workdir, keep_work)
+    st.course_tbs = [os.path.abspath(p) for p in course_tbs]
     g = build_graph()
     st.trace = g.run(st, "setup")
     return st

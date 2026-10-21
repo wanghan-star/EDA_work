@@ -18,7 +18,7 @@ from agent.config import Config            # noqa: E402
 from agent.synth import analyze            # noqa: E402
 from agent.verify import Verifier          # noqa: E402
 
-CASES = os.path.join(ROOT, "cases", "public")
+CASES = os.path.join(ROOT, "cases", "reconstructed")  # fixed RTLLM stand-ins used as fixtures
 DIV = os.path.join(CASES, "case4_div_16bit", "div_16bit.v")
 ACCU = os.path.join(CASES, "case5_verified_accu", "verified_accu.v")
 

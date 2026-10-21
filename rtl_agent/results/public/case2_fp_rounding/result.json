@@ -1,0 +1,731 @@
+{
+  "top": "fp_rounding",
+  "input": "/home/hansome_w/backup/rtl_agent/cases/public/case2_fp_rounding/fp_round_v1.v",
+  "kind": "combinational",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 88.046,
+    "ltp": 11,
+    "course_area": 88.046,
+    "course_ltp": 11,
+    "cells": {
+      "AND2_X1": 2,
+      "AND3_X1": 1,
+      "AND4_X1": 1,
+      "AOI21_X1": 6,
+      "INV_X1": 11,
+      "MUX2_X1": 1,
+      "NAND2_X1": 3,
+      "NAND3_X1": 2,
+      "NAND4_X1": 4,
+      "NOR2_X1": 10,
+      "NOR3_X1": 2,
+      "NOR4_X1": 10,
+      "OAI211_X1": 1,
+      "OAI21_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 13,
+      "XOR2_X1": 7
+    }
+  },
+  "optimized": {
+    "area": 88.046,
+    "ltp": 11,
+    "cells": {
+      "AND2_X1": 2,
+      "AND3_X1": 1,
+      "AND4_X1": 1,
+      "AOI21_X1": 6,
+      "INV_X1": 11,
+      "MUX2_X1": 1,
+      "NAND2_X1": 3,
+      "NAND3_X1": 2,
+      "NAND4_X1": 4,
+      "NOR2_X1": 10,
+      "NOR3_X1": 2,
+      "NOR4_X1": 10,
+      "OAI211_X1": 1,
+      "OAI21_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 13,
+      "XOR2_X1": 7
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 5,
+    "logical_calls": 5,
+    "prompt_tokens": 8538,
+    "completion_tokens": 4142,
+    "reasoning_tokens": 0,
+    "cached_tokens": 4608,
+    "total_tokens": 12680,
+    "llm_seconds": 31.0
+  },
+  "runtime_s": 43.5,
+  "stop_reason": "no further gain",
+  "graph_trace": [
+    [
+      "setup",
+      0.33
+    ],
+    [
+      "generate",
+      7.1
+    ],
+    [
+      "evaluate",
+      0.27
+    ],
+    [
+      "refine",
+      5.86
+    ],
+    [
+      "evaluate_refine",
+      0.25
+    ],
+    [
+      "resynth",
+      15.46
+    ],
+    [
+      "evaluate_resynth",
+      1.56
+    ],
+    [
+      "rescue",
+      6.72
+    ],
+    [
+      "evaluate",
+      0.49
+    ],
+    [
+      "refine",
+      4.96
+    ],
+    [
+      "evaluate_refine",
+      0.49
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "no-gain",
+      "problem": "[metrics] area 88.0 / ltp 11 is not better than baseline 88.0 / 11",
+      "plan": "- Keep the exact case structure and all branch conditions; only factor the shared `|round_sticky_bits_i` term used by RDN/RUP.\n- Replace the RNE inner case with equivalent minimal logic: round_up = sticky[1] & (sticky[0] | abs_value_i[0]) — matches 00/01->0, 10->a0, 11->1.\n- Keep `abs_rounded_o = abs_value_i + round_up` as one adder (already single operator).\n- Keep exact_zero_o and sign_o assignments unchanged (single assignment each, same order).\n- No width narrowing possible: abs_value_i is full 24-bit observable through the adder.",
+      "synth": {
+        "ok": true,
+        "area": 88.046,
+        "ltp": 11,
+        "cells": {
+          "AND2_X1": 2,
+          "AND3_X1": 1,
+          "AND4_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 11,
+          "MUX2_X1": 1,
+          "NAND2_X1": 3,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 10,
+          "NOR3_X1": 2,
+          "NOR4_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.27
+      },
+      "verify": null
+    },
+    {
+      "id": "c02",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "no-gain",
+      "problem": "[metrics] area 88.0 / ltp 11 is not better than baseline 88.0 / 11",
+      "plan": "- Replace the 24-bit adder with a carry-in increment: `abs_value_i + round_up` equals `abs_value_i + {23'b0, round_up}`; use `abs_value_i + round_up` but let synthesis see round_up as 1-bit — instead compute `{abs_value_i[23:1], abs_value_i[0]^round_up}`? No: adding 1 to a 24-bit number only flips low bits up to first 0. Cheaper: `abs_value_i + round_up` is fine but we can express as `abs_value_i ^ round_up` only when LSB is 0. Keep adder but narrow: only need increment, so `abs_value_i + round_up` with round_up 1-bit is already minimal; instead use `abs_value_i + {23'b0,round_up}`.\n- Factor `round_up` into a shared mux: compute `rsb_or = |round_sticky_bits_i`, `rne_up = rsb[1] & (rsb[0] | abs_value_i[0])` (since 10→abs[0], 11→1 = rsb[1]&(rsb[0]|abs[0])). Then mux by mode.\n- `sign_o` mux: `exact_zero_o & effective_subtraction_i & (rnd_mode_i==RDN)` selects 1 else sign_i → `sign_i ^ (exact_zero_o & effective_subtraction_i & (rnd_mode_i==RDN))`.\n- Keep procedural `round_up` assignment style and output assigns unchanged.",
+      "synth": {
+        "ok": true,
+        "area": 88.046,
+        "ltp": 11,
+        "cells": {
+          "AND2_X1": 2,
+          "AND3_X1": 1,
+          "AND4_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 11,
+          "MUX2_X1": 1,
+          "NAND2_X1": 3,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 10,
+          "NOR3_X1": 2,
+          "NOR4_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.27
+      },
+      "verify": null
+    },
+    {
+      "id": "c03",
+      "origin": "init:logic",
+      "parent": null,
+      "depth": 0,
+      "strategy": "logic",
+      "status": "no-gain",
+      "problem": "[metrics] area 88.0 / ltp 11 is not better than baseline 88.0 / 11",
+      "plan": "- Replace the case tree with a shared adder: abs_rounded_o = abs_value_i + round_up, keeping the same procedural assignment.\n- Compute round_up with parallel logic: RNE term = rsb[1] & (rsb[0] | abs_value_i[0]); RDN/RUP terms use |rsb; RMM uses rsb[1]; select by mode.\n- Factor common subexpressions: |rsb, sign_i, ~sign_i, and mode decode.\n- Keep exact_zero_o and sign_o exactly as written (same statements, same X behavior).\n- Use one mux tree for round_up instead of nested case.",
+      "synth": {
+        "ok": true,
+        "area": 88.046,
+        "ltp": 11,
+        "cells": {
+          "AND2_X1": 2,
+          "AND3_X1": 1,
+          "AND4_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 11,
+          "MUX2_X1": 1,
+          "NAND2_X1": 3,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 10,
+          "NOR3_X1": 2,
+          "NOR4_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.24
+      },
+      "verify": null
+    },
+    {
+      "id": "c04",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 89.9 / ltp 13 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 89.908,
+        "ltp": 13,
+        "cells": {
+          "AND2_X1": 1,
+          "AND3_X1": 2,
+          "AOI21_X1": 5,
+          "AOI221_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 5,
+          "NAND3_X1": 2,
+          "NAND4_X1": 5,
+          "NOR2_X1": 12,
+          "NOR3_X1": 2,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 8
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.8
+      },
+      "verify": null
+    },
+    {
+      "id": "c05",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 91.8 / ltp 12 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 91.77,
+        "ltp": 12,
+        "cells": {
+          "AND2_X1": 4,
+          "AND4_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 4,
+          "AOI22_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 9,
+          "NOR3_X1": 1,
+          "NOR4_X1": 11,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.85
+      },
+      "verify": null
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 89.9 / ltp 13 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 89.908,
+        "ltp": 13,
+        "cells": {
+          "AND2_X1": 1,
+          "AND3_X1": 2,
+          "AOI21_X1": 5,
+          "AOI221_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 5,
+          "NAND3_X1": 2,
+          "NAND4_X1": 5,
+          "NOR2_X1": 12,
+          "NOR3_X1": 2,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 8
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.83
+      },
+      "verify": null
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 91.8 / ltp 12 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 91.77,
+        "ltp": 12,
+        "cells": {
+          "AND2_X1": 4,
+          "AND4_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 4,
+          "AOI22_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 9,
+          "NOR3_X1": 1,
+          "NOR4_X1": 11,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.8
+      },
+      "verify": null
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 89.9 / ltp 13 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 89.908,
+        "ltp": 13,
+        "cells": {
+          "AND2_X1": 1,
+          "AND3_X1": 2,
+          "AOI21_X1": 5,
+          "AOI221_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 5,
+          "NAND3_X1": 2,
+          "NAND4_X1": 5,
+          "NOR2_X1": 12,
+          "NOR3_X1": 2,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 8
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.83
+      },
+      "verify": null
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 104.3 / ltp 8 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 104.272,
+        "ltp": 8,
+        "cells": {
+          "AND2_X1": 2,
+          "AND3_X1": 1,
+          "AND4_X1": 2,
+          "AOI21_X1": 5,
+          "INV_X1": 7,
+          "MUX2_X1": 1,
+          "NAND2_X1": 9,
+          "NAND3_X1": 8,
+          "NAND4_X1": 8,
+          "NOR2_X1": 9,
+          "NOR3_X1": 4,
+          "NOR4_X1": 8,
+          "OAI21_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 16,
+          "XOR2_X1": 5
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "rnd_mode_i[1]"
+        ],
+        "error": "",
+        "seconds": 1.18
+      },
+      "verify": null
+    },
+    {
+      "id": "c10",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 91.8 / ltp 12 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 91.77,
+        "ltp": 12,
+        "cells": {
+          "AND2_X1": 4,
+          "AND4_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 4,
+          "AOI22_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 9,
+          "NOR3_X1": 1,
+          "NOR4_X1": 11,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "rnd_mode_i[0]"
+        ],
+        "error": "",
+        "seconds": 0.91
+      },
+      "verify": null
+    },
+    {
+      "id": "c11",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 91.0 / ltp 13 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 90.972,
+        "ltp": 13,
+        "cells": {
+          "AND3_X1": 2,
+          "AOI21_X1": 6,
+          "AOI22_X1": 1,
+          "INV_X1": 14,
+          "MUX2_X1": 1,
+          "NAND2_X1": 3,
+          "NAND3_X1": 4,
+          "NAND4_X1": 5,
+          "NOR2_X1": 11,
+          "NOR3_X1": 2,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 6
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "rnd_mode_i[0]"
+        ],
+        "error": "",
+        "seconds": 0.82
+      },
+      "verify": null
+    },
+    {
+      "id": "c12",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 93.6 / ltp 11 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 93.632,
+        "ltp": 11,
+        "cells": {
+          "AND2_X1": 4,
+          "AND3_X1": 3,
+          "AND4_X1": 1,
+          "AOI211_X1": 1,
+          "AOI21_X1": 8,
+          "INV_X1": 11,
+          "MUX2_X1": 1,
+          "NAND2_X1": 4,
+          "NAND3_X1": 3,
+          "NAND4_X1": 4,
+          "NOR2_X1": 11,
+          "NOR3_X1": 1,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "rnd_mode_i[0]"
+        ],
+        "error": "",
+        "seconds": 0.75
+      },
+      "verify": null
+    },
+    {
+      "id": "c13",
+      "origin": "rescue:minimal",
+      "parent": null,
+      "depth": 0,
+      "strategy": "minimal",
+      "status": "no-gain",
+      "problem": "[metrics] area 88.0 / ltp 11 is not better than baseline 88.0 / 11",
+      "plan": "- Collapse the round_up case into a single expression: compute `up = (|rsb)` and use muxes on rnd_mode_i, sharing the OR term.\n- RNE: `up ? (rsb==2'b10 ? a[0] : 1'b1) : 1'b0` = `rsb[1] & (rsb[0] ? 1'b1 : a[0])`; note rsb==2'b10→a[0], rsb==2'b11→1.\n- RDN/RUP: `(|rsb) & (sign_i ^ (rnd_mode_i==FRM_RUP))` — share `|rsb` and sign polarity.\n- RMM: rsb[1].\n- sign_o: keep exact structure; `rnd_mode_i==FRM_RDN` is a 3-bit compare, keep as-is.\n- Keep output assignment statements unchanged in form.",
+      "synth": {
+        "ok": true,
+        "area": 88.046,
+        "ltp": 11,
+        "cells": {
+          "AND2_X1": 2,
+          "AND3_X1": 1,
+          "AND4_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 11,
+          "MUX2_X1": 1,
+          "NAND2_X1": 3,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 10,
+          "NOR3_X1": 2,
+          "NOR4_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.49
+      },
+      "verify": null
+    },
+    {
+      "id": "c14",
+      "origin": "init:pipeline",
+      "parent": null,
+      "depth": 0,
+      "strategy": "pipeline",
+      "status": "no-gain",
+      "problem": "[metrics] area 88.0 / ltp 11 is not better than baseline 88.0 / 11",
+      "plan": "- Replace the case-based round_up with a single boolean expression using shared terms: `sticky = |round_sticky_bits_i`, `rne_up = round_sticky_bits_i[1] & (round_sticky_bits_i[0] | abs_value_i[0])`, etc.\n- Compute round_up as a mux over mode bits with factored common subexpressions to reduce cell count.\n- Keep abs_rounded_o and sign_o assignment statements unchanged (same expressions/order).\n- exact_zero_o unchanged.\n- No registers needed; combinational only.",
+      "synth": {
+        "ok": true,
+        "area": 88.046,
+        "ltp": 11,
+        "cells": {
+          "AND2_X1": 2,
+          "AND3_X1": 1,
+          "AND4_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 11,
+          "MUX2_X1": 1,
+          "NAND2_X1": 3,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 10,
+          "NOR3_X1": 2,
+          "NOR4_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.49
+      },
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": "deepseek-v4.1-flash",
+    "budget": {
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 7,
+      "max_refine": 2,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "proved"
+  },
+  "run": "official",
+  "runs_compared": [
+    "official",
+    "official_hi",
+    "official2"
+  ]
+}
