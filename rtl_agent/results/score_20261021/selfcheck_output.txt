@@ -1,0 +1,7 @@
+[PASS] self-equivalence (comb): verdict=equivalent  (sim: 6010 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0))
+[PASS] restructured divider (comb, formal proof): verdict=equivalent  (sim: 6010 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0))
+[PASS] needle mutant: 1 of 2^24 inputs differs -> formal must catch: verdict=rejected@sim  (sim: 6010 vectors/cycles strict-VCD PASS; formal: cex (ABC iprove: outputs differ for some input))
+[PASS] port width change: verdict=rejected@ports  ()
+[PASS] self-equivalence (seq): verdict=equivalent  (sim: 4500 vectors/cycles strict-VCD PASS; formal: PROVED (temporal induction succeeded (length 6)))
+[PASS] sequential mutant: verdict=rejected@sim  (sim: 1500 vectors/cycles strict-VCD FAIL)
+SELF-CHECK OK

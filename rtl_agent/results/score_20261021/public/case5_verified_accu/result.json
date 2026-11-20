@@ -1,0 +1,1353 @@
+{
+  "top": "verified_accu",
+  "input": "/mnt/f/Projects/EDA_work/rtl_agent/cases/public/case5_verified_accu/accu_v1.v",
+  "kind": "sequential",
+  "status": "optimized",
+  "tier": "relaxed",
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 74.48,
+    "ltp": 56,
+    "course_area": 74.48,
+    "course_ltp": 56,
+    "cells": {
+      "$_DFFE_PN0P_": 12,
+      "$_DFF_PN0_": 1,
+      "AND2_X1": 8,
+      "AND3_X1": 2,
+      "AOI211_X1": 1,
+      "AOI21_X1": 8,
+      "INV_X1": 11,
+      "NAND2_X1": 12,
+      "NOR2_X1": 6,
+      "NOR3_X1": 1,
+      "OAI211_X1": 1,
+      "OAI21_X1": 8,
+      "OAI22_X1": 6,
+      "OR2_X1": 3,
+      "XNOR2_X1": 4,
+      "XOR2_X1": 3
+    }
+  },
+  "optimized": {
+    "area": 69.958,
+    "ltp": 47,
+    "cells": {
+      "$_DFFE_PN0P_": 12,
+      "$_DFF_PN0_": 1,
+      "AND2_X1": 3,
+      "AOI211_X1": 2,
+      "AOI21_X1": 6,
+      "INV_X1": 4,
+      "MUX2_X1": 7,
+      "NAND2_X1": 7,
+      "NAND3_X1": 1,
+      "NOR2_X1": 5,
+      "OAI21_X1": 4,
+      "OR2_X1": 2,
+      "XNOR2_X1": 9,
+      "XOR2_X1": 7
+    },
+    "candidate": "c08"
+  },
+  "verification": {
+    "ok": false,
+    "relaxed": true,
+    "stage": "sim-relaxed",
+    "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+    "mismatch": {
+      "kind": "value",
+      "time": 5000,
+      "signal": "valid_out",
+      "gold": "0",
+      "opt": "x",
+      "inputs": {
+        "clk": "1",
+        "rst_n": "1",
+        "data_in": "0",
+        "valid_in": "0"
+      },
+      "inputs_prev": {
+        "clk": "0",
+        "rst_n": "1",
+        "data_in": "0",
+        "valid_in": "0"
+      },
+      "outputs_gold": {
+        "valid_out": "0"
+      },
+      "outputs_opt": {
+        "valid_out": "x"
+      },
+      "stimulus": "no_reset_first",
+      "cycle": 0,
+      "more": []
+    },
+    "evidence": "sim: 15000 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+    "sim": {
+      "ok": false,
+      "relaxed_ok": true,
+      "course_passed": [
+        "course-tb:stim_accu.v"
+      ],
+      "error": "",
+      "mismatch": {
+        "kind": "value",
+        "time": 5000,
+        "signal": "valid_out",
+        "gold": "0",
+        "opt": "x",
+        "inputs": {
+          "clk": "1",
+          "rst_n": "1",
+          "data_in": "0",
+          "valid_in": "0"
+        },
+        "inputs_prev": {
+          "clk": "0",
+          "rst_n": "1",
+          "data_in": "0",
+          "valid_in": "0"
+        },
+        "outputs_gold": {
+          "valid_out": "0"
+        },
+        "outputs_opt": {
+          "valid_out": "x"
+        },
+        "stimulus": "no_reset_first",
+        "cycle": 0,
+        "more": []
+      },
+      "bad_outputs": [
+        "valid_out"
+      ],
+      "n_vectors": 15000,
+      "seconds": 0.69
+    },
+    "formal": {
+      "kind": "seq",
+      "status": "proved",
+      "depth": 7,
+      "message": "temporal induction succeeded (length 7)",
+      "seconds": 0.62,
+      "trace_len": 0
+    },
+    "seconds": 1.75
+  },
+  "usage": {
+    "calls": 0,
+    "logical_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "cached_tokens": 0,
+    "total_tokens": 0,
+    "llm_seconds": 0.0
+  },
+  "runtime_s": 17.6,
+  "stop_reason": "verified improvement",
+  "graph_trace": [
+    [
+      "setup",
+      0.77
+    ],
+    [
+      "arithmetic",
+      0.0
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "resynth",
+      7.65
+    ],
+    [
+      "evaluate_resynth",
+      7.22
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 62.244,
+        "ltp": 61,
+        "cells": {
+          "$_DFFE_PN0P_": 12,
+          "$_DFF_PN0_": 1,
+          "AND2_X1": 2,
+          "AND3_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 14,
+          "NAND2_X1": 2,
+          "NAND3_X1": 1,
+          "NOR2_X1": 6,
+          "NOR3_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 8,
+          "XNOR2_X1": 5,
+          "XOR2_X1": 4
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 1.86
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_accu.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.69
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 7,
+          "message": "temporal induction succeeded (length 7)",
+          "seconds": 1.38,
+          "trace_len": 0
+        },
+        "seconds": 2.72
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 62.244,
+        "ltp": 61,
+        "cells": {
+          "$_DFFE_PN0P_": 12,
+          "$_DFF_PN0_": 1,
+          "AND2_X1": 2,
+          "AND3_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 14,
+          "NAND2_X1": 2,
+          "NAND3_X1": 1,
+          "NOR2_X1": 6,
+          "NOR3_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 8,
+          "XNOR2_X1": 5,
+          "XOR2_X1": 4
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 1.79
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_accu.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.75
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 7,
+          "message": "temporal induction succeeded (length 7)",
+          "seconds": 1.27,
+          "trace_len": 0
+        },
+        "seconds": 2.6
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 62.244,
+        "ltp": 61,
+        "cells": {
+          "$_DFFE_PN0P_": 12,
+          "$_DFF_PN0_": 1,
+          "AND2_X1": 2,
+          "AND3_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 14,
+          "NAND2_X1": 2,
+          "NAND3_X1": 1,
+          "NOR2_X1": 6,
+          "NOR3_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 8,
+          "XNOR2_X1": 5,
+          "XOR2_X1": 4
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 1.69
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_accu.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.82
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 7,
+          "message": "temporal induction succeeded (length 7)",
+          "seconds": 1.37,
+          "trace_len": 0
+        },
+        "seconds": 2.68
+      }
+    },
+    {
+      "id": "c04",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 62.244,
+        "ltp": 61,
+        "cells": {
+          "$_DFFE_PN0P_": 12,
+          "$_DFF_PN0_": 1,
+          "AND2_X1": 2,
+          "AND3_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 14,
+          "NAND2_X1": 2,
+          "NAND3_X1": 1,
+          "NOR2_X1": 6,
+          "NOR3_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 8,
+          "XNOR2_X1": 5,
+          "XOR2_X1": 4
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 1.71
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_accu.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.73
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 7,
+          "message": "temporal induction succeeded (length 7)",
+          "seconds": 1.23,
+          "trace_len": 0
+        },
+        "seconds": 2.43
+      }
+    },
+    {
+      "id": "c05",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 62.244,
+        "ltp": 61,
+        "cells": {
+          "$_DFFE_PN0P_": 12,
+          "$_DFF_PN0_": 1,
+          "AND2_X1": 2,
+          "AND3_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 14,
+          "NAND2_X1": 2,
+          "NAND3_X1": 1,
+          "NOR2_X1": 6,
+          "NOR3_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 8,
+          "XNOR2_X1": 5,
+          "XOR2_X1": 4
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 1.84
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_accu.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.79
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 7,
+          "message": "temporal induction succeeded (length 7)",
+          "seconds": 1.2,
+          "trace_len": 0
+        },
+        "seconds": 2.31
+      }
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 64.106,
+        "ltp": 60,
+        "cells": {
+          "$_DFFE_PN0P_": 12,
+          "$_DFF_PN0_": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 5,
+          "AOI21_X1": 6,
+          "INV_X1": 14,
+          "NAND2_X1": 5,
+          "NAND3_X1": 4,
+          "NOR2_X1": 3,
+          "NOR3_X1": 8,
+          "OAI211_X1": 2,
+          "OAI21_X1": 5,
+          "OR2_X1": 1,
+          "XNOR2_X1": 6,
+          "XOR2_X1": 3
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 1.8
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_accu.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.72
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 7,
+          "message": "temporal induction succeeded (length 7)",
+          "seconds": 1.34,
+          "trace_len": 0
+        },
+        "seconds": 2.7
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 62.244,
+        "ltp": 59,
+        "cells": {
+          "$_DFFE_PN0P_": 12,
+          "$_DFF_PN0_": 1,
+          "AND2_X1": 2,
+          "AND3_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 14,
+          "NAND2_X1": 2,
+          "NAND3_X1": 1,
+          "NOR2_X1": 6,
+          "NOR3_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 8,
+          "XNOR2_X1": 5,
+          "XOR2_X1": 4
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "valid_out",
+          "count[1]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 1.79
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_accu.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.74
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 7,
+          "message": "temporal induction succeeded (length 7)",
+          "seconds": 1.35,
+          "trace_len": 0
+        },
+        "seconds": 2.67
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 69.958,
+        "ltp": 47,
+        "cells": {
+          "$_DFFE_PN0P_": 12,
+          "$_DFF_PN0_": 1,
+          "AND2_X1": 3,
+          "AOI211_X1": 2,
+          "AOI21_X1": 6,
+          "INV_X1": 4,
+          "MUX2_X1": 7,
+          "NAND2_X1": 7,
+          "NAND3_X1": 1,
+          "NOR2_X1": 5,
+          "OAI21_X1": 4,
+          "OR2_X1": 2,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 7
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "valid_out",
+          "count[1]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 1.81
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_accu.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.83
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 7,
+          "message": "temporal induction succeeded (length 7)",
+          "seconds": 1.24,
+          "trace_len": 0
+        },
+        "seconds": 2.46
+      }
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 64.904,
+        "ltp": 58,
+        "cells": {
+          "$_DFFE_PN0P_": 12,
+          "$_DFF_PN0_": 1,
+          "AND2_X1": 3,
+          "AND3_X1": 1,
+          "AOI211_X1": 2,
+          "AOI21_X1": 5,
+          "AOI221_X1": 1,
+          "INV_X1": 12,
+          "MUX2_X1": 2,
+          "NAND2_X1": 2,
+          "NAND3_X1": 1,
+          "NOR2_X1": 6,
+          "NOR3_X1": 8,
+          "OAI211_X1": 1,
+          "OAI21_X1": 3,
+          "OR2_X1": 1,
+          "XNOR2_X1": 5,
+          "XOR2_X1": 7
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[8]"
+        ],
+        "error": "",
+        "seconds": 0.95
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:stim_accu.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.58
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 7,
+          "message": "temporal induction succeeded (length 7)",
+          "seconds": 0.87,
+          "trace_len": 0
+        },
+        "seconds": 1.75
+      }
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "0f929c31eca39f93ec5a5bd23258c6499b56f3dc608485242a59866068d88979",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": null,
+    "budget": {
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 0,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 3,
+      "max_refine": 0,
+      "max_repair": 1,
+      "time_limit": 600,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "280b2c17fd7a2b9d2ca1a7acdafcf45f3ee6e61ad6c9356a67603f93edda2605"
+  },
+  "gain": {
+    "area_pct": -6.07,
+    "ltp_pct": -16.07
+  }
+}

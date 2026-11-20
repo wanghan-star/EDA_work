@@ -1,6 +1,6 @@
 # 验收结果快照
 
-本目录保存 2026-10-21 的验收结果。公开用例为课程仓库发布的 8 个官方用例（含官方激励 `stim_*.v`），额外用例用于健壮性测试；隐藏用例成绩以助教评测为准。
+本目录保存 2026-10-21 的验收结果。2026-11-20 新增 [`score_20261120_yosys09/`](score_20261120_yosys09/README.md)：课程仓库新布局适配与 Ubuntu 22.04 旧工具链（Yosys 0.9）上的零 token 实测，不替换交付结果。公开用例为课程仓库发布的 8 个官方用例（含官方激励，现位于 `cases/public/tb/caseN_tb.v`），额外用例用于健壮性测试；隐藏用例成绩以助教评测为准。
 
 同一套系统对每个用例运行了多轮（公开用例：`official`、`official_hi`、`official2`；额外用例：`final2x`、`extra2`），每个用例取各轮中通过全部验证且 J = 0.5·A/A0 + 0.3·D/D0 最小的结果。`result.json` 中 `run` 记录被选中的轮次，`runs_compared` 记录参与比较的轮次。
 
@@ -32,4 +32,4 @@ python3 tools/export_results.py runs/final_public results/public   # 目标目�
 python3 docs/report/make_results.py results/public results/extra --md --output results/table.md
 ```
 
-LLM 输出具有随机性，单次运行的收益可能不同；ABC 重综合按迭代数截断，同版本工具下可复现。若需只接受完整证明，加 `--strict`。
+LLM 输出具有随机性，单次运行的收益可能不同；ABC 重综合按迭代数截断，未触发时间上限时同版本工具下可复现；J=400 脚本在部分设计上会触发 60 s 上限，此时结果与机器速度有关。若需只接受完整证明，加 `--strict`。

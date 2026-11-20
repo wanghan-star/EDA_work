@@ -8,7 +8,7 @@ How designs are scored (Yosys + ABC, Nangate45): read_verilog -sv; hierarchy; pr
 - Cell areas (um^2): INV .53, NAND2/NOR2 .80, AND2/OR2/AOI21/OAI21 1.06, AOI22/OAI22 1.33, XOR2/XNOR2 1.60, MUX2 1.86. An adder bit costs about 4-6.
 
 Hard rules (violations are rejected by formal + simulation checks):
-1. Same module name, same port names/directions/widths/signedness, same parameters and defaults. One self-contained module (inline any submodules).
+1. Same module name, same port names/directions/widths/signedness, same parameters and defaults. Keep the module hierarchy: keep every submodule (name, ports) and its instances, and put all modules in the one code block.
 2. Bit- and cycle-exact on every output at every time step, including during/after reset. Keep the same clock edges and reset style/polarity. Do not add or remove resets, do not change latency, no initial blocks.
 3. 4-state X semantics: inputs are always driven with 0/1, so purely combinational logic of inputs has no X issue. X only comes from registers before reset and from explicit X assignments. Registers start as X and the simulation may clock the design before reset: `if (c)` with c=X takes the else branch, while `c ? a : b`, `&&`, `|`, arithmetic propagate X. For register updates whose condition can be X before reset, keep the original if/else structure. Keep explicit X assignments (e.g. 4'hx) and registers without reset as they are.
 4. Synthesizable Verilog-2005 (SystemVerilog only if the original uses it). No delays (#), no system tasks.
@@ -17,6 +17,7 @@ Hard rules (violations are rejected by formal + simulation checks):
 Optimization playbook:
 - This flow does NO resource sharing: every +, -, *, /, %, <, >, == you write becomes its own circuit, even in mutually exclusive branches. Write ONE operator and mux its operands instead (e.g. add/sub as x + (y ^ {W{sub}}) + sub).
 - Arithmetic: share one adder/subtractor/comparator between exclusive branches; get a>=b from the borrow of a-b; drop redundant compares; narrow widths to the real value range; fold +1 into a carry-in; constant multiply/divide -> shifts/adds.
+- Carry chains: unsigned a+b+ci (1-bit ci) can use (({1'b0,a,1'b1}+{1'b0,b,ci}) >> 1) to fuse carry-in. If ltp grows, use block carry lookahead (group propagate/generate), preserving overflow width, parameterization and pre-reset X semantics.
 - Logic: factor common terms; turn priority if/else chains with exclusive conditions into parallel logic; collapse mux trees; delete dead or duplicated branches.
 - Sequential: registers are free: keep extra state or precomputed flags in flops instead of recomputing; move muxing into enables/sync resets; simplify counter/FSM decoding (re-encode if it shrinks logic) as long as outputs stay identical every cycle.
 - Value ranges: find the values a register can really reach (e.g. a counter that only runs 0..8 needs 4 bits, a remainder is always below the divisor) and narrow registers, adders and comparisons to that range; comparisons against constants then shrink too. Unreachable bits must not be observable at any output."""
@@ -24,7 +25,7 @@ Optimization playbook:
 FORMAT = """Answer format (no other text):
 ANALYSIS: at most 8 terse lines stating exactly what every output computes in every case of the ORIGINAL (all branches, equal/zero/overflow/sign corner cases, reset and X behaviour). Do not assume it is a textbook circuit; derive it from the code.
 PLAN: 2-5 terse bullets naming the concrete changes and why they preserve that behaviour.
-Then ONE ```verilog block with the complete module."""
+Then ONE ```verilog block with the complete design (every module)."""
 
 STRATEGIES = {
     "conservative": "Focus: keep the original control structure and branch conditions; only remove provably redundant logic, share duplicated operators and narrow widths. A smaller safe gain beats a risky rewrite.",
@@ -58,6 +59,10 @@ def initial_user(src, top, base, info, event_sensitive, strategy, history=None):
         s.append(f"Waveform events are compared exactly. Outputs {', '.join(event_sensitive)} are assigned "
                  f"procedurally with intermediate values in the original: keep their assignment statements "
                  f"(order, default assignments, blocking/non-blocking style) unchanged.")
+    if info.submodules:
+        s.append(f"Hierarchy: submodules {', '.join(info.submodules)}. The scoring script does not "
+                 f"flatten and reports a single module, so inlining them looks like a regression: "
+                 f"keep them and their instances, optimize inside the modules.")
     if history:
         s.append("Earlier attempts (all failed or gave no gain, do something different): "
                  + "; ".join(history[-8:]) + ".")

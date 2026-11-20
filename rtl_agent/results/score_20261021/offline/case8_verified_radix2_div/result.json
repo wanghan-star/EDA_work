@@ -1,0 +1,2018 @@
+{
+  "top": "verified_radix2_div",
+  "input": "/mnt/f/Projects/EDA_work/rtl_agent/cases/public/case8_verified_radix2_div/radix2_div_v1.v",
+  "kind": "sequential",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 212.268,
+    "ltp": 76,
+    "course_area": 212.268,
+    "course_ltp": 76,
+    "cells": {
+      "$_DFFE_PP_": 8,
+      "$_SDFFCE_PP1P_": 1,
+      "$_SDFFE_PP0P_": 23,
+      "$_SDFF_PP0_": 1,
+      "AND2_X1": 7,
+      "AND3_X1": 2,
+      "AOI211_X1": 1,
+      "AOI21_X1": 17,
+      "AOI221_X1": 1,
+      "BUF_X1": 1,
+      "INV_X1": 24,
+      "MUX2_X1": 15,
+      "NAND2_X1": 29,
+      "NAND3_X1": 3,
+      "NAND4_X1": 1,
+      "NOR2_X1": 12,
+      "NOR3_X1": 6,
+      "NOR4_X1": 1,
+      "OAI211_X1": 1,
+      "OAI21_X1": 23,
+      "OAI221_X1": 1,
+      "OAI22_X1": 1,
+      "OAI33_X1": 1,
+      "OR2_X1": 8,
+      "OR3_X1": 1,
+      "XNOR2_X1": 25,
+      "XOR2_X1": 9
+    }
+  },
+  "optimized": {
+    "area": 212.268,
+    "ltp": 76,
+    "cells": {
+      "$_DFFE_PP_": 8,
+      "$_SDFFCE_PP1P_": 1,
+      "$_SDFFE_PP0P_": 23,
+      "$_SDFF_PP0_": 1,
+      "AND2_X1": 7,
+      "AND3_X1": 2,
+      "AOI211_X1": 1,
+      "AOI21_X1": 17,
+      "AOI221_X1": 1,
+      "BUF_X1": 1,
+      "INV_X1": 24,
+      "MUX2_X1": 15,
+      "NAND2_X1": 29,
+      "NAND3_X1": 3,
+      "NAND4_X1": 1,
+      "NOR2_X1": 12,
+      "NOR3_X1": 6,
+      "NOR4_X1": 1,
+      "OAI211_X1": 1,
+      "OAI21_X1": 23,
+      "OAI221_X1": 1,
+      "OAI22_X1": 1,
+      "OAI33_X1": 1,
+      "OR2_X1": 8,
+      "OR3_X1": 1,
+      "XNOR2_X1": 25,
+      "XOR2_X1": 9
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 0,
+    "logical_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "cached_tokens": 0,
+    "total_tokens": 0,
+    "llm_seconds": 0.0
+  },
+  "runtime_s": 40.9,
+  "stop_reason": "no verified gain",
+  "graph_trace": [
+    [
+      "setup",
+      0.98
+    ],
+    [
+      "arithmetic",
+      0.0
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "resynth",
+      34.24
+    ],
+    [
+      "evaluate_resynth",
+      5.64
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `result`: expected 0, got 'bx0xxxxxxxx.\nInputs: clk=1, rst=1, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1.\nExpected outputs: result=0.\nYour outputs: result='bx0xxxxxxxx.\nAnother failing case cycle 6: inputs clk=1, rst=0, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1; expected res_valid=0, result=2; yours res_valid=0, result='bx0.\nAnother failing case cycle 7: inputs clk=1, rst=0, dividend=1, divisor=27(0x1b), sign=0, opn_valid=0, res_ready=0; expected res_valid=0, result=4; yours res_valid=0, result='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 196.574,
+        "ltp": 59,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 4,
+          "$_SDFFCE_PP1P_": 4,
+          "$_SDFFE_PP0P_": 22,
+          "$_SDFF_PP0_": 2,
+          "AND2_X1": 7,
+          "AND3_X1": 3,
+          "AOI211_X1": 1,
+          "AOI21_X1": 12,
+          "INV_X1": 19,
+          "MUX2_X1": 13,
+          "NAND2_X1": 27,
+          "NAND3_X1": 5,
+          "NOR2_X1": 19,
+          "NOR3_X1": 6,
+          "NOR4_X1": 1,
+          "OAI211_X1": 6,
+          "OAI21_X1": 20,
+          "OAI221_X1": 1,
+          "OR2_X1": 4,
+          "OR3_X1": 3,
+          "XNOR2_X1": 28,
+          "XOR2_X1": 2
+        },
+        "n_ff": 33,
+        "ltp_path": [
+          "clk",
+          "cnt[3]",
+          "res_valid",
+          "start_cnt",
+          "result_reg[8]",
+          "REMAINER_reg[7]",
+          "QUOTIENT_reg[6]"
+        ],
+        "error": "",
+        "seconds": 2.66
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "result",
+          "gold": "0",
+          "opt": "x0xxxxxxxx",
+          "inputs": {
+            "clk": "1",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "outputs_gold": {
+            "result": "0"
+          },
+          "outputs_opt": {
+            "result": "x0xxxxxxxx"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "0",
+                "sign": "1",
+                "opn_valid": "1",
+                "res_ready": "1"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "10"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 75000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "11011",
+                "sign": "0",
+                "opn_valid": "0",
+                "res_ready": "0"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "100"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x"
+              },
+              "cycle": 7
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "result",
+            "gold": "0",
+            "opt": "x0xxxxxxxx",
+            "inputs": {
+              "clk": "1",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "outputs_gold": {
+              "result": "0"
+            },
+            "outputs_opt": {
+              "result": "x0xxxxxxxx"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "0",
+                  "sign": "1",
+                  "opn_valid": "1",
+                  "res_ready": "1"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "10"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 75000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "11011",
+                  "sign": "0",
+                  "opn_valid": "0",
+                  "res_ready": "0"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "100"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x"
+                },
+                "cycle": 7
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.36
+        },
+        "formal": null,
+        "seconds": 0.6
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `result`: expected 0, got 'bx0xxxxxxxx.\nInputs: clk=1, rst=1, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1.\nExpected outputs: result=0.\nYour outputs: result='bx0xxxxxxxx.\nAnother failing case cycle 6: inputs clk=1, rst=0, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1; expected res_valid=0, result=2; yours res_valid=0, result='bx0.\nAnother failing case cycle 7: inputs clk=1, rst=0, dividend=1, divisor=27(0x1b), sign=0, opn_valid=0, res_ready=0; expected res_valid=0, result=4; yours res_valid=0, result='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 198.17,
+        "ltp": 85,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 2,
+          "$_SDFFCE_PP1P_": 6,
+          "$_SDFFE_PP0P_": 22,
+          "$_SDFF_PP0_": 2,
+          "AND2_X1": 8,
+          "AND3_X1": 4,
+          "AOI211_X1": 1,
+          "AOI21_X1": 11,
+          "INV_X1": 21,
+          "MUX2_X1": 12,
+          "NAND2_X1": 28,
+          "NAND3_X1": 3,
+          "NOR2_X1": 16,
+          "NOR3_X1": 6,
+          "NOR4_X1": 1,
+          "OAI211_X1": 6,
+          "OAI21_X1": 23,
+          "OAI221_X1": 1,
+          "OR2_X1": 4,
+          "OR3_X1": 3,
+          "XNOR2_X1": 29,
+          "XOR2_X1": 2
+        },
+        "n_ff": 33,
+        "ltp_path": [
+          "clk",
+          "cnt[3]",
+          "res_valid",
+          "start_cnt",
+          "NEG_DIVISOR[6]",
+          "REMAINER_reg[7]",
+          "QUOTIENT_reg[7]",
+          "result_reg[8]",
+          "REMAINER_reg[6]"
+        ],
+        "error": "",
+        "seconds": 2.61
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "result",
+          "gold": "0",
+          "opt": "x0xxxxxxxx",
+          "inputs": {
+            "clk": "1",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "outputs_gold": {
+            "result": "0"
+          },
+          "outputs_opt": {
+            "result": "x0xxxxxxxx"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "0",
+                "sign": "1",
+                "opn_valid": "1",
+                "res_ready": "1"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "10"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 75000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "11011",
+                "sign": "0",
+                "opn_valid": "0",
+                "res_ready": "0"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "100"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x"
+              },
+              "cycle": 7
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "result",
+            "gold": "0",
+            "opt": "x0xxxxxxxx",
+            "inputs": {
+              "clk": "1",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "outputs_gold": {
+              "result": "0"
+            },
+            "outputs_opt": {
+              "result": "x0xxxxxxxx"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "0",
+                  "sign": "1",
+                  "opn_valid": "1",
+                  "res_ready": "1"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "10"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 75000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "11011",
+                  "sign": "0",
+                  "opn_valid": "0",
+                  "res_ready": "0"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "100"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x"
+                },
+                "cycle": 7
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.3
+        },
+        "formal": null,
+        "seconds": 0.62
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `result`: expected 0, got 'bx0xxxxxxxx.\nInputs: clk=1, rst=1, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1.\nExpected outputs: result=0.\nYour outputs: result='bx0xxxxxxxx.\nAnother failing case cycle 6: inputs clk=1, rst=0, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1; expected res_valid=0, result=2; yours res_valid=0, result='bx0.\nAnother failing case cycle 7: inputs clk=1, rst=0, dividend=1, divisor=27(0x1b), sign=0, opn_valid=0, res_ready=0; expected res_valid=0, result=4; yours res_valid=0, result='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 196.574,
+        "ltp": 59,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 4,
+          "$_SDFFCE_PP1P_": 4,
+          "$_SDFFE_PP0P_": 22,
+          "$_SDFF_PP0_": 2,
+          "AND2_X1": 7,
+          "AND3_X1": 3,
+          "AOI211_X1": 1,
+          "AOI21_X1": 12,
+          "INV_X1": 19,
+          "MUX2_X1": 13,
+          "NAND2_X1": 27,
+          "NAND3_X1": 5,
+          "NOR2_X1": 19,
+          "NOR3_X1": 6,
+          "NOR4_X1": 1,
+          "OAI211_X1": 6,
+          "OAI21_X1": 20,
+          "OAI221_X1": 1,
+          "OR2_X1": 4,
+          "OR3_X1": 3,
+          "XNOR2_X1": 28,
+          "XOR2_X1": 2
+        },
+        "n_ff": 33,
+        "ltp_path": [
+          "clk",
+          "cnt[3]",
+          "res_valid",
+          "start_cnt",
+          "result_reg[8]",
+          "REMAINER_reg[7]",
+          "QUOTIENT_reg[6]"
+        ],
+        "error": "",
+        "seconds": 2.67
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "result",
+          "gold": "0",
+          "opt": "x0xxxxxxxx",
+          "inputs": {
+            "clk": "1",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "outputs_gold": {
+            "result": "0"
+          },
+          "outputs_opt": {
+            "result": "x0xxxxxxxx"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "0",
+                "sign": "1",
+                "opn_valid": "1",
+                "res_ready": "1"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "10"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 75000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "11011",
+                "sign": "0",
+                "opn_valid": "0",
+                "res_ready": "0"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "100"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x"
+              },
+              "cycle": 7
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "result",
+            "gold": "0",
+            "opt": "x0xxxxxxxx",
+            "inputs": {
+              "clk": "1",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "outputs_gold": {
+              "result": "0"
+            },
+            "outputs_opt": {
+              "result": "x0xxxxxxxx"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "0",
+                  "sign": "1",
+                  "opn_valid": "1",
+                  "res_ready": "1"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "10"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 75000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "11011",
+                  "sign": "0",
+                  "opn_valid": "0",
+                  "res_ready": "0"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "100"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x"
+                },
+                "cycle": 7
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.3
+        },
+        "formal": null,
+        "seconds": 0.52
+      }
+    },
+    {
+      "id": "c04",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `result`: expected 0, got 'bx0xxxxxxxx.\nInputs: clk=1, rst=1, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1.\nExpected outputs: result=0.\nYour outputs: result='bx0xxxxxxxx.\nAnother failing case cycle 6: inputs clk=1, rst=0, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1; expected res_valid=0, result=2; yours res_valid=0, result='bx0.\nAnother failing case cycle 7: inputs clk=1, rst=0, dividend=1, divisor=27(0x1b), sign=0, opn_valid=0, res_ready=0; expected res_valid=0, result=4; yours res_valid=0, result='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 198.17,
+        "ltp": 85,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 2,
+          "$_SDFFCE_PP1P_": 6,
+          "$_SDFFE_PP0P_": 22,
+          "$_SDFF_PP0_": 2,
+          "AND2_X1": 8,
+          "AND3_X1": 4,
+          "AOI211_X1": 1,
+          "AOI21_X1": 11,
+          "INV_X1": 21,
+          "MUX2_X1": 12,
+          "NAND2_X1": 28,
+          "NAND3_X1": 3,
+          "NOR2_X1": 16,
+          "NOR3_X1": 6,
+          "NOR4_X1": 1,
+          "OAI211_X1": 6,
+          "OAI21_X1": 23,
+          "OAI221_X1": 1,
+          "OR2_X1": 4,
+          "OR3_X1": 3,
+          "XNOR2_X1": 29,
+          "XOR2_X1": 2
+        },
+        "n_ff": 33,
+        "ltp_path": [
+          "clk",
+          "cnt[3]",
+          "res_valid",
+          "start_cnt",
+          "NEG_DIVISOR[6]",
+          "REMAINER_reg[7]",
+          "QUOTIENT_reg[7]",
+          "result_reg[8]",
+          "REMAINER_reg[6]"
+        ],
+        "error": "",
+        "seconds": 2.67
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "result",
+          "gold": "0",
+          "opt": "x0xxxxxxxx",
+          "inputs": {
+            "clk": "1",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "outputs_gold": {
+            "result": "0"
+          },
+          "outputs_opt": {
+            "result": "x0xxxxxxxx"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "0",
+                "sign": "1",
+                "opn_valid": "1",
+                "res_ready": "1"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "10"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 75000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "11011",
+                "sign": "0",
+                "opn_valid": "0",
+                "res_ready": "0"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "100"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x"
+              },
+              "cycle": 7
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "result",
+            "gold": "0",
+            "opt": "x0xxxxxxxx",
+            "inputs": {
+              "clk": "1",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "outputs_gold": {
+              "result": "0"
+            },
+            "outputs_opt": {
+              "result": "x0xxxxxxxx"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "0",
+                  "sign": "1",
+                  "opn_valid": "1",
+                  "res_ready": "1"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "10"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 75000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "11011",
+                  "sign": "0",
+                  "opn_valid": "0",
+                  "res_ready": "0"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "100"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x"
+                },
+                "cycle": 7
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.32
+        },
+        "formal": null,
+        "seconds": 0.72
+      }
+    },
+    {
+      "id": "c05",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `result`: expected 0, got 'bx0xxxxxxxx.\nInputs: clk=1, rst=1, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1.\nExpected outputs: result=0.\nYour outputs: result='bx0xxxxxxxx.\nAnother failing case cycle 6: inputs clk=1, rst=0, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1; expected res_valid=0, result=2; yours res_valid=0, result='bx0.\nAnother failing case cycle 7: inputs clk=1, rst=0, dividend=1, divisor=27(0x1b), sign=0, opn_valid=0, res_ready=0; expected res_valid=0, result=4; yours res_valid=0, result='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 196.574,
+        "ltp": 59,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 4,
+          "$_SDFFCE_PP1P_": 4,
+          "$_SDFFE_PP0P_": 22,
+          "$_SDFF_PP0_": 2,
+          "AND2_X1": 7,
+          "AND3_X1": 3,
+          "AOI211_X1": 1,
+          "AOI21_X1": 12,
+          "INV_X1": 19,
+          "MUX2_X1": 13,
+          "NAND2_X1": 27,
+          "NAND3_X1": 5,
+          "NOR2_X1": 19,
+          "NOR3_X1": 6,
+          "NOR4_X1": 1,
+          "OAI211_X1": 6,
+          "OAI21_X1": 20,
+          "OAI221_X1": 1,
+          "OR2_X1": 4,
+          "OR3_X1": 3,
+          "XNOR2_X1": 28,
+          "XOR2_X1": 2
+        },
+        "n_ff": 33,
+        "ltp_path": [
+          "clk",
+          "cnt[3]",
+          "res_valid",
+          "start_cnt",
+          "result_reg[8]",
+          "REMAINER_reg[7]",
+          "QUOTIENT_reg[6]"
+        ],
+        "error": "",
+        "seconds": 2.64
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "result",
+          "gold": "0",
+          "opt": "x0xxxxxxxx",
+          "inputs": {
+            "clk": "1",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "outputs_gold": {
+            "result": "0"
+          },
+          "outputs_opt": {
+            "result": "x0xxxxxxxx"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "0",
+                "sign": "1",
+                "opn_valid": "1",
+                "res_ready": "1"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "10"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 75000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "11011",
+                "sign": "0",
+                "opn_valid": "0",
+                "res_ready": "0"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "100"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x"
+              },
+              "cycle": 7
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "result",
+            "gold": "0",
+            "opt": "x0xxxxxxxx",
+            "inputs": {
+              "clk": "1",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "outputs_gold": {
+              "result": "0"
+            },
+            "outputs_opt": {
+              "result": "x0xxxxxxxx"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "0",
+                  "sign": "1",
+                  "opn_valid": "1",
+                  "res_ready": "1"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "10"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 75000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "11011",
+                  "sign": "0",
+                  "opn_valid": "0",
+                  "res_ready": "0"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "100"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x"
+                },
+                "cycle": 7
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.27
+        },
+        "formal": null,
+        "seconds": 0.46
+      }
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `result`: expected 0, got 'bx0xxxxxxxx.\nInputs: clk=1, rst=1, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1.\nExpected outputs: result=0.\nYour outputs: result='bx0xxxxxxxx.\nAnother failing case cycle 6: inputs clk=1, rst=0, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1; expected res_valid=0, result=2; yours res_valid=0, result='bx0.\nAnother failing case cycle 7: inputs clk=1, rst=0, dividend=1, divisor=27(0x1b), sign=0, opn_valid=0, res_ready=0; expected res_valid=0, result=4; yours res_valid=0, result='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 198.702,
+        "ltp": 84,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP1P_": 8,
+          "$_SDFFE_PP0P_": 22,
+          "$_SDFF_PP0_": 2,
+          "AND2_X1": 12,
+          "AND3_X1": 3,
+          "AOI21_X1": 10,
+          "INV_X1": 21,
+          "MUX2_X1": 12,
+          "NAND2_X1": 24,
+          "NAND3_X1": 3,
+          "NAND4_X1": 1,
+          "NOR2_X1": 16,
+          "NOR3_X1": 13,
+          "NOR4_X1": 1,
+          "OAI211_X1": 4,
+          "OAI21_X1": 20,
+          "OAI221_X1": 1,
+          "OR2_X1": 4,
+          "OR3_X1": 2,
+          "OR4_X1": 1,
+          "XNOR2_X1": 28,
+          "XOR2_X1": 3
+        },
+        "n_ff": 33,
+        "ltp_path": [
+          "clk",
+          "cnt[3]",
+          "res_valid",
+          "start_cnt",
+          "QUOTIENT_reg[7]",
+          "result_reg[8]",
+          "REMAINER_reg[7]",
+          "QUOTIENT_reg[2]"
+        ],
+        "error": "",
+        "seconds": 2.74
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "result",
+          "gold": "0",
+          "opt": "x0xxxxxxxx",
+          "inputs": {
+            "clk": "1",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "outputs_gold": {
+            "result": "0"
+          },
+          "outputs_opt": {
+            "result": "x0xxxxxxxx"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "0",
+                "sign": "1",
+                "opn_valid": "1",
+                "res_ready": "1"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "10"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 75000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "11011",
+                "sign": "0",
+                "opn_valid": "0",
+                "res_ready": "0"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "100"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x"
+              },
+              "cycle": 7
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "result",
+            "gold": "0",
+            "opt": "x0xxxxxxxx",
+            "inputs": {
+              "clk": "1",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "outputs_gold": {
+              "result": "0"
+            },
+            "outputs_opt": {
+              "result": "x0xxxxxxxx"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "0",
+                  "sign": "1",
+                  "opn_valid": "1",
+                  "res_ready": "1"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "10"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 75000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "11011",
+                  "sign": "0",
+                  "opn_valid": "0",
+                  "res_ready": "0"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "100"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x"
+                },
+                "cycle": 7
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.36
+        },
+        "formal": null,
+        "seconds": 0.75
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `result`: expected 0, got 'bx0xxxxxxxx.\nInputs: clk=1, rst=1, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1.\nExpected outputs: result=0.\nYour outputs: result='bx0xxxxxxxx.\nAnother failing case cycle 6: inputs clk=1, rst=0, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1; expected res_valid=0, result=2; yours res_valid=0, result='bx0.\nAnother failing case cycle 7: inputs clk=1, rst=0, dividend=1, divisor=27(0x1b), sign=0, opn_valid=0, res_ready=0; expected res_valid=0, result=4; yours res_valid=0, result='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 197.904,
+        "ltp": 83,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP1P_": 8,
+          "$_SDFFE_PP0P_": 22,
+          "$_SDFF_PP0_": 2,
+          "AND2_X1": 9,
+          "AND3_X1": 3,
+          "AOI211_X1": 1,
+          "AOI21_X1": 11,
+          "INV_X1": 20,
+          "MUX2_X1": 12,
+          "NAND2_X1": 28,
+          "NAND3_X1": 3,
+          "NOR2_X1": 18,
+          "NOR3_X1": 6,
+          "NOR4_X1": 1,
+          "OAI211_X1": 6,
+          "OAI21_X1": 22,
+          "OAI221_X1": 1,
+          "OR2_X1": 4,
+          "OR3_X1": 3,
+          "XNOR2_X1": 29,
+          "XOR2_X1": 2
+        },
+        "n_ff": 33,
+        "ltp_path": [
+          "clk",
+          "res_valid",
+          "cnt[3]",
+          "start_cnt",
+          "NEG_DIVISOR[7]",
+          "QUOTIENT_reg[7]",
+          "result_reg[8]",
+          "REMAINER_reg[7]"
+        ],
+        "error": "",
+        "seconds": 2.66
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "result",
+          "gold": "0",
+          "opt": "x0xxxxxxxx",
+          "inputs": {
+            "clk": "1",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "outputs_gold": {
+            "result": "0"
+          },
+          "outputs_opt": {
+            "result": "x0xxxxxxxx"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "0",
+                "sign": "1",
+                "opn_valid": "1",
+                "res_ready": "1"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "10"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 75000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "11011",
+                "sign": "0",
+                "opn_valid": "0",
+                "res_ready": "0"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "100"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x"
+              },
+              "cycle": 7
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "result",
+            "gold": "0",
+            "opt": "x0xxxxxxxx",
+            "inputs": {
+              "clk": "1",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "outputs_gold": {
+              "result": "0"
+            },
+            "outputs_opt": {
+              "result": "x0xxxxxxxx"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "0",
+                  "sign": "1",
+                  "opn_valid": "1",
+                  "res_ready": "1"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "10"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 75000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "11011",
+                  "sign": "0",
+                  "opn_valid": "0",
+                  "res_ready": "0"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "100"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x"
+                },
+                "cycle": 7
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.31
+        },
+        "formal": null,
+        "seconds": 0.68
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `result`: expected 0, got 'bx0xxxxxxxx.\nInputs: clk=1, rst=1, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1.\nExpected outputs: result=0.\nYour outputs: result='bx0xxxxxxxx.\nAnother failing case cycle 6: inputs clk=1, rst=0, dividend=1, divisor=0, sign=1, opn_valid=1, res_ready=1; expected res_valid=0, result=2; yours res_valid=0, result='bx0.\nAnother failing case cycle 7: inputs clk=1, rst=0, dividend=1, divisor=27(0x1b), sign=0, opn_valid=0, res_ready=0; expected res_valid=0, result=4; yours res_valid=0, result='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 205.618,
+        "ltp": 71,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 7,
+          "$_SDFFCE_PP1P_": 1,
+          "$_SDFFE_PP0P_": 22,
+          "$_SDFF_PP0_": 2,
+          "AND2_X1": 9,
+          "AND3_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 18,
+          "AOI221_X1": 1,
+          "INV_X1": 21,
+          "MUX2_X1": 18,
+          "NAND2_X1": 24,
+          "NAND3_X1": 8,
+          "NOR2_X1": 16,
+          "NOR3_X1": 5,
+          "NOR4_X1": 1,
+          "OAI211_X1": 3,
+          "OAI21_X1": 10,
+          "OAI221_X1": 1,
+          "OAI33_X1": 1,
+          "OR2_X1": 4,
+          "OR3_X1": 1,
+          "XNOR2_X1": 23,
+          "XOR2_X1": 12
+        },
+        "n_ff": 33,
+        "ltp_path": [
+          "clk",
+          "cnt[3]",
+          "res_valid",
+          "NEG_DIVISOR[8]",
+          "REMAINER_reg[7]",
+          "QUOTIENT_reg[7]",
+          "result_reg[8]",
+          "REMAINER_reg[6]"
+        ],
+        "error": "",
+        "seconds": 2.68
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['result']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "result",
+          "gold": "0",
+          "opt": "x0xxxxxxxx",
+          "inputs": {
+            "clk": "1",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst": "1",
+            "dividend": "1",
+            "divisor": "0",
+            "sign": "1",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "outputs_gold": {
+            "result": "0"
+          },
+          "outputs_opt": {
+            "result": "x0xxxxxxxx"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "0",
+                "sign": "1",
+                "opn_valid": "1",
+                "res_ready": "1"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "10"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 75000,
+              "inputs": {
+                "clk": "1",
+                "rst": "0",
+                "dividend": "1",
+                "divisor": "11011",
+                "sign": "0",
+                "opn_valid": "0",
+                "res_ready": "0"
+              },
+              "outputs_gold": {
+                "res_valid": "0",
+                "result": "100"
+              },
+              "outputs_opt": {
+                "res_valid": "0",
+                "result": "x"
+              },
+              "cycle": 7
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "result",
+            "gold": "0",
+            "opt": "x0xxxxxxxx",
+            "inputs": {
+              "clk": "1",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst": "1",
+              "dividend": "1",
+              "divisor": "0",
+              "sign": "1",
+              "opn_valid": "1",
+              "res_ready": "1"
+            },
+            "outputs_gold": {
+              "result": "0"
+            },
+            "outputs_opt": {
+              "result": "x0xxxxxxxx"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "0",
+                  "sign": "1",
+                  "opn_valid": "1",
+                  "res_ready": "1"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "10"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 75000,
+                "inputs": {
+                  "clk": "1",
+                  "rst": "0",
+                  "dividend": "1",
+                  "divisor": "11011",
+                  "sign": "0",
+                  "opn_valid": "0",
+                  "res_ready": "0"
+                },
+                "outputs_gold": {
+                  "res_valid": "0",
+                  "result": "100"
+                },
+                "outputs_opt": {
+                  "res_valid": "0",
+                  "result": "x"
+                },
+                "cycle": 7
+              }
+            ]
+          },
+          "bad_outputs": [
+            "result"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.35
+        },
+        "formal": null,
+        "seconds": 0.65
+      }
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 223.2 / ltp 87 is not better than baseline 212.3 / 76",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 223.174,
+        "ltp": 87,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 1,
+          "$_SDFFCE_PP1P_": 7,
+          "$_SDFFE_PP0P_": 22,
+          "$_SDFF_PP0_": 2,
+          "AND2_X1": 15,
+          "AND3_X1": 2,
+          "AND4_X1": 1,
+          "AOI211_X1": 5,
+          "AOI21_X1": 18,
+          "AOI22_X1": 1,
+          "INV_X1": 21,
+          "MUX2_X1": 14,
+          "NAND2_X1": 28,
+          "NAND3_X1": 4,
+          "NAND4_X1": 1,
+          "NOR2_X1": 22,
+          "NOR3_X1": 7,
+          "OAI21_X1": 20,
+          "OAI22_X1": 2,
+          "OAI33_X1": 1,
+          "OR2_X1": 6,
+          "OR3_X1": 3,
+          "XNOR2_X1": 21,
+          "XOR2_X1": 10
+        },
+        "n_ff": 33,
+        "ltp_path": [
+          "clk",
+          "cnt[3]",
+          "res_valid",
+          "NEG_DIVISOR[7]",
+          "QUOTIENT_reg[7]",
+          "result_reg[8]",
+          "REMAINER_reg[1]"
+        ],
+        "error": "",
+        "seconds": 1.67
+      },
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "d0bb171e8b6b701ca34c40328e8ab1be03995b659726f9c98f88db00796918df",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": null,
+    "budget": {
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 0,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 3,
+      "max_refine": 0,
+      "max_repair": 1,
+      "time_limit": 600,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "d0bb171e8b6b701ca34c40328e8ab1be03995b659726f9c98f88db00796918df"
+  }
+}

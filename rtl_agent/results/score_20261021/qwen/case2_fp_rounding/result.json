@@ -1,0 +1,417 @@
+{
+  "top": "fp_rounding",
+  "input": "/mnt/f/Projects/EDA_work/rtl_agent/cases/public/case2_fp_rounding/fp_round_v1.v",
+  "kind": "combinational",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 88.046,
+    "ltp": 11,
+    "course_area": 88.046,
+    "course_ltp": 11,
+    "cells": {
+      "AND2_X1": 2,
+      "AND3_X1": 1,
+      "AND4_X1": 1,
+      "AOI21_X1": 6,
+      "INV_X1": 11,
+      "MUX2_X1": 1,
+      "NAND2_X1": 3,
+      "NAND3_X1": 2,
+      "NAND4_X1": 4,
+      "NOR2_X1": 10,
+      "NOR3_X1": 2,
+      "NOR4_X1": 10,
+      "OAI211_X1": 1,
+      "OAI21_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 13,
+      "XOR2_X1": 7
+    }
+  },
+  "optimized": {
+    "area": 88.046,
+    "ltp": 11,
+    "cells": {
+      "AND2_X1": 2,
+      "AND3_X1": 1,
+      "AND4_X1": 1,
+      "AOI21_X1": 6,
+      "INV_X1": 11,
+      "MUX2_X1": 1,
+      "NAND2_X1": 3,
+      "NAND3_X1": 2,
+      "NAND4_X1": 4,
+      "NOR2_X1": 10,
+      "NOR3_X1": 2,
+      "NOR4_X1": 10,
+      "OAI211_X1": 1,
+      "OAI21_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 13,
+      "XOR2_X1": 7
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 3,
+    "logical_calls": 3,
+    "prompt_tokens": 6606,
+    "completion_tokens": 2993,
+    "reasoning_tokens": 0,
+    "cached_tokens": 1536,
+    "total_tokens": 9599,
+    "llm_seconds": 67.3
+  },
+  "runtime_s": 53.1,
+  "stop_reason": "budget exhausted",
+  "graph_trace": [
+    [
+      "setup",
+      1.85
+    ],
+    [
+      "arithmetic",
+      0.03
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "generate",
+      27.51
+    ],
+    [
+      "evaluate",
+      1.37
+    ],
+    [
+      "repair",
+      21.19
+    ],
+    [
+      "evaluate",
+      1.07
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "no-gain",
+      "problem": "[metrics] area 90.2 / ltp 13 is not better than baseline 88.0 / 11",
+      "plan": "Replace `(| round_sticky_bits_i)` with `round_sticky_bits_i != 2'b00` (saves 1 NOR2 + 1 INV → uses existing 2-bit compare logic); narrow round_sticky_bits_i comparison in exact_zero_o to 2’b00 (no width change needed but avoids implicit zero-extend); inline `abs_value_i[0]` use in FRM_RNE/2'b10 into a direct bit select — no area gain alone, but enables sharing with abs_rounded_o’s LSB path; eliminate redundant `default: round_up = 1'bx` — all 3-bit rnd_mode_i values are covered by named params, so default is dead code; keep all assignments and structure identical — only prune provably unused logic.",
+      "synth": {
+        "ok": true,
+        "area": 90.174,
+        "ltp": 13,
+        "cells": {
+          "$_DLATCH_N_": 1,
+          "AND3_X1": 2,
+          "AND4_X1": 1,
+          "AOI211_X1": 1,
+          "AOI21_X1": 4,
+          "INV_X1": 11,
+          "MUX2_X1": 1,
+          "NAND2_X1": 5,
+          "NAND3_X1": 4,
+          "NAND4_X1": 5,
+          "NOR2_X1": 12,
+          "NOR3_X1": 1,
+          "NOR4_X1": 8,
+          "OAI21_X1": 1,
+          "OAI33_X1": 1,
+          "XNOR2_X1": 14,
+          "XOR2_X1": 7
+        },
+        "n_ff": 1,
+        "ltp_path": [
+          "rnd_mode_i[2]",
+          "round_up"
+        ],
+        "error": "",
+        "seconds": 1.03
+      },
+      "verify": null
+    },
+    {
+      "id": "c02",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at (t=22000ps, random)] output `abs_rounded_o`: expected 1, got 0.\nInputs: abs_value_i=1, sign_i=0, round_sticky_bits_i=0, rnd_mode_i=0, effective_subtraction_i=0.\nExpected outputs: abs_rounded_o=1.\nYour outputs: abs_rounded_o=0.\nAnother failing case: inputs abs_value_i=16777215(0xffffff), sign_i=0, round_sticky_bits_i=0, rnd_mode_i=0, effective_subtraction_i=0; expected abs_rounded_o=16777215(0xffffff), sign_o=0, exact_zero_o=0; yours abs_rounded_o=16777214(0xfffffe), sign_o=0, exact_zero_o=0.\nAnother failing case: inputs abs_value_i=8388607(0x7fffff), sign_i=0, round_sticky_bits_i=0, rnd_mode_i=0, effective_subtraction_i=0; expected abs_rounded_o=8388607(0x7fffff), sign_o=0, exact_zero_o=0; yours abs_rounded_o=8388606(0x7ffffe), sign_o=0, exact_zero_o=0.",
+      "plan": "Replace full-width adder with conditional increment using carry-in trick: abs_rounded_o = {abs_value_i[DAT_WIDTH-1:1], 1'b0} + {1'b0, round_up} — this avoids DAT_WIDTH-bit adder and reuses LSB logic; narrow round_up computation by observing FRM_RNE’s 2'b10 case only needs abs_value_i[0], not full width; merge sign_o logic into single expression with no intermediate exact_zero_o dependency in critical path; eliminate redundant comparisons by computing exact_zero_o as (|abs_value_i) == 0 & (|round_sticky_bits_i) == 0 → use NOR2s on each vector instead of wide equality.",
+      "synth": {
+        "ok": true,
+        "area": 23.408,
+        "ltp": 4,
+        "cells": {
+          "INV_X1": 3,
+          "MUX2_X1": 1,
+          "NAND2_X1": 2,
+          "NAND3_X1": 1,
+          "NAND4_X1": 1,
+          "NOR2_X1": 3,
+          "NOR3_X1": 2,
+          "NOR4_X1": 6,
+          "OAI33_X1": 1,
+          "XNOR2_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "abs_value_i[23]"
+        ],
+        "error": "",
+        "seconds": 1.01
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['abs_rounded_o']",
+        "mismatch": {
+          "kind": "value",
+          "time": 22000,
+          "signal": "abs_rounded_o",
+          "gold": "1",
+          "opt": "0",
+          "inputs": {
+            "abs_value_i": "1",
+            "sign_i": "0",
+            "round_sticky_bits_i": "0",
+            "rnd_mode_i": "0",
+            "effective_subtraction_i": "0"
+          },
+          "inputs_prev": {
+            "abs_value_i": "111111111111111111111111",
+            "sign_i": "1",
+            "round_sticky_bits_i": "11",
+            "rnd_mode_i": "111",
+            "effective_subtraction_i": "1"
+          },
+          "outputs_gold": {
+            "abs_rounded_o": "1"
+          },
+          "outputs_opt": {
+            "abs_rounded_o": "0"
+          },
+          "stimulus": "random",
+          "cycle": null,
+          "more": [
+            {
+              "time": 32000,
+              "inputs": {
+                "abs_value_i": "111111111111111111111111",
+                "sign_i": "0",
+                "round_sticky_bits_i": "0",
+                "rnd_mode_i": "0",
+                "effective_subtraction_i": "0"
+              },
+              "outputs_gold": {
+                "abs_rounded_o": "111111111111111111111111",
+                "sign_o": "0",
+                "exact_zero_o": "0"
+              },
+              "outputs_opt": {
+                "abs_rounded_o": "111111111111111111111110",
+                "sign_o": "0",
+                "exact_zero_o": "0"
+              },
+              "cycle": null
+            },
+            {
+              "time": 52000,
+              "inputs": {
+                "abs_value_i": "11111111111111111111111",
+                "sign_i": "0",
+                "round_sticky_bits_i": "0",
+                "rnd_mode_i": "0",
+                "effective_subtraction_i": "0"
+              },
+              "outputs_gold": {
+                "abs_rounded_o": "11111111111111111111111",
+                "sign_o": "0",
+                "exact_zero_o": "0"
+              },
+              "outputs_opt": {
+                "abs_rounded_o": "11111111111111111111110",
+                "sign_o": "0",
+                "exact_zero_o": "0"
+              },
+              "cycle": null
+            }
+          ]
+        },
+        "evidence": "sim: 6022 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 22000,
+            "signal": "abs_rounded_o",
+            "gold": "1",
+            "opt": "0",
+            "inputs": {
+              "abs_value_i": "1",
+              "sign_i": "0",
+              "round_sticky_bits_i": "0",
+              "rnd_mode_i": "0",
+              "effective_subtraction_i": "0"
+            },
+            "inputs_prev": {
+              "abs_value_i": "111111111111111111111111",
+              "sign_i": "1",
+              "round_sticky_bits_i": "11",
+              "rnd_mode_i": "111",
+              "effective_subtraction_i": "1"
+            },
+            "outputs_gold": {
+              "abs_rounded_o": "1"
+            },
+            "outputs_opt": {
+              "abs_rounded_o": "0"
+            },
+            "stimulus": "random",
+            "cycle": null,
+            "more": [
+              {
+                "time": 32000,
+                "inputs": {
+                  "abs_value_i": "111111111111111111111111",
+                  "sign_i": "0",
+                  "round_sticky_bits_i": "0",
+                  "rnd_mode_i": "0",
+                  "effective_subtraction_i": "0"
+                },
+                "outputs_gold": {
+                  "abs_rounded_o": "111111111111111111111111",
+                  "sign_o": "0",
+                  "exact_zero_o": "0"
+                },
+                "outputs_opt": {
+                  "abs_rounded_o": "111111111111111111111110",
+                  "sign_o": "0",
+                  "exact_zero_o": "0"
+                },
+                "cycle": null
+              },
+              {
+                "time": 52000,
+                "inputs": {
+                  "abs_value_i": "11111111111111111111111",
+                  "sign_i": "0",
+                  "round_sticky_bits_i": "0",
+                  "rnd_mode_i": "0",
+                  "effective_subtraction_i": "0"
+                },
+                "outputs_gold": {
+                  "abs_rounded_o": "11111111111111111111111",
+                  "sign_o": "0",
+                  "exact_zero_o": "0"
+                },
+                "outputs_opt": {
+                  "abs_rounded_o": "11111111111111111111110",
+                  "sign_o": "0",
+                  "exact_zero_o": "0"
+                },
+                "cycle": null
+              }
+            ]
+          },
+          "bad_outputs": [
+            "abs_rounded_o"
+          ],
+          "n_vectors": 6022,
+          "seconds": 0.06
+        },
+        "formal": null,
+        "seconds": 0.18
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "repair(c02)",
+      "parent": "c02",
+      "depth": 1,
+      "strategy": "datapath",
+      "status": "no-gain",
+      "problem": "[metrics] area 88.0 / ltp 11 is not better than baseline 88.0 / 11",
+      "plan": "Revert to direct addition abs_value_i + round_up — the original area cost is unavoidable for correctness; the shift trick is invalid. Preserve all other optimizations (zero detection, round_up factoring, sign_o flattening) since they are correct and reduce area. Remove the broken inc_in/sum logic and assign abs_rounded_o = abs_value_i + round_up directly.",
+      "synth": {
+        "ok": true,
+        "area": 88.046,
+        "ltp": 11,
+        "cells": {
+          "AND2_X1": 2,
+          "AND3_X1": 1,
+          "AND4_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 11,
+          "MUX2_X1": 1,
+          "NAND2_X1": 3,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 10,
+          "NOR3_X1": 2,
+          "NOR4_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.76
+      },
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": "qwen-plus",
+    "budget": {
+      "call_limit": 3,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 0,
+      "resynth": "off",
+      "resynth_seconds": 30,
+      "max_calls": 3,
+      "max_refine": 0,
+      "max_repair": 1,
+      "time_limit": 600,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873"
+  }
+}

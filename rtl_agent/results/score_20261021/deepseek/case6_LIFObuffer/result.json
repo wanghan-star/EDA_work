@@ -1,0 +1,437 @@
+{
+  "top": "LIFObuffer",
+  "input": "/mnt/f/Projects/EDA_work/rtl_agent/cases/public/case6_LIFObuffer/lifo_v1.v",
+  "kind": "sequential",
+  "status": "optimized",
+  "tier": "strict",
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 101.612,
+    "ltp": 18,
+    "course_area": 101.612,
+    "course_ltp": 18,
+    "cells": {
+      "$_DFFE_PP_": 1,
+      "$_SDFFCE_PP0P_": 22,
+      "$_SDFFCE_PP1P_": 1,
+      "AND2_X1": 7,
+      "AOI211_X1": 6,
+      "AOI21_X1": 10,
+      "AOI222_X1": 4,
+      "INV_X1": 14,
+      "MUX2_X1": 7,
+      "NAND2_X1": 7,
+      "NAND3_X1": 9,
+      "NAND4_X1": 1,
+      "NOR2_X1": 14,
+      "NOR3_X1": 2,
+      "OAI21_X1": 12,
+      "OR2_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 1
+    }
+  },
+  "optimized": {
+    "area": 98.42,
+    "ltp": 17,
+    "course_area": 98.42,
+    "course_ltp": 17,
+    "cells": {
+      "$_DFFE_PP_": 1,
+      "$_SDFFCE_PP0P_": 22,
+      "$_SDFFCE_PP1P_": 1,
+      "AND2_X1": 1,
+      "AOI21_X1": 10,
+      "AOI221_X1": 12,
+      "AOI22_X1": 1,
+      "INV_X1": 17,
+      "MUX2_X1": 3,
+      "NAND2_X1": 4,
+      "NAND3_X1": 3,
+      "NAND4_X1": 2,
+      "NOR2_X1": 16,
+      "NOR3_X1": 3,
+      "NOR4_X1": 1,
+      "OAI21_X1": 19,
+      "OAI221_X1": 1,
+      "OR2_X1": 2,
+      "OR3_X1": 1
+    },
+    "candidate": "c05"
+  },
+  "verification": {
+    "ok": true,
+    "relaxed": false,
+    "stage": "done",
+    "message": "",
+    "mismatch": null,
+    "evidence": "sim: 15000 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_lifo.v; formal: bounded PASS, 30 cycles",
+    "sim": {
+      "ok": true,
+      "relaxed_ok": false,
+      "course_passed": [
+        "course-tb:stim_lifo.v"
+      ],
+      "error": "",
+      "mismatch": null,
+      "bad_outputs": [],
+      "n_vectors": 15000,
+      "seconds": 0.11
+    },
+    "formal": {
+      "kind": "seq",
+      "status": "bounded",
+      "depth": 30,
+      "message": "no counter-example within 30 cycles (induction inconclusive)",
+      "seconds": 39.12,
+      "trace_len": 0
+    },
+    "seconds": 39.33
+  },
+  "usage": {
+    "calls": 5,
+    "logical_calls": 5,
+    "prompt_tokens": 8862,
+    "completion_tokens": 4503,
+    "reasoning_tokens": 0,
+    "cached_tokens": 6144,
+    "total_tokens": 13365,
+    "llm_seconds": 45.4
+  },
+  "runtime_s": 79.1,
+  "stop_reason": "no further gain",
+  "graph_trace": [
+    [
+      "setup",
+      1.06
+    ],
+    [
+      "arithmetic",
+      0.02
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "generate",
+      12.01
+    ],
+    [
+      "evaluate",
+      1.02
+    ],
+    [
+      "refine",
+      7.44
+    ],
+    [
+      "evaluate_refine",
+      0.83
+    ],
+    [
+      "rescue",
+      10.91
+    ],
+    [
+      "evaluate",
+      5.6
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "no-gain",
+      "problem": "[metrics] area 109.1 / ltp 17 is not better than baseline 101.6 / 18",
+      "plan": "- Keep the exact if/else control structure and blocking assignments/order.\n- Replace `SP ? 0 : 1` with `~|SP` (NOR reduction) — same value, cheaper than mux.\n- Replace `SP[2]` usage unchanged; keep `SP - 1'b1` and `SP + 1` as-is (needed for exact X/overflow behavior).\n- Remove the redundant `Rst==0` / `Rst==1` re-tests by using `if (Rst)` / `else` (Rst is 1-bit, same branch selection).\n- Keep stack_mem reset loop and X assignment exactly.",
+      "synth": {
+        "ok": true,
+        "area": 109.06,
+        "ltp": 17,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 1,
+          "AND2_X1": 4,
+          "AOI21_X1": 25,
+          "AOI221_X1": 4,
+          "AOI222_X1": 4,
+          "INV_X1": 19,
+          "MUX2_X1": 5,
+          "NAND2_X1": 8,
+          "NAND3_X1": 1,
+          "NAND4_X1": 2,
+          "NOR2_X1": 9,
+          "NOR3_X1": 11,
+          "OAI21_X1": 4,
+          "OAI22_X1": 4,
+          "OR2_X1": 2,
+          "XNOR2_X1": 2
+        },
+        "n_ff": 24,
+        "ltp_path": [
+          "clk",
+          "SP[0]",
+          "EMPTY",
+          "stack_mem[0][3]",
+          "dataOut[3]"
+        ],
+        "error": "",
+        "seconds": 0.82
+      },
+      "verify": null
+    },
+    {
+      "id": "c02",
+      "origin": "init:storage",
+      "parent": null,
+      "depth": 0,
+      "strategy": "storage",
+      "status": "no-gain",
+      "problem": "[metrics] area 101.6 / ltp 18 is not better than baseline 101.6 / 18",
+      "plan": "- Keep SP 3 bits (needs value 4), keep stack_mem 4x4 since push/pop addresses SP and SP+1.\n- FULL=(SP==0) and EMPTY=SP[2] are cheap decodes; keep as-is.\n- dataOut is x except on pop; keep the exact procedural assignment order/style.\n- Remove the reset loop over stack_mem only if unobservable — but stack_mem[SP] is read on pop, and reset zeroes it, so keep the clear (it is observable after reset+push+pop). Keep it.\n- No address-decode savings available; retain structure, minor: drop redundant FULL/EMPTY recomputation by computing once from the post-update SP.",
+      "synth": {
+        "ok": true,
+        "area": 101.612,
+        "ltp": 18,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 1,
+          "AND2_X1": 7,
+          "AOI211_X1": 6,
+          "AOI21_X1": 10,
+          "AOI222_X1": 4,
+          "INV_X1": 14,
+          "MUX2_X1": 7,
+          "NAND2_X1": 7,
+          "NAND3_X1": 9,
+          "NAND4_X1": 1,
+          "NOR2_X1": 14,
+          "NOR3_X1": 2,
+          "OAI21_X1": 12,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 1
+        },
+        "n_ff": 24,
+        "ltp_path": [
+          "clk",
+          "SP[1]",
+          "stack_mem[3][3]",
+          "dataOut[3]"
+        ],
+        "error": "",
+        "seconds": 0.83
+      },
+      "verify": null
+    },
+    {
+      "id": "c03",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "no-gain",
+      "problem": "[metrics] area 101.6 / ltp 18 is not better than baseline 101.6 / 18",
+      "plan": "- Registers are free: keep SP as 3-bit flop (values 0..4), derive EMPTY=SP[2], FULL=(SP==0) combinationally instead of storing them, removing redundant FF state and its update logic.\n- Replace the pre-branch FULL/EMPTY/dataOut computation + re-computation after SP update with a single SP-next mux: pop decrements, push increments, else holds. Compute FULL/EMPTY from the resulting SP next value so outputs match the original's post-update values.\n- dataOut: default 4'hx, overwritten by stack_mem[SP] only when pushing; keep blocking assignment order and the x default.\n- stack_mem writes: push writes dataIn at old SP (only when not full and RW=0); pop clears at old SP (only when not empty and RW=1); reset clears all four; keep as flops (free), no X issue since only read after reset in valid states.\n- Rst=1 must not touch FULL (original leaves it); keep FULL update only in the Rst=0 path.",
+      "synth": {
+        "ok": true,
+        "area": 101.612,
+        "ltp": 18,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 1,
+          "AND2_X1": 7,
+          "AOI211_X1": 6,
+          "AOI21_X1": 10,
+          "AOI222_X1": 4,
+          "INV_X1": 14,
+          "MUX2_X1": 7,
+          "NAND2_X1": 7,
+          "NAND3_X1": 9,
+          "NAND4_X1": 1,
+          "NOR2_X1": 14,
+          "NOR3_X1": 2,
+          "OAI21_X1": 12,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 1
+        },
+        "n_ff": 24,
+        "ltp_path": [
+          "clk",
+          "SP[1]",
+          "stack_mem[3][3]",
+          "dataOut[3]"
+        ],
+        "error": "",
+        "seconds": 0.82
+      },
+      "verify": null
+    },
+    {
+      "id": "c04",
+      "origin": "init:logic",
+      "parent": null,
+      "depth": 0,
+      "strategy": "logic",
+      "status": "no-gain",
+      "problem": "[metrics] area 101.6 / ltp 18 is not better than baseline 101.6 / 18",
+      "plan": "- Keep the exact procedural assignment order and blocking style; only simplify the control expressions.\n- FULL=(SP==0) is just ~|SP; EMPTY=SP[2] is a single bit select.\n- Push condition: FULL==0 && RW==0 means SP!=0 && RW==0. Pop: EMPTY==0 && RW==1 means SP[2]==0 && RW==1.\n- Since FULL/EMPTY are recomputed after SP changes, compute them from the new SP directly; keep dataOut=4'hx default and pop override.\n- Merge the redundant Rst==0 / else structure into a single else-if chain preserving X semantics.",
+      "synth": {
+        "ok": true,
+        "area": 101.612,
+        "ltp": 18,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 1,
+          "AND2_X1": 7,
+          "AOI211_X1": 6,
+          "AOI21_X1": 10,
+          "AOI222_X1": 4,
+          "INV_X1": 14,
+          "MUX2_X1": 7,
+          "NAND2_X1": 7,
+          "NAND3_X1": 9,
+          "NAND4_X1": 1,
+          "NOR2_X1": 14,
+          "NOR3_X1": 2,
+          "OAI21_X1": 12,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 1
+        },
+        "n_ff": 24,
+        "ltp_path": [
+          "clk",
+          "SP[1]",
+          "stack_mem[3][3]",
+          "dataOut[3]"
+        ],
+        "error": "",
+        "seconds": 0.73
+      },
+      "verify": null
+    },
+    {
+      "id": "c05",
+      "origin": "rescue:pipeline",
+      "parent": null,
+      "depth": 0,
+      "strategy": "pipeline",
+      "status": "verified",
+      "problem": "",
+      "plan": "- Keep the exact same blocking-assignment statement order for dataOut (X assignment preserved) and FULL/EMPTY.\n- Replace the 4-entry stack_mem array + SP with 4 explicit 4-bit registers and a one-hot-ish decoded write enable, so the memory write mux is a decoded select instead of an indexed array write (removes the wide address-decode mux on the critical path).\n- Precompute `SP==0` and `SP[2]` (FULL/EMPTY) from a registered next-SP value so the post-update FULL/EMPTY are just registered flags, not recomputed through the decrement/increment adder.\n- Use a single increment/decrement adder: SP_next = SP + (RW ? 1 : -1) with carry-in, sharing one adder for push and pop.\n- Narrow stack_mem index decode to 4 one-hot enables; keep dataOut mux as a 4:1 select on SP.",
+      "synth": {
+        "ok": true,
+        "area": 98.42,
+        "ltp": 17,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 1,
+          "AND2_X1": 1,
+          "AOI21_X1": 10,
+          "AOI221_X1": 12,
+          "AOI22_X1": 1,
+          "INV_X1": 17,
+          "MUX2_X1": 3,
+          "NAND2_X1": 4,
+          "NAND3_X1": 3,
+          "NAND4_X1": 2,
+          "NOR2_X1": 16,
+          "NOR3_X1": 3,
+          "NOR4_X1": 1,
+          "OAI21_X1": 19,
+          "OAI221_X1": 1,
+          "OR2_X1": 2,
+          "OR3_X1": 1
+        },
+        "n_ff": 24,
+        "ltp_path": [
+          "clk",
+          "EMPTY",
+          "SP[1]",
+          "m2[3]",
+          "dataOut[3]"
+        ],
+        "error": "",
+        "seconds": 0.68
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_lifo.v; formal: bounded PASS, 10 cycles",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_lifo.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.07
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "bounded",
+          "depth": 10,
+          "message": "no counter-example within 10 cycles (induction inconclusive)",
+          "seconds": 4.69,
+          "trace_len": 0
+        },
+        "seconds": 4.83
+      }
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "5ee34c8a8e29aa89ced8dba30da4a48974bf25f6fe366e2e447ec095fe67bda9",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "liberty_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "llm_model": "deepseek-v4.1-flash",
+    "budget": {
+      "call_limit": 5,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "off",
+      "resynth_seconds": 30,
+      "max_calls": 8,
+      "max_refine": 2,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "560d23d039363c4988de574e2349561eb61a68dc9a24ab4e2956f0bcd50a82fb"
+  },
+  "gain": {
+    "area_pct": -3.14,
+    "ltp_pct": -5.56
+  }
+}

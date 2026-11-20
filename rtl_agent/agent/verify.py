@@ -48,8 +48,8 @@ class VerifyResult:
 # Formal outcomes accepted per policy (strict 4-state simulation must pass in every case).
 #   proved : only complete proofs (ABC iprove for comb, temporal induction for seq)
 #   bounded: also bounded model checks without counter-example, multi-clock designs that cannot be
-#            modelled (simulation only) and solver time-outs / non-reproducible 2-valued traces
-ACCEPTED_FORMAL = {"proved": ("proved",), "bounded": ("proved", "bounded", "skipped", "unknown")}
+#            modelled (simulation only). Timeouts and unconfirmed counterexamples are rejected.
+ACCEPTED_FORMAL = {"proved": ("proved",), "bounded": ("proved", "bounded", "skipped")}
 
 
 class Verifier:
@@ -85,8 +85,10 @@ class Verifier:
                 probs.append(f"port `{n}` missing")
             elif n not in g:
                 probs.append(f"extra port `{n}`")
-            elif g[n][0] != c[n][0] or g[n][1] != c[n][1]:
-                probs.append(f"port `{n}`: expected {g[n][0]} [{g[n][1]}], got {c[n][0]} [{c[n][1]}]")
+            elif g[n] != c[n]:
+                probs.append(f"port `{n}`: expected direction/width/signedness {g[n]}, got {c[n]}")
+        if getattr(self.info, "parameters", {}) != getattr(cinfo, "parameters", {}):
+            probs.append("parameter names/defaults changed")
         return (not probs), "; ".join(probs)
 
     def verify(self, cand_files, label, do_formal=True):

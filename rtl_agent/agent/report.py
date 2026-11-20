@@ -17,6 +17,7 @@ def _pct(b, o):
 
 def result_dict(st):
     base, fin = st.base, (st.final.synth if st.final else None)
+    fc = getattr(st, "final_course", None) if st.final else getattr(st, "base_course", None)
     d = {
         "top": st.top,
         "input": st.rtl_file,
@@ -29,9 +30,14 @@ def result_dict(st):
         "baseline": {"area": base.area if base else None, "ltp": base.ltp if base else None,
                      "course_area": st.base_course.area if st.base_course else None,
                      "course_ltp": st.base_course.ltp if st.base_course else None,
+                     "course_hier_area": getattr(st.base_course, "hier_area", None) if st.base_course else None,
                      "cells": base.cells if base else {}},
         "optimized": {"area": fin.area if fin else (base.area if base else None),
                       "ltp": fin.ltp if fin else (base.ltp if base else None),
+                      # unchanged output -> the course reading is the baseline's
+                      "course_area": fc.area if fc else None,
+                      "course_ltp": fc.ltp if fc else None,
+                      "course_hier_area": getattr(fc, "hier_area", None) if fc else None,
                       "cells": fin.cells if fin else (base.cells if base else {}),
                       "candidate": st.final.id if st.final else None},
         "verification": st.final_verify.to_dict() if st.final_verify else None,
@@ -44,15 +50,22 @@ def result_dict(st):
             "input_sha256": hashlib.sha256(st.src.encode("utf-8")).hexdigest(),
             "python": platform.python_version(),
             "yosys_version": ".".join(map(str, st.cfg.yosys_version())),
+            "liberty_sha256": _file_hash(st.cfg.lib_file),
             "llm_model": st.cfg.llm_model if st.cfg.llm_key else None,
             "budget": vars(st.budget),
-            "formal_required": "proved",
+            "formal_required": st.budget.accept,
+            "output_sha256": hashlib.sha256((st.final.text if st.final else st.src).encode("utf-8")).hexdigest(),
         },
     }
     if base and base.ok and base.area and fin:
         d["gain"] = {"area_pct": round((fin.area - base.area) / base.area * 100, 2),
                      "ltp_pct": round((fin.ltp - base.ltp) / max(1, base.ltp) * 100, 2)}
     return d
+
+
+def _file_hash(path):
+    with open(path, "rb") as fh:
+        return hashlib.sha256(fh.read()).hexdigest()
 
 
 def write_reports(st):
@@ -73,10 +86,17 @@ def write_reports(st):
               "| metric | baseline | optimized | change |", "|---|---:|---:|---:|",
               f"| area (um^2) | {base.area:.3f} | {fin.area:.3f} | {_pct(base.area, fin.area)} |",
               f"| logic depth (ltp) | {base.ltp} | {fin.ltp} | {_pct(base.ltp, fin.ltp)} |"]
+        bc, oc = d["baseline"], d["optimized"]
         if st.base_course and st.base_course.ok and (st.base_course.area != base.area or
                                                      st.base_course.ltp != base.ltp):
-            L.append(f"| course-literal baseline (no flatten) | area {st.base_course.area}, "
-                     f"ltp {st.base_course.ltp} | | hierarchy makes the literal script report a sub-module |")
+            # the unflattened script reports the alphabetically last module (see synth.py)
+            L.append(f"| course-literal area (no flatten) | {bc['course_area']} | {oc['course_area']} | "
+                     f"{_pct(bc['course_area'], oc['course_area'])} |")
+            L.append(f"| course-literal ltp (no flatten) | {bc['course_ltp']} | {oc['course_ltp']} | "
+                     f"{_pct(bc['course_ltp'], oc['course_ltp'])} |")
+            if bc.get("course_hier_area") is not None:
+                L.append(f"| hierarchy total area | {bc['course_hier_area']} | {oc.get('course_hier_area')} | "
+                         f"{_pct(bc['course_hier_area'], oc.get('course_hier_area'))} |")
         L += ["", "Area counts combinational standard cells; flip-flops have no liberty area in the "
               "scoring script. ltp counts cells on the longest topological path (flip-flops included).", ""]
     if st.final:

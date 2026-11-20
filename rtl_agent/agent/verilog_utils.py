@@ -83,7 +83,8 @@ FORBIDDEN = [
 def sanity_issues(text, top, original_text):
     """Return a list of human readable problems that make a candidate unacceptable before any tool runs."""
     issues = []
-    body = strip_comments(text)
+    # the simulation-only time-0 evaluation emitted by resynth.to_single_block is not design logic
+    body = re.sub(r"`ifndef\s+SYNTHESIS\b[^`]*?\brtlopt_t0_kick\b[^`]*?`endif", "", strip_comments(text))
     orig = strip_comments(original_text)
     if not re.search(r"\bmodule\s+" + re.escape(top) + r"\b", body):
         issues.append(f"module `{top}` is missing")

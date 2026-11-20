@@ -31,7 +31,9 @@ def origin_label(o):
         return "--"
     if o.startswith("resynth:"):
         src = o.split("(", 1)[1].rstrip(")") if "(" in o else "orig"
-        return "重综合" + ("（原设计）" if src == "orig" else "（LLM 解）")
+        return "重综合" + ("（原设计）" if src == "orig" else "（已验证候选）")
+    if o.startswith("arithmetic:"):
+        return "算术结构优化（0 token）"
     if o.startswith("init:") or o.startswith("rescue:"):
         return "LLM"
     if o.startswith("repair") or o.startswith("refine"):

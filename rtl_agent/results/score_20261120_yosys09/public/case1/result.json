@@ -1,0 +1,767 @@
+{
+  "top": "barrel_shifter",
+  "input": "/f/Projects/EDA_work/rtl_agent/cases/public/case1/rtl.v",
+  "kind": "combinational",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 39.368,
+    "ltp": 4,
+    "course_area": 1.862,
+    "course_ltp": 1,
+    "course_hier_area": 44.688,
+    "cells": {
+      "AND2_X1": 1,
+      "AOI21_X1": 1,
+      "INV_X1": 2,
+      "MUX2_X1": 15,
+      "NAND2_X1": 2,
+      "NAND3_X1": 1,
+      "NOR2_X1": 3,
+      "NOR3_X1": 2,
+      "OAI21_X1": 1
+    }
+  },
+  "optimized": {
+    "area": 39.368,
+    "ltp": 4,
+    "course_area": 1.862,
+    "course_ltp": 1,
+    "course_hier_area": 44.688,
+    "cells": {
+      "AND2_X1": 1,
+      "AOI21_X1": 1,
+      "INV_X1": 2,
+      "MUX2_X1": 15,
+      "NAND2_X1": 2,
+      "NAND3_X1": 1,
+      "NOR2_X1": 3,
+      "NOR3_X1": 2,
+      "OAI21_X1": 1
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 0,
+    "logical_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "cached_tokens": 0,
+    "total_tokens": 0,
+    "llm_seconds": 0.0
+  },
+  "runtime_s": 80.3,
+  "stop_reason": "no verified gain",
+  "graph_trace": [
+    [
+      "setup",
+      6.29
+    ],
+    [
+      "arithmetic",
+      0.0
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "resynth",
+      43.78
+    ],
+    [
+      "evaluate_resynth",
+      30.1
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 37.2 is better, but the course script does not flatten and then reads literal area 37.240 > 1.862; literal ltp 4 > 1. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 37.24,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "OAI211_X1": 1,
+          "OAI21_X1": 2,
+          "OAI22_X1": 4,
+          "OR3_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 7.19
+      },
+      "course": {
+        "ok": true,
+        "area": 37.24,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "OAI211_X1": 1,
+          "OAI21_X1": 2,
+          "OAI22_X1": 4,
+          "OR3_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 7.83
+      },
+      "verify": null
+    },
+    {
+      "id": "c02",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 40.2 / ltp 4 is not better than baseline 39.4 / 4",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 40.166,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 3,
+          "AND4_X1": 1,
+          "AOI221_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 6,
+          "NAND2_X1": 9,
+          "NAND3_X1": 6,
+          "NOR2_X1": 1,
+          "NOR3_X1": 1,
+          "OAI211_X1": 2,
+          "OAI22_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 7.19
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c03",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 37.2 is better, but the course script does not flatten and then reads literal area 37.240 > 1.862; literal ltp 4 > 1. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 37.24,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "OAI211_X1": 1,
+          "OAI21_X1": 2,
+          "OAI22_X1": 4,
+          "OR3_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 7.19
+      },
+      "course": {
+        "ok": true,
+        "area": 37.24,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "OAI211_X1": 1,
+          "OAI21_X1": 2,
+          "OAI22_X1": 4,
+          "OR3_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 7.81
+      },
+      "verify": null
+    },
+    {
+      "id": "c04",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 40.2 / ltp 4 is not better than baseline 39.4 / 4",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 40.166,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 3,
+          "AND4_X1": 1,
+          "AOI221_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 6,
+          "NAND2_X1": 9,
+          "NAND3_X1": 6,
+          "NOR2_X1": 1,
+          "NOR3_X1": 1,
+          "OAI211_X1": 2,
+          "OAI22_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 7.2
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c05",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 37.2 is better, but the course script does not flatten and then reads literal area 37.240 > 1.862; literal ltp 4 > 1. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 37.24,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "OAI211_X1": 1,
+          "OAI21_X1": 2,
+          "OAI22_X1": 4,
+          "OR3_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 7.83
+      },
+      "course": {
+        "ok": true,
+        "area": 37.24,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "OAI211_X1": 1,
+          "OAI21_X1": 2,
+          "OAI22_X1": 4,
+          "OR3_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 8.06
+      },
+      "verify": null
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 37.2 is better, but the course script does not flatten and then reads literal area 37.240 > 1.862; literal ltp 4 > 1. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 37.24,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "OAI211_X1": 1,
+          "OAI21_X1": 2,
+          "OAI22_X1": 4,
+          "OR3_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 7.81
+      },
+      "course": {
+        "ok": true,
+        "area": 37.24,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "OAI211_X1": 1,
+          "OAI21_X1": 2,
+          "OAI22_X1": 4,
+          "OR3_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 8.08
+      },
+      "verify": null
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 40.2 / ltp 4 is not better than baseline 39.4 / 4",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 40.166,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 3,
+          "AND4_X1": 1,
+          "AOI221_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 6,
+          "NAND2_X1": 9,
+          "NAND3_X1": 6,
+          "NOR2_X1": 1,
+          "NOR3_X1": 1,
+          "OAI211_X1": 2,
+          "OAI22_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "ctrl[2]"
+        ],
+        "error": "",
+        "seconds": 8.11
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 39.4 / ltp 4 is not better than baseline 39.4 / 4",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 39.368,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "INV_X1": 2,
+          "MUX2_X1": 15,
+          "NAND2_X1": 2,
+          "NAND3_X1": 1,
+          "NOR2_X1": 3,
+          "NOR3_X1": 2,
+          "OAI21_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[6]"
+        ],
+        "error": "",
+        "seconds": 8.07
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 40.4 / ltp 4 is not better than baseline 39.4 / 4",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 40.432,
+        "hier_area": null,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 5,
+          "MUX2_X1": 8,
+          "NAND2_X1": 8,
+          "NOR2_X1": 2,
+          "OAI211_X1": 1,
+          "OAI21_X1": 5,
+          "OAI22_X1": 2,
+          "OR2_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[3]"
+        ],
+        "error": "",
+        "seconds": 6.93
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c10",
+      "origin": "resynth:h_deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "synth-error",
+      "problem": "[yosys] ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+      "plan": "ABC logic re-synthesis (h_deep) of the original RTL",
+      "synth": {
+        "ok": false,
+        "area": null,
+        "hier_area": null,
+        "ltp": null,
+        "cells": {},
+        "n_ff": 0,
+        "ltp_path": [],
+        "error": "ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+        "seconds": 1.91
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c11",
+      "origin": "resynth:h_deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "synth-error",
+      "problem": "[yosys] ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+      "plan": "ABC logic re-synthesis (h_deep_s7) of the original RTL",
+      "synth": {
+        "ok": false,
+        "area": null,
+        "hier_area": null,
+        "ltp": null,
+        "cells": {},
+        "n_ff": 0,
+        "ltp_path": [],
+        "error": "ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+        "seconds": 1.93
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c12",
+      "origin": "resynth:h_deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "synth-error",
+      "problem": "[yosys] ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+      "plan": "ABC logic re-synthesis (h_deep_j400) of the original RTL",
+      "synth": {
+        "ok": false,
+        "area": null,
+        "hier_area": null,
+        "ltp": null,
+        "cells": {},
+        "n_ff": 0,
+        "ltp_path": [],
+        "error": "ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+        "seconds": 1.9
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c13",
+      "origin": "resynth:h_deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "synth-error",
+      "problem": "[yosys] ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+      "plan": "ABC logic re-synthesis (h_deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": false,
+        "area": null,
+        "hier_area": null,
+        "ltp": null,
+        "cells": {},
+        "n_ff": 0,
+        "ltp_path": [],
+        "error": "ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+        "seconds": 2.22
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c14",
+      "origin": "resynth:h_deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "synth-error",
+      "problem": "[yosys] ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+      "plan": "ABC logic re-synthesis (h_deep_i3) of the original RTL",
+      "synth": {
+        "ok": false,
+        "area": null,
+        "hier_area": null,
+        "ltp": null,
+        "cells": {},
+        "n_ff": 0,
+        "ltp_path": [],
+        "error": "ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+        "seconds": 2.26
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c15",
+      "origin": "resynth:h_deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "synth-error",
+      "problem": "[yosys] ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+      "plan": "ABC logic re-synthesis (h_deep_bd) of the original RTL",
+      "synth": {
+        "ok": false,
+        "area": null,
+        "hier_area": null,
+        "ltp": null,
+        "cells": {},
+        "n_ff": 0,
+        "ltp_path": [],
+        "error": "ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+        "seconds": 2.22
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c16",
+      "origin": "resynth:h_deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "synth-error",
+      "problem": "[yosys] ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+      "plan": "ABC logic re-synthesis (h_deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": false,
+        "area": null,
+        "hier_area": null,
+        "ltp": null,
+        "cells": {},
+        "n_ff": 0,
+        "ltp_path": [],
+        "error": "ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+        "seconds": 2.81
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c17",
+      "origin": "resynth:h_dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "synth-error",
+      "problem": "[yosys] ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+      "plan": "ABC logic re-synthesis (h_dc2x3) of the original RTL",
+      "synth": {
+        "ok": false,
+        "area": null,
+        "hier_area": null,
+        "ltp": null,
+        "cells": {},
+        "n_ff": 0,
+        "ltp_path": [],
+        "error": "ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+        "seconds": 2.79
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c18",
+      "origin": "resynth:h_syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "synth-error",
+      "problem": "[yosys] ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+      "plan": "ABC logic re-synthesis (h_syn2_dch) of the original RTL",
+      "synth": {
+        "ok": false,
+        "area": null,
+        "hier_area": null,
+        "ltp": null,
+        "cells": {},
+        "n_ff": 0,
+        "ltp_path": [],
+        "error": "ERROR: Technology map yielded processes -> this is not supported (use -autoproc to run 'proc' automatically).",
+        "seconds": 2.76
+      },
+      "course": null,
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "dbfdb5cbbbd3f15709ef5918308c5400839cedf66f3bcb97af48f9b0de986571",
+    "python": "3.10.12",
+    "yosys_version": "0.9",
+    "liberty_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "llm_model": null,
+    "budget": {
+      "course_guard": true,
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 6,
+      "max_refine": 1,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "dbfdb5cbbbd3f15709ef5918308c5400839cedf66f3bcb97af48f9b0de986571"
+  }
+}

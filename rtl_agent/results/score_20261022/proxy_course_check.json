@@ -1,0 +1,132 @@
+{
+  "checker_sha256": "bea03f2c39d21514b61b5225a34fd4b6796e9202fed678cecb2e54968c063c9a",
+  "complete": true,
+  "passed": true,
+  "cases": [
+    {
+      "case": "mac8_v4_seq_shared",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_mac8.v",
+          "sha256": "d4cdf7462fdc83f524a5333796234388e9120e1dcc5dda7c52d6cc2d2489b956",
+          "exit_code": 0,
+          "seconds": 32.0,
+          "error": ""
+        }
+      ],
+      "input_sha256": "a2ae63972cd0b9a16880c3c7b6a1997ce22fe5f7eb121a2a830b2c384935b28e",
+      "output_sha256": "6a3898258db71145c7c06b0d592100b864128196447452abacda7af1b29b2a98",
+      "status": "optimized",
+      "baseline": {
+        "area": 3974.306,
+        "ltp": 142
+      },
+      "optimized": {
+        "area": 3131.618,
+        "ltp": 114
+      },
+      "literal_gain": true
+    },
+    {
+      "case": "mac8_v5_seq_pipe2",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_mac8.v",
+          "sha256": "d4cdf7462fdc83f524a5333796234388e9120e1dcc5dda7c52d6cc2d2489b956",
+          "exit_code": 0,
+          "seconds": 0.81,
+          "error": ""
+        }
+      ],
+      "input_sha256": "ecc78cdfef1d0a1a0a446bcf4f2066f2e2ef22eb69f266166a2c4281a08931d3",
+      "output_sha256": "a9aa8282d9eb021828e6cb1dc2254638f420baf7685ba69f236cf77a0cace3af",
+      "status": "optimized",
+      "baseline": {
+        "area": 3869.502,
+        "ltp": 161
+      },
+      "optimized": {
+        "area": 1208.704,
+        "ltp": 106
+      },
+      "literal_gain": true
+    },
+    {
+      "case": "mac8_v6_4parallel",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_mac8.v",
+          "sha256": "d4cdf7462fdc83f524a5333796234388e9120e1dcc5dda7c52d6cc2d2489b956",
+          "exit_code": 0,
+          "seconds": 0.64,
+          "error": ""
+        }
+      ],
+      "input_sha256": "32e15986580c25914e8f235a6f189904b890aa685fe071a606b1476d3719d240",
+      "output_sha256": "a81341d39440c37151b7b47a402372efbe6db91a8d1f6d00d304e9412a46ae2f",
+      "status": "optimized",
+      "baseline": {
+        "area": 3741.024,
+        "ltp": 171
+      },
+      "optimized": {
+        "area": 3675.056,
+        "ltp": 106
+      },
+      "literal_gain": true
+    },
+    {
+      "case": "v7_seq_pipe4",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_mac8.v",
+          "sha256": "d4cdf7462fdc83f524a5333796234388e9120e1dcc5dda7c52d6cc2d2489b956",
+          "exit_code": 0,
+          "seconds": 17.36,
+          "error": ""
+        }
+      ],
+      "input_sha256": "0043c79cc60e31f40a1b563be25b0af71e66d103a0abe9ccab4aa2240e9a1553",
+      "output_sha256": "da46a934992fbffd0651ab862be9aefa12b5a9c0d92b3d05cb9b4be5747794f8",
+      "status": "optimized",
+      "baseline": {
+        "area": 3787.308,
+        "ltp": 203
+      },
+      "optimized": {
+        "area": 3540.726,
+        "ltp": 190
+      },
+      "literal_gain": true
+    },
+    {
+      "case": "v8_seq_pipe8",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_mac8.v",
+          "sha256": "d4cdf7462fdc83f524a5333796234388e9120e1dcc5dda7c52d6cc2d2489b956",
+          "exit_code": 0,
+          "seconds": 14.47,
+          "error": ""
+        }
+      ],
+      "input_sha256": "ffd77e24ec48b1f0f300fbe2a52fcfe8943448fde221e9a09d59e58f6a8a28ac",
+      "output_sha256": "32d1129ede983cb9614270807d6bfd137f066d96ecd343c11e2c305873b4ae8f",
+      "status": "optimized",
+      "baseline": {
+        "area": 3620.26,
+        "ltp": 303
+      },
+      "optimized": {
+        "area": 3429.538,
+        "ltp": 212
+      },
+      "literal_gain": true
+    }
+  ]
+}

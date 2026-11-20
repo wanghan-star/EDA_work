@@ -35,6 +35,37 @@ SCRIPTS = {
     # delay-oriented (choices + balancing)
     "syn2_dch": ["strash", "&get -n", "&syn2", "&dch -f", "&b -d -s", "&put"],
 }
+# Older ABC builds (e.g. Ubuntu 22.04's berkeley-abc for Yosys 0.9) ship without abc.rc, so the
+# aliases &deepsyn calls internally (compress2rs -> b/rs/rw/...) are unknown and the pass crashes.
+ABC_ALIASES = [
+    "alias b balance", "alias rw rewrite", "alias rwz \"rewrite -z\"", "alias rf refactor",
+    "alias rfz \"refactor -z\"", "alias rs resub", "alias rsz \"resub -z\"",
+    "alias compress2rs \"b -l; rs -K 6 -l; rw -l; rs -K 6 -N 2 -l; rf -l; rs -K 8 -l; b -l; "
+    "rs -K 8 -N 2 -l; rw -l; rs -K 10 -l; rwz -l; rs -K 10 -N 2 -l; b -l; rs -K 12 -l; rfz -l; "
+    "rs -K 12 -N 2 -l; rwz -l; b -l\"",
+]
+_ALIAS_PROBE = {}
+
+
+def abc_needs_aliases(cfg):
+    """True if the ABC binary lacks the standard abc.rc aliases (probed once per binary)."""
+    key = cfg.yosys_abc
+    if key not in _ALIAS_PROBE:
+        rc, out, err, _ = run_cmd([cfg.yosys_abc, "-c", "compress2rs"], timeout=30)
+        _ALIAS_PROBE[key] = "unknown command" in (out + err)
+    return _ALIAS_PROBE[key]
+
+
+def abc_script_text(cfg, script, seconds):
+    """ABC script for one portfolio entry, adapted to the installed Yosys/ABC generation."""
+    body = [ln.replace("{T6}", str(seconds * 2)).replace("{T}", str(seconds)) for ln in SCRIPTS[script]]
+    pre = ABC_ALIASES if abc_needs_aliases(cfg) else []
+    # Yosys < 0.10 reads an unmapped custom-script result back as $lut cells (`4'h8 >> {a,b}`);
+    # an explicit `map` onto the -g gate library restores ordinary gates there.
+    post = [] if cfg.modern_yosys() else ["map"]
+    return "\n".join(pre + body + post) + "\n"
+
+
 DEFAULT_SET = ("deep", "deep_s7", "deep_j400", "deep_s7_j400", "deep_i3", "deep_bd", "deep_s7_bds",
                "dc2x3", "syn2_dch")
 
@@ -80,6 +111,9 @@ def _refs(expr):
 def _strip_consts(expr):
     # remove sized constants like 8'h1f / 1'b0 so their digits/letters are not taken as identifiers
     return re.sub(r"\d+'[sS]?[bBhHdDoO][0-9a-fA-FxXzZ_?]+", " ", expr)
+
+
+T0_KICK = "rtlopt_t0_kick"
 
 
 def to_single_block(text):
@@ -143,14 +177,35 @@ def to_single_block(text):
             inputs.add(m.group(1).strip())
     if lhs_bases & inputs:
         return None
+    # Yosys < 0.10 declares a driven output port only as `output [..] y;` (no `wire y;` line):
+    # such ports need an explicit `reg` declaration next to the port declaration.
+    declared = set()
+    for ln in lines:
+        m = re.match(r"^\s*(?:wire|reg)\s+(?:signed\s+)?(?:\[[^\]]*\]\s*)?(" + _ID + r")\s*;", ln)
+        if m:
+            declared.add(m.group(1).strip())
     for i, ln in enumerate(lines):
         if i in drop:
+            continue
+        m = re.match(r"^(\s*)output(\s+(?:signed\s+)?(?:\[[^\]]*\]\s*)?)(" + _ID + r")\s*;\s*$", ln)
+        if m and m.group(3).strip() in lhs_bases and m.group(3).strip() not in declared:
+            out.append(ln)
+            out.append(f"{m.group(1)}reg{m.group(2)}{m.group(3)};")
             continue
         m = re.match(r"^(\s*)wire(\s+(?:signed\s+)?(?:\[[^\]]*\]\s*)?)(" + _ID + r")\s*;\s*$", ln)
         if m and m.group(3).strip() in lhs_bases:
             ln = f"{m.group(1)}reg{m.group(2)}{m.group(3)};"   # keep the space ending an escaped id
         if re.match(r"^\s*endmodule\b", ln):
+            # Simulation only (Yosys defines SYNTHESIS): evaluate once at time 0 like the continuous
+            # assignments it replaces, even when no input changes (constants, register-only cones).
+            out.append("`ifndef SYNTHESIS")
+            out.append(f"  reg {T0_KICK} = 1'b0;")
+            out.append(f"  initial #0 {T0_KICK} = 1'b1;")
+            out.append("`endif")
             out.append("  always @* begin")
+            out.append("`ifndef SYNTHESIS")
+            out.append(f"    if ({T0_KICK}) begin end")
+            out.append("`endif")
             for k in order:
                 _i, lhs, rhs = assigns[k]
                 out.append(f"    {lhs} = {rhs};")
@@ -159,17 +214,60 @@ def to_single_block(text):
     return "\n".join(out) + "\n"
 
 
-def resynth(cfg, files, top, workdir, script="deep", seconds=10, orig_src=""):
-    """Returns (verilog_text or None, message)."""
+def _module_span(src, name):
+    from .arithmetic import mask_comments
+    body = mask_comments(src)
+    m = re.search(r"\bmodule\s+" + re.escape(name) + r"\b", body)
+    e = re.search(r"\bendmodule\b", body[m.end():]) if m else None
+    return (m.start(), m.end() + e.end()) if e else None
+
+
+def without_module(src, name):
+    """Source text with module `name` cut out; everything else (submodules, `timescale) verbatim."""
+    span = _module_span(src, name)
+    return None if span is None else src[:span[0]] + src[span[1]:]
+
+
+def _has_params(src, name):
+    span = _module_span(src, name)
+    return span is None or bool(re.search(r"\bparameter\b", src[span[0]:span[1]]))
+
+
+def per_module(text, fn):
+    """Apply fn to each `module ... endmodule` chunk of a netlist (None from fn keeps the chunk)."""
+    parts = re.split(r"(?m)^(?=module\s)", text)
+    return "".join(fn(p) or p if p.lstrip().startswith("module") else p for p in parts)
+
+
+def resynth(cfg, files, top, workdir, script="deep", seconds=10, orig_src="", hier=False):
+    """Returns (verilog_text or None, message).
+
+    hier=True keeps the module hierarchy, so the unflattened course script (which reports the
+    alphabetically last module, see synth.py) compares like with like.  Each module is optimized in
+    place under its own name; parameterized submodules, and all submodules of a parameterized top
+    (whose guard below embeds the original source), are black boxes emitted verbatim."""
     os.makedirs(workdir, exist_ok=True)
+    keep = []
+    if hier:
+        from .verilog_utils import find_modules
+        subs = [m for m in dict.fromkeys(find_modules(orig_src)) if m != top]
+        top_params = _has_params(orig_src, top)
+        keep = [m for m in subs if top_params or _has_params(orig_src, m)]
+        rest = orig_src
+        for m in [top] + [m for m in subs if m not in keep]:
+            rest = without_module(rest, m) if rest is not None else None
+        if not subs or rest is None:
+            return None, "no hierarchy to keep"
     abc_file = os.path.join(workdir, f"{script}.abc")
-    scr = "\n".join(SCRIPTS[script]).replace("{T6}", str(seconds * 2)).replace("{T}", str(seconds))
-    write_text(abc_file, scr + "\n")
+    write_text(abc_file, abc_script_text(cfg, script, seconds))
     out_v = os.path.join(workdir, f"{script}.v")
     # NOTE: must be a script file: with `yosys -p`, the comma list of `abc -g` gets split into commands
     ys_file = os.path.join(workdir, f"{script}.ys")
-    lines = [f"read_verilog -sv {_q(f)}" for f in files] + [
-        f"hierarchy -top {top}", "proc", "flatten", "opt -full", "memory -nomap", "opt -full",
+    # write_verilog skips black boxes: in hier mode only the re-synthesized modules are written
+    lines = [f"read_verilog -sv {_q(f)}" for f in files] + (
+        ([f"blackbox {' '.join(keep)}"] if keep else []) + [f"hierarchy -top {top}", "proc"] if hier else
+        [f"hierarchy -top {top}", "proc", "flatten"]) + [
+        "opt -full", "memory -nomap", "opt -full",
         "techmap", "opt -fast", f"abc -g {GATES} -script {_q(abc_file)}", "opt_clean -purge",
         f"write_verilog -noattr {_q(out_v)}"]
     write_text(ys_file, "\n".join(lines) + "\n")
@@ -177,12 +275,25 @@ def resynth(cfg, files, top, workdir, script="deep", seconds=10, orig_src=""):
     if rc != 0 or not os.path.isfile(out_v):
         return None, (out + err)[-600:]
     text = read_text(out_v)
-    blk = to_single_block(text)
-    if blk is not None:
-        text = blk
-    # keep the original parameter list so any instantiation with overrides still parses
+    if hier and "$paramod" in text:
+        return None, "derived parameterized module in netlist"
+    text = per_module(text, to_single_block)
+    # A header alone cannot restore parameterization after synthesis. Guard the
+    # default specialization and retain the real original for every override.
     hdr = _param_header(orig_src, top) if orig_src else ""
-    if hdr:
-        text = re.sub(r"\bmodule\s+" + re.escape(top) + r"\s*\(", f"module {top} #{hdr} (", text, count=1)
+    if hdr or (orig_src and _has_params(orig_src, top)):
+        from .synth import design_json
+        from .specialize import preserve_parameters
+        design, error = design_json(cfg, files, top)
+        if design is None:
+            return None, "cannot preserve parameter interface: " + error
+        module = design["modules"][top]
+        text = preserve_parameters(text, orig_src, top,
+                                   module.get("parameter_default_values", {}), module["ports"])
+        if text is None:
+            return None, "unsupported parameter interface; specialized netlist rejected"
+        # the guard already carries the whole original source (its submodules included)
+    elif hier:
+        text = rest.rstrip() + "\n\n" + text
     text = "// Logic re-synthesized by rtl_agent (ABC " + script + "); registers and ports unchanged.\n" + text
     return text, ""

@@ -1,0 +1,510 @@
+{
+  "top": "fp_rounding",
+  "input": "/mnt/f/Projects/EDA_work/rtl_agent/cases/public/case2_fp_rounding/fp_round_v1.v",
+  "kind": "combinational",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 88.046,
+    "ltp": 11,
+    "course_area": 88.046,
+    "course_ltp": 11,
+    "cells": {
+      "AND2_X1": 2,
+      "AND3_X1": 1,
+      "AND4_X1": 1,
+      "AOI21_X1": 6,
+      "INV_X1": 11,
+      "MUX2_X1": 1,
+      "NAND2_X1": 3,
+      "NAND3_X1": 2,
+      "NAND4_X1": 4,
+      "NOR2_X1": 10,
+      "NOR3_X1": 2,
+      "NOR4_X1": 10,
+      "OAI211_X1": 1,
+      "OAI21_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 13,
+      "XOR2_X1": 7
+    }
+  },
+  "optimized": {
+    "area": 88.046,
+    "ltp": 11,
+    "cells": {
+      "AND2_X1": 2,
+      "AND3_X1": 1,
+      "AND4_X1": 1,
+      "AOI21_X1": 6,
+      "INV_X1": 11,
+      "MUX2_X1": 1,
+      "NAND2_X1": 3,
+      "NAND3_X1": 2,
+      "NAND4_X1": 4,
+      "NOR2_X1": 10,
+      "NOR3_X1": 2,
+      "NOR4_X1": 10,
+      "OAI211_X1": 1,
+      "OAI21_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 13,
+      "XOR2_X1": 7
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 0,
+    "logical_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "cached_tokens": 0,
+    "total_tokens": 0,
+    "llm_seconds": 0.0
+  },
+  "runtime_s": 10.6,
+  "stop_reason": "no verified gain",
+  "graph_trace": [
+    [
+      "setup",
+      0.64
+    ],
+    [
+      "arithmetic",
+      0.0
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "resynth",
+      7.03
+    ],
+    [
+      "evaluate_resynth",
+      2.94
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 89.9 / ltp 13 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 89.908,
+        "ltp": 13,
+        "cells": {
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 2,
+          "AOI21_X1": 5,
+          "AOI221_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 5,
+          "NAND3_X1": 2,
+          "NAND4_X1": 5,
+          "NOR2_X1": 12,
+          "NOR3_X1": 2,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 8
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 1.6
+      },
+      "verify": null
+    },
+    {
+      "id": "c02",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 91.8 / ltp 12 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 91.77,
+        "ltp": 12,
+        "cells": {
+          "$scopeinfo": 1,
+          "AND2_X1": 4,
+          "AND4_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 4,
+          "AOI22_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 9,
+          "NOR3_X1": 1,
+          "NOR4_X1": 11,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "round_sticky_bits_i[0]"
+        ],
+        "error": "",
+        "seconds": 1.51
+      },
+      "verify": null
+    },
+    {
+      "id": "c03",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 89.9 / ltp 13 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 89.908,
+        "ltp": 13,
+        "cells": {
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 2,
+          "AOI21_X1": 5,
+          "AOI221_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 5,
+          "NAND3_X1": 2,
+          "NAND4_X1": 5,
+          "NOR2_X1": 12,
+          "NOR3_X1": 2,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 8
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 1.64
+      },
+      "verify": null
+    },
+    {
+      "id": "c04",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 91.8 / ltp 12 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 91.77,
+        "ltp": 12,
+        "cells": {
+          "$scopeinfo": 1,
+          "AND2_X1": 4,
+          "AND4_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 4,
+          "AOI22_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 9,
+          "NOR3_X1": 1,
+          "NOR4_X1": 11,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "round_sticky_bits_i[0]"
+        ],
+        "error": "",
+        "seconds": 1.66
+      },
+      "verify": null
+    },
+    {
+      "id": "c05",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 89.9 / ltp 13 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 89.908,
+        "ltp": 13,
+        "cells": {
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 2,
+          "AOI21_X1": 5,
+          "AOI221_X1": 1,
+          "INV_X1": 13,
+          "MUX2_X1": 1,
+          "NAND2_X1": 5,
+          "NAND3_X1": 2,
+          "NAND4_X1": 5,
+          "NOR2_X1": 12,
+          "NOR3_X1": 2,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 12,
+          "XOR2_X1": 8
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 1.66
+      },
+      "verify": null
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 110.7 / ltp 7 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 110.656,
+        "ltp": 7,
+        "cells": {
+          "$scopeinfo": 1,
+          "AND2_X1": 3,
+          "AND3_X1": 2,
+          "AND4_X1": 3,
+          "AOI21_X1": 5,
+          "INV_X1": 9,
+          "MUX2_X1": 1,
+          "NAND2_X1": 11,
+          "NAND3_X1": 9,
+          "NAND4_X1": 6,
+          "NOR2_X1": 10,
+          "NOR3_X1": 3,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OAI33_X1": 1,
+          "OR2_X1": 2,
+          "OR4_X1": 1,
+          "XNOR2_X1": 14,
+          "XOR2_X1": 6
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "rnd_mode_i[2]"
+        ],
+        "error": "",
+        "seconds": 1.7
+      },
+      "verify": null
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 90.2 / ltp 12 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 90.174,
+        "ltp": 12,
+        "cells": {
+          "$scopeinfo": 1,
+          "AND2_X1": 4,
+          "AND3_X1": 1,
+          "AND4_X1": 4,
+          "AOI211_X1": 1,
+          "AOI21_X1": 6,
+          "AOI22_X1": 1,
+          "INV_X1": 10,
+          "MUX2_X1": 1,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 3,
+          "NOR2_X1": 10,
+          "NOR3_X1": 1,
+          "NOR4_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 8,
+          "XOR2_X1": 9
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "round_sticky_bits_i[0]"
+        ],
+        "error": "",
+        "seconds": 1.67
+      },
+      "verify": null
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 91.0 / ltp 13 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 90.972,
+        "ltp": 13,
+        "cells": {
+          "$scopeinfo": 1,
+          "AND3_X1": 2,
+          "AOI21_X1": 6,
+          "AOI22_X1": 1,
+          "INV_X1": 14,
+          "MUX2_X1": 1,
+          "NAND2_X1": 3,
+          "NAND3_X1": 4,
+          "NAND4_X1": 5,
+          "NOR2_X1": 11,
+          "NOR3_X1": 2,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 6
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "rnd_mode_i[0]"
+        ],
+        "error": "",
+        "seconds": 1.64
+      },
+      "verify": null
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 94.2 / ltp 11 is not better than baseline 88.0 / 11",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 94.164,
+        "ltp": 11,
+        "cells": {
+          "$scopeinfo": 1,
+          "AND2_X1": 3,
+          "AND3_X1": 1,
+          "AND4_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 3,
+          "INV_X1": 10,
+          "MUX2_X1": 1,
+          "NAND2_X1": 6,
+          "NAND3_X1": 5,
+          "NAND4_X1": 4,
+          "NOR2_X1": 9,
+          "NOR3_X1": 1,
+          "NOR4_X1": 9,
+          "OAI21_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 17,
+          "XOR2_X1": 6
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "rnd_mode_i[0]"
+        ],
+        "error": "",
+        "seconds": 0.88
+      },
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": null,
+    "budget": {
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 0,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 3,
+      "max_refine": 0,
+      "max_repair": 1,
+      "time_limit": 600,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873"
+  }
+}

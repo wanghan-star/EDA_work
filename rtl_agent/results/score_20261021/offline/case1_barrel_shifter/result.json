@@ -1,0 +1,1071 @@
+{
+  "top": "barrel_shifter",
+  "input": "/mnt/f/Projects/EDA_work/rtl_agent/cases/public/case1_barrel_shifter/barrel_v1_mux.v",
+  "kind": "combinational",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 39.368,
+    "ltp": 4,
+    "course_area": 1.862,
+    "course_ltp": 1,
+    "cells": {
+      "$scopeinfo": 24,
+      "AND2_X1": 1,
+      "AOI21_X1": 1,
+      "INV_X1": 2,
+      "MUX2_X1": 15,
+      "NAND2_X1": 2,
+      "NAND3_X1": 1,
+      "NOR2_X1": 3,
+      "NOR3_X1": 2,
+      "OAI21_X1": 1
+    }
+  },
+  "optimized": {
+    "area": 39.368,
+    "ltp": 4,
+    "cells": {
+      "$scopeinfo": 24,
+      "AND2_X1": 1,
+      "AOI21_X1": 1,
+      "INV_X1": 2,
+      "MUX2_X1": 15,
+      "NAND2_X1": 2,
+      "NAND3_X1": 1,
+      "NOR2_X1": 3,
+      "NOR3_X1": 2,
+      "OAI21_X1": 1
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 0,
+    "logical_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "cached_tokens": 0,
+    "total_tokens": 0,
+    "llm_seconds": 0.0
+  },
+  "runtime_s": 8.1,
+  "stop_reason": "no verified gain",
+  "graph_trace": [
+    [
+      "setup",
+      0.76
+    ],
+    [
+      "arithmetic",
+      0.01
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "resynth",
+      4.5
+    ],
+    [
+      "evaluate_resynth",
+      2.79
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `out` has the same settled values but the original also produces events [(860, '1'), (1240, '1'), (1970, '10')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 37.772,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI211_X1": 1,
+          "AOI21_X1": 2,
+          "AOI221_X1": 2,
+          "INV_X1": 9,
+          "MUX2_X1": 5,
+          "NAND2_X1": 3,
+          "NOR2_X1": 3,
+          "NOR3_X1": 2,
+          "OAI22_X1": 6,
+          "OR2_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[4]"
+        ],
+        "error": "",
+        "seconds": 1.34
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['out']",
+        "mismatch": {
+          "kind": "event",
+          "time": 860,
+          "signal": "out",
+          "gold_only_events": [
+            [
+              860,
+              "1"
+            ],
+            [
+              1240,
+              "1"
+            ],
+            [
+              1970,
+              "10"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "in": "10110",
+            "ctrl": "100"
+          },
+          "inputs_prev": {
+            "in": "110001",
+            "ctrl": "101"
+          },
+          "outputs_gold": {
+            "out": "1"
+          },
+          "outputs_opt": {
+            "out": "1"
+          },
+          "stimulus": "course-tb:stim_barrel.v",
+          "cycle": null
+        },
+        "evidence": "sim: 2050 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 860,
+            "signal": "out",
+            "gold_only_events": [
+              [
+                860,
+                "1"
+              ],
+              [
+                1240,
+                "1"
+              ],
+              [
+                1970,
+                "10"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "in": "10110",
+              "ctrl": "100"
+            },
+            "inputs_prev": {
+              "in": "110001",
+              "ctrl": "101"
+            },
+            "outputs_gold": {
+              "out": "1"
+            },
+            "outputs_opt": {
+              "out": "1"
+            },
+            "stimulus": "course-tb:stim_barrel.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "out"
+          ],
+          "n_vectors": 2050,
+          "seconds": 0.23
+        },
+        "formal": null,
+        "seconds": 0.36
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `out` has the same settled values but the original also produces events [(860, '1'), (1240, '1'), (1970, '10')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 38.038,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 2,
+          "AOI21_X1": 2,
+          "AOI221_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 9,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NAND3_X1": 1,
+          "NOR2_X1": 3,
+          "NOR3_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OAI22_X1": 5
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[6]"
+        ],
+        "error": "",
+        "seconds": 1.35
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['out']",
+        "mismatch": {
+          "kind": "event",
+          "time": 860,
+          "signal": "out",
+          "gold_only_events": [
+            [
+              860,
+              "1"
+            ],
+            [
+              1240,
+              "1"
+            ],
+            [
+              1970,
+              "10"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "in": "10110",
+            "ctrl": "100"
+          },
+          "inputs_prev": {
+            "in": "110001",
+            "ctrl": "101"
+          },
+          "outputs_gold": {
+            "out": "1"
+          },
+          "outputs_opt": {
+            "out": "1"
+          },
+          "stimulus": "course-tb:stim_barrel.v",
+          "cycle": null
+        },
+        "evidence": "sim: 2050 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 860,
+            "signal": "out",
+            "gold_only_events": [
+              [
+                860,
+                "1"
+              ],
+              [
+                1240,
+                "1"
+              ],
+              [
+                1970,
+                "10"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "in": "10110",
+              "ctrl": "100"
+            },
+            "inputs_prev": {
+              "in": "110001",
+              "ctrl": "101"
+            },
+            "outputs_gold": {
+              "out": "1"
+            },
+            "outputs_opt": {
+              "out": "1"
+            },
+            "stimulus": "course-tb:stim_barrel.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "out"
+          ],
+          "n_vectors": 2050,
+          "seconds": 0.16
+        },
+        "formal": null,
+        "seconds": 0.29
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `out` has the same settled values but the original also produces events [(860, '1'), (1240, '1'), (1970, '10')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 37.772,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI211_X1": 1,
+          "AOI21_X1": 2,
+          "AOI221_X1": 2,
+          "INV_X1": 9,
+          "MUX2_X1": 5,
+          "NAND2_X1": 3,
+          "NOR2_X1": 3,
+          "NOR3_X1": 2,
+          "OAI22_X1": 6,
+          "OR2_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[4]"
+        ],
+        "error": "",
+        "seconds": 1.32
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['out']",
+        "mismatch": {
+          "kind": "event",
+          "time": 860,
+          "signal": "out",
+          "gold_only_events": [
+            [
+              860,
+              "1"
+            ],
+            [
+              1240,
+              "1"
+            ],
+            [
+              1970,
+              "10"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "in": "10110",
+            "ctrl": "100"
+          },
+          "inputs_prev": {
+            "in": "110001",
+            "ctrl": "101"
+          },
+          "outputs_gold": {
+            "out": "1"
+          },
+          "outputs_opt": {
+            "out": "1"
+          },
+          "stimulus": "course-tb:stim_barrel.v",
+          "cycle": null
+        },
+        "evidence": "sim: 2050 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 860,
+            "signal": "out",
+            "gold_only_events": [
+              [
+                860,
+                "1"
+              ],
+              [
+                1240,
+                "1"
+              ],
+              [
+                1970,
+                "10"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "in": "10110",
+              "ctrl": "100"
+            },
+            "inputs_prev": {
+              "in": "110001",
+              "ctrl": "101"
+            },
+            "outputs_gold": {
+              "out": "1"
+            },
+            "outputs_opt": {
+              "out": "1"
+            },
+            "stimulus": "course-tb:stim_barrel.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "out"
+          ],
+          "n_vectors": 2050,
+          "seconds": 0.17
+        },
+        "formal": null,
+        "seconds": 0.26
+      }
+    },
+    {
+      "id": "c04",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `out` has the same settled values but the original also produces events [(860, '1'), (1240, '1'), (1970, '10')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 38.038,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 2,
+          "AOI21_X1": 2,
+          "AOI221_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 9,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NAND3_X1": 1,
+          "NOR2_X1": 3,
+          "NOR3_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OAI22_X1": 5
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[6]"
+        ],
+        "error": "",
+        "seconds": 1.35
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['out']",
+        "mismatch": {
+          "kind": "event",
+          "time": 860,
+          "signal": "out",
+          "gold_only_events": [
+            [
+              860,
+              "1"
+            ],
+            [
+              1240,
+              "1"
+            ],
+            [
+              1970,
+              "10"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "in": "10110",
+            "ctrl": "100"
+          },
+          "inputs_prev": {
+            "in": "110001",
+            "ctrl": "101"
+          },
+          "outputs_gold": {
+            "out": "1"
+          },
+          "outputs_opt": {
+            "out": "1"
+          },
+          "stimulus": "course-tb:stim_barrel.v",
+          "cycle": null
+        },
+        "evidence": "sim: 2050 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 860,
+            "signal": "out",
+            "gold_only_events": [
+              [
+                860,
+                "1"
+              ],
+              [
+                1240,
+                "1"
+              ],
+              [
+                1970,
+                "10"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "in": "10110",
+              "ctrl": "100"
+            },
+            "inputs_prev": {
+              "in": "110001",
+              "ctrl": "101"
+            },
+            "outputs_gold": {
+              "out": "1"
+            },
+            "outputs_opt": {
+              "out": "1"
+            },
+            "stimulus": "course-tb:stim_barrel.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "out"
+          ],
+          "n_vectors": 2050,
+          "seconds": 0.14
+        },
+        "formal": null,
+        "seconds": 0.28
+      }
+    },
+    {
+      "id": "c05",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `out` has the same settled values but the original also produces events [(860, '1'), (1240, '1'), (1970, '10')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 37.772,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI211_X1": 1,
+          "AOI21_X1": 2,
+          "AOI221_X1": 2,
+          "INV_X1": 9,
+          "MUX2_X1": 5,
+          "NAND2_X1": 3,
+          "NOR2_X1": 3,
+          "NOR3_X1": 2,
+          "OAI22_X1": 6,
+          "OR2_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[4]"
+        ],
+        "error": "",
+        "seconds": 1.36
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['out']",
+        "mismatch": {
+          "kind": "event",
+          "time": 860,
+          "signal": "out",
+          "gold_only_events": [
+            [
+              860,
+              "1"
+            ],
+            [
+              1240,
+              "1"
+            ],
+            [
+              1970,
+              "10"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "in": "10110",
+            "ctrl": "100"
+          },
+          "inputs_prev": {
+            "in": "110001",
+            "ctrl": "101"
+          },
+          "outputs_gold": {
+            "out": "1"
+          },
+          "outputs_opt": {
+            "out": "1"
+          },
+          "stimulus": "course-tb:stim_barrel.v",
+          "cycle": null
+        },
+        "evidence": "sim: 2050 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 860,
+            "signal": "out",
+            "gold_only_events": [
+              [
+                860,
+                "1"
+              ],
+              [
+                1240,
+                "1"
+              ],
+              [
+                1970,
+                "10"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "in": "10110",
+              "ctrl": "100"
+            },
+            "inputs_prev": {
+              "in": "110001",
+              "ctrl": "101"
+            },
+            "outputs_gold": {
+              "out": "1"
+            },
+            "outputs_opt": {
+              "out": "1"
+            },
+            "stimulus": "course-tb:stim_barrel.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "out"
+          ],
+          "n_vectors": 2050,
+          "seconds": 0.2
+        },
+        "formal": null,
+        "seconds": 0.33
+      }
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `out` has the same settled values but the original also produces events [(860, '1'), (1240, '1'), (1970, '10')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 37.772,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI211_X1": 1,
+          "AOI21_X1": 2,
+          "AOI221_X1": 2,
+          "INV_X1": 9,
+          "MUX2_X1": 5,
+          "NAND2_X1": 3,
+          "NOR2_X1": 3,
+          "NOR3_X1": 2,
+          "OAI22_X1": 6,
+          "OR2_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[4]"
+        ],
+        "error": "",
+        "seconds": 1.35
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['out']",
+        "mismatch": {
+          "kind": "event",
+          "time": 860,
+          "signal": "out",
+          "gold_only_events": [
+            [
+              860,
+              "1"
+            ],
+            [
+              1240,
+              "1"
+            ],
+            [
+              1970,
+              "10"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "in": "10110",
+            "ctrl": "100"
+          },
+          "inputs_prev": {
+            "in": "110001",
+            "ctrl": "101"
+          },
+          "outputs_gold": {
+            "out": "1"
+          },
+          "outputs_opt": {
+            "out": "1"
+          },
+          "stimulus": "course-tb:stim_barrel.v",
+          "cycle": null
+        },
+        "evidence": "sim: 2050 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 860,
+            "signal": "out",
+            "gold_only_events": [
+              [
+                860,
+                "1"
+              ],
+              [
+                1240,
+                "1"
+              ],
+              [
+                1970,
+                "10"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "in": "10110",
+              "ctrl": "100"
+            },
+            "inputs_prev": {
+              "in": "110001",
+              "ctrl": "101"
+            },
+            "outputs_gold": {
+              "out": "1"
+            },
+            "outputs_opt": {
+              "out": "1"
+            },
+            "stimulus": "course-tb:stim_barrel.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "out"
+          ],
+          "n_vectors": 2050,
+          "seconds": 0.21
+        },
+        "formal": null,
+        "seconds": 0.35
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[waveform-events] Output `out` has the same settled values but the original also produces events [(860, '1'), (1240, '1'), (1970, '10')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 37.772,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 2,
+          "AOI21_X1": 2,
+          "AOI221_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 5,
+          "NAND2_X1": 4,
+          "NAND3_X1": 1,
+          "NOR2_X1": 2,
+          "NOR3_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OAI22_X1": 5,
+          "OR2_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[6]"
+        ],
+        "error": "",
+        "seconds": 1.37
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['out']",
+        "mismatch": {
+          "kind": "event",
+          "time": 860,
+          "signal": "out",
+          "gold_only_events": [
+            [
+              860,
+              "1"
+            ],
+            [
+              1240,
+              "1"
+            ],
+            [
+              1970,
+              "10"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "in": "10110",
+            "ctrl": "100"
+          },
+          "inputs_prev": {
+            "in": "110001",
+            "ctrl": "101"
+          },
+          "outputs_gold": {
+            "out": "1"
+          },
+          "outputs_opt": {
+            "out": "1"
+          },
+          "stimulus": "course-tb:stim_barrel.v",
+          "cycle": null
+        },
+        "evidence": "sim: 2050 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 860,
+            "signal": "out",
+            "gold_only_events": [
+              [
+                860,
+                "1"
+              ],
+              [
+                1240,
+                "1"
+              ],
+              [
+                1970,
+                "10"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "in": "10110",
+              "ctrl": "100"
+            },
+            "inputs_prev": {
+              "in": "110001",
+              "ctrl": "101"
+            },
+            "outputs_gold": {
+              "out": "1"
+            },
+            "outputs_opt": {
+              "out": "1"
+            },
+            "stimulus": "course-tb:stim_barrel.v",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "out"
+          ],
+          "n_vectors": 2050,
+          "seconds": 0.14
+        },
+        "formal": null,
+        "seconds": 0.32
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 39.4 / ltp 4 is not better than baseline 39.4 / 4",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 39.368,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "INV_X1": 2,
+          "MUX2_X1": 15,
+          "NAND2_X1": 2,
+          "NAND3_X1": 1,
+          "NOR2_X1": 3,
+          "NOR3_X1": 2,
+          "OAI21_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[3]"
+        ],
+        "error": "",
+        "seconds": 1.39
+      },
+      "verify": null
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 40.7 / ltp 4 is not better than baseline 39.4 / 4",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 40.698,
+        "ltp": 4,
+        "cells": {
+          "AND2_X1": 2,
+          "AND3_X1": 1,
+          "AOI21_X1": 4,
+          "INV_X1": 3,
+          "MUX2_X1": 9,
+          "NAND2_X1": 6,
+          "NOR2_X1": 2,
+          "NOR3_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 2,
+          "OAI22_X1": 2,
+          "OR2_X1": 1
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "in[5]"
+        ],
+        "error": "",
+        "seconds": 0.65
+      },
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "dfff3027319f95400a3d493adee5dbdd0ae13245f3c55f3ec7bdf347fe5a3434",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": null,
+    "budget": {
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 0,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 3,
+      "max_refine": 0,
+      "max_repair": 1,
+      "time_limit": 600,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "dfff3027319f95400a3d493adee5dbdd0ae13245f3c55f3ec7bdf347fe5a3434"
+  }
+}
