@@ -1,0 +1,199 @@
+{
+  "checker_sha256": "371ebc3725953b807d8a33a4409208bc3d70ddc9d664d9117e6294b995b16078",
+  "complete": true,
+  "passed": false,
+  "cases": [
+    {
+      "case": "case1",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "case1_tb.v",
+          "sha256": "67604afda23aaa72fdc9bd0d91bfc14e6f8c114f385188e969da73c8e36955dc",
+          "exit_code": 0,
+          "seconds": 0.6,
+          "error": ""
+        }
+      ],
+      "input_sha256": "dbfdb5cbbbd3f15709ef5918308c5400839cedf66f3bcb97af48f9b0de986571",
+      "output_sha256": "dbfdb5cbbbd3f15709ef5918308c5400839cedf66f3bcb97af48f9b0de986571",
+      "status": "no-gain",
+      "baseline": {
+        "area": 1.862,
+        "ltp": 1
+      },
+      "optimized": {
+        "area": 1.862,
+        "ltp": 1
+      },
+      "literal_gain": false
+    },
+    {
+      "case": "case2",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "case2_tb.v",
+          "sha256": "2edd7e7e145cf7f90ed746c33182bddfa83d1a1fcfe18c385e7afcce75034803",
+          "exit_code": 0,
+          "seconds": 0.66,
+          "error": ""
+        }
+      ],
+      "input_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873",
+      "output_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873",
+      "status": "no-gain",
+      "baseline": {
+        "area": 88.046,
+        "ltp": 11
+      },
+      "optimized": {
+        "area": 88.046,
+        "ltp": 11
+      },
+      "literal_gain": false
+    },
+    {
+      "case": "case3",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "case3_tb.v",
+          "sha256": "2f8011547cf9fa1c2b3ef00f1c02d8bbcac7e9e6defbdcf9bebfd84a4d8ef604",
+          "exit_code": 0,
+          "seconds": 0.5,
+          "error": ""
+        }
+      ],
+      "input_sha256": "ec8a083638dbd36009fa8dea9ebcfc6e080c8bd781905576a597edb70857c7ca",
+      "output_sha256": "ec8a083638dbd36009fa8dea9ebcfc6e080c8bd781905576a597edb70857c7ca",
+      "status": "no-gain",
+      "baseline": {
+        "area": 477.736,
+        "ltp": 30
+      },
+      "optimized": {
+        "area": 477.736,
+        "ltp": 30
+      },
+      "literal_gain": false
+    },
+    {
+      "case": "case4",
+      "verdict": "ERROR",
+      "stimuli": [
+        {
+          "file": "case4_tb.v",
+          "sha256": "c9f87ddffa8316103bce7fe7b0c2f0f4127862397bb40462effab29c7fe529da",
+          "exit_code": 3,
+          "seconds": 0.47,
+          "error": "[equiv][ERROR] yosys 端口提取失败: /f/Projects/EDA_work/rtl_agent/cases/public/case4/rtl.v:49: ERROR: syntax error, unexpected invalid token\n\n"
+        }
+      ],
+      "input_sha256": "29234fb08eb361ace4da727583d7b5f4bed2d1a164fdff4811f3657da0a3ed84",
+      "output_sha256": "29234fb08eb361ace4da727583d7b5f4bed2d1a164fdff4811f3657da0a3ed84",
+      "status": "error",
+      "error": "course synthesis failed (exit=1): /f/Projects/EDA_work/rtl_agent/cases/public/case4/rtl.v:49: ERROR: syntax error, unexpected invalid token\n"
+    },
+    {
+      "case": "case5",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "case5_tb.v",
+          "sha256": "3f2f035d89ee37705412c2f1da9d1e8ee359e7ef3a968452d9761f12432b04a6",
+          "exit_code": 0,
+          "seconds": 1.27,
+          "error": ""
+        }
+      ],
+      "input_sha256": "67067237d33fa00128ceb7f60c3139cc1daae46d5c4af1d3e0ba140e63846fa2",
+      "output_sha256": "ffc8b37d76464cce474cb66762b77fbfe51c5d26faba5e306346d74f482c75d8",
+      "status": "optimized",
+      "baseline": {
+        "area": 84.588,
+        "ltp": 62
+      },
+      "optimized": {
+        "area": 77.938,
+        "ltp": 48
+      },
+      "literal_gain": true
+    },
+    {
+      "case": "case6",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "case6_tb.v",
+          "sha256": "63478c5aaf1be530cb1d7483283fbcd65afe3aa324c857c1593a5be452ddf5fe",
+          "exit_code": 0,
+          "seconds": 0.66,
+          "error": ""
+        }
+      ],
+      "input_sha256": "5ee34c8a8e29aa89ced8dba30da4a48974bf25f6fe366e2e447ec095fe67bda9",
+      "output_sha256": "5ee34c8a8e29aa89ced8dba30da4a48974bf25f6fe366e2e447ec095fe67bda9",
+      "status": "no-gain",
+      "baseline": {
+        "area": 121.562,
+        "ltp": 22
+      },
+      "optimized": {
+        "area": 121.562,
+        "ltp": 22
+      },
+      "literal_gain": false
+    },
+    {
+      "case": "case7",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "case7_tb.v",
+          "sha256": "e7fb491c0a01f9c7b693a3266f2c7454afe91984c9272c0146b910efdadc176a",
+          "exit_code": 0,
+          "seconds": 2.14,
+          "error": ""
+        }
+      ],
+      "input_sha256": "78ddd3f77dac5c273a906698773f19087d4a915c0a003857137188da4c26b8cb",
+      "output_sha256": "d5b7662e78c393ad4397988a1e574ea0802ea0925a83a8e3b4363eff297ce288",
+      "status": "optimized",
+      "baseline": {
+        "area": 614.726,
+        "ltp": 66
+      },
+      "optimized": {
+        "area": 556.738,
+        "ltp": 54
+      },
+      "literal_gain": true
+    },
+    {
+      "case": "case8",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "case8_tb.v",
+          "sha256": "08498880fac12bde1ffefb9100f640ac33b56ef93c0a39a82e726f6c1547bb41",
+          "exit_code": 0,
+          "seconds": 0.9,
+          "error": ""
+        }
+      ],
+      "input_sha256": "d0bb171e8b6b701ca34c40328e8ab1be03995b659726f9c98f88db00796918df",
+      "output_sha256": "76f2ae8e611184a60a6296e3314b7f8f8a8432aa62531d6269005c477a85e741",
+      "status": "optimized",
+      "baseline": {
+        "area": 249.508,
+        "ltp": 85
+      },
+      "optimized": {
+        "area": 230.09,
+        "ltp": 68
+      },
+      "literal_gain": true
+    }
+  ]
+}

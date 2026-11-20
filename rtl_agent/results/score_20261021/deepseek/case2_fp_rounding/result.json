@@ -1,0 +1,212 @@
+{
+  "top": "fp_rounding",
+  "input": "/mnt/f/Projects/EDA_work/rtl_agent/cases/public/case2_fp_rounding/fp_round_v1.v",
+  "kind": "combinational",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 88.046,
+    "ltp": 11,
+    "course_area": 88.046,
+    "course_ltp": 11,
+    "cells": {
+      "AND2_X1": 2,
+      "AND3_X1": 1,
+      "AND4_X1": 1,
+      "AOI21_X1": 6,
+      "INV_X1": 11,
+      "MUX2_X1": 1,
+      "NAND2_X1": 3,
+      "NAND3_X1": 2,
+      "NAND4_X1": 4,
+      "NOR2_X1": 10,
+      "NOR3_X1": 2,
+      "NOR4_X1": 10,
+      "OAI211_X1": 1,
+      "OAI21_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 13,
+      "XOR2_X1": 7
+    }
+  },
+  "optimized": {
+    "area": 88.046,
+    "ltp": 11,
+    "course_area": null,
+    "course_ltp": null,
+    "cells": {
+      "AND2_X1": 2,
+      "AND3_X1": 1,
+      "AND4_X1": 1,
+      "AOI21_X1": 6,
+      "INV_X1": 11,
+      "MUX2_X1": 1,
+      "NAND2_X1": 3,
+      "NAND3_X1": 2,
+      "NAND4_X1": 4,
+      "NOR2_X1": 10,
+      "NOR3_X1": 2,
+      "NOR4_X1": 10,
+      "OAI211_X1": 1,
+      "OAI21_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 13,
+      "XOR2_X1": 7
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 2,
+    "logical_calls": 2,
+    "prompt_tokens": 3455,
+    "completion_tokens": 1513,
+    "reasoning_tokens": 0,
+    "cached_tokens": 2048,
+    "total_tokens": 4968,
+    "llm_seconds": 12.0
+  },
+  "runtime_s": 7.9,
+  "stop_reason": "refine rounds done",
+  "graph_trace": [
+    [
+      "setup",
+      0.83
+    ],
+    [
+      "arithmetic",
+      0.01
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "generate",
+      6.18
+    ],
+    [
+      "evaluate",
+      0.78
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "no-gain",
+      "problem": "[metrics] area 88.0 / ltp 11 is not better than baseline 88.0 / 11",
+      "plan": "- Keep the case structure and all branch conditions identical; only factor the shared `|round_sticky_bits_i` term used by RDN/RUP.\n- Replace the nested RNE case with an equivalent expression using sticky bits: round_up = sticky[1] & (sticky[0] | abs_value_i[0]) for RNE, matching 00/01→0, 10→a[0], 11→1.\n- Keep abs_rounded_o, exact_zero_o, sign_o assignment statements unchanged (same operators, same order).\n- No width narrowing possible (DAT_WIDTH is the real range); no operator sharing beyond the sticky-OR.",
+      "synth": {
+        "ok": true,
+        "area": 88.046,
+        "ltp": 11,
+        "cells": {
+          "AND2_X1": 2,
+          "AND3_X1": 1,
+          "AND4_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 11,
+          "MUX2_X1": 1,
+          "NAND2_X1": 3,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 10,
+          "NOR3_X1": 2,
+          "NOR4_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.65
+      },
+      "verify": null
+    },
+    {
+      "id": "c02",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "no-gain",
+      "problem": "[metrics] area 88.0 / ltp 11 is not better than baseline 88.0 / 11",
+      "plan": "- Replace the case-tree with a single flat expression for `round_up`, sharing the `|round_sticky_bits_i` term and the RNE `rsb[1]&(rsb[0]|abs_value_i[0])` term.\n- Compute `exact_zero_o` once and reuse it for `sign_o`; keep the same ternary structure.\n- Keep `abs_rounded_o` as `abs_value_i + round_up` (one adder), unchanged semantics.\n- Preserve X behaviour for the default mode by keeping the `1'bx` default branch.\n- Keep output assignment statements/order unchanged.",
+      "synth": {
+        "ok": true,
+        "area": 88.046,
+        "ltp": 11,
+        "cells": {
+          "AND2_X1": 2,
+          "AND3_X1": 1,
+          "AND4_X1": 1,
+          "AOI21_X1": 6,
+          "INV_X1": 11,
+          "MUX2_X1": 1,
+          "NAND2_X1": 3,
+          "NAND3_X1": 2,
+          "NAND4_X1": 4,
+          "NOR2_X1": 10,
+          "NOR3_X1": 2,
+          "NOR4_X1": 10,
+          "OAI211_X1": 1,
+          "OAI21_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 7
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "sign_i"
+        ],
+        "error": "",
+        "seconds": 0.64
+      },
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "liberty_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "llm_model": "deepseek-v4.1-flash",
+    "budget": {
+      "call_limit": 3,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 0,
+      "resynth": "off",
+      "resynth_seconds": 30,
+      "max_calls": 3,
+      "max_refine": 0,
+      "max_repair": 1,
+      "time_limit": 600,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873"
+  }
+}

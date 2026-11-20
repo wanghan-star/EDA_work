@@ -35,6 +35,7 @@ class Candidate:
         self.file = None
         self.plan = ""
         self.synth = None
+        self.course = None            # unflattened course metrics (hierarchical designs only)
         self.verify = None
         self.status = "new"
         self.problem = ""
@@ -54,13 +55,18 @@ class Candidate:
         return {"id": self.id, "origin": self.origin, "parent": self.parent, "depth": self.depth,
                 "strategy": self.strategy, "status": self.status, "problem": self.problem[:1500],
                 "plan": self.plan, "synth": self.synth.to_dict() if self.synth else None,
+                "course": self.course.to_dict() if self.course else None,
                 "verify": self.verify.to_dict() if self.verify else None}
 
 
 class Budget:
     def __init__(self, max_calls=12, max_refine=3, max_repair=2, time_limit=1500, n_init=2,
                  patience=1, min_gain=0.005, resynth="full", resynth_seconds=30, allow_mem=False,
-                 rescue_calls=4, allow_relaxed=True, accept="bounded"):
+                 rescue_calls=4, allow_relaxed=True, accept="bounded", arithmetic=True, call_limit=None,
+                 course_guard=True):
+        self.course_guard = course_guard
+        self.call_limit = call_limit
+        self.arithmetic = arithmetic
         self.allow_mem = allow_mem
         self.allow_relaxed = allow_relaxed
         self.accept = accept
@@ -107,6 +113,7 @@ class OptState:
         self.error = ""
         self.stop_reason = ""
         self.final = None
+        self.final_course = None
         self.final_verify = None
         self.final_tier = None
         self.trace = []
@@ -120,17 +127,42 @@ class OptState:
             return W_AREA + W_DELAY          # baseline normalised score
         return self.best.score(self.base)
 
+    def course_guarded(self):
+        """Hierarchical inputs: the unflattened course script reports one module, not the design.
+        Candidates must then not regress on that literal reading either."""
+        b, c = self.base, self.base_course
+        if not self.budget.course_guard or not (b and c and c.ok):
+            return False
+        return bool(self.info and self.info.submodules) or c.area != b.area or c.ltp != b.ltp
+
+    def course_problem(self, course):
+        """None if `course` (literal, unflattened metrics) does not regress, else the reason."""
+        bc = self.base_course
+        if not course.ok:
+            return f"course-literal synthesis failed: {course.error[:200]}"
+        worse = []
+        if course.area > bc.area + 1e-6:
+            worse.append(f"literal area {course.area:.3f} > {bc.area:.3f}")
+        if course.ltp > bc.ltp:
+            worse.append(f"literal ltp {course.ltp} > {bc.ltp}")
+        if course.hier_area is not None and bc.hier_area is not None and course.hier_area > bc.hier_area + 1e-6:
+            worse.append(f"hierarchy area {course.hier_area:.3f} > {bc.hier_area:.3f}")
+        return "; ".join(worse) or None
+
     def new_cand(self, origin, parent=None, depth=0, strategy=""):
         c = Candidate(f"c{len(self.candidates) + 1:02d}", origin, parent, depth, strategy)
         self.candidates.append(c)
         return c
 
     def budget_left(self):
-        return (self.usage.logical_calls < self.budget.max_calls and self.elapsed() < self.budget.time_limit
+        return (self.calls_left() > 0 and self.elapsed() < self.budget.time_limit
                 and self.llm.available())
 
     def calls_left(self):
-        return max(0, self.budget.max_calls - self.usage.logical_calls)
+        limit = self.budget.max_calls
+        if self.budget.call_limit is not None:
+            limit = min(limit, self.budget.call_limit)
+        return max(0, limit - self.usage.logical_calls)
 
     def thinking_for(self, kind, index=0):
         mode = self.cfg.llm_thinking
@@ -144,6 +176,15 @@ class OptState:
 
 
 # ---------------------------------------------------------------------- nodes
+def node_arithmetic(st):
+    from .arithmetic import candidates
+    for strategy, text in candidates(st.src, st.top):
+        c = st.new_cand(f"arithmetic:{strategy}", strategy="arithmetic")
+        c.text = text
+        c.plan = "Unsigned carry fusion / block lookahead; original parameters and state retained"
+        st.pending.append(c)
+
+
 def node_setup(st):
     os.makedirs(st.outdir, exist_ok=True)
     info, err = analyze(st.cfg, [st.rtl_file], st.top, st.src)
@@ -190,7 +231,7 @@ def _call(st, cand, thinking, temperature=0.2):
     try:
         cand.response = st.llm.chat(cand.messages, tag=f"{cand.id}_{cand.strategy or 'x'}",
                                     thinking=thinking, temperature=temperature,
-                                    max_tokens=16000 if thinking else 8000)
+                                    max_tokens=min(st.cfg.llm_max_tokens, 16000 if thinking else 8000))
     except LLMError as e:
         cand.status = "llm-error"
         cand.problem = str(e)
@@ -208,7 +249,7 @@ def node_generate(st):
         c.messages = [{"role": "system", "content": prompts.SYSTEM}, {"role": "user", "content": user}]
         c.thinking = st.thinking_for("init", i)
         cands.append(c)
-    with ThreadPoolExecutor(len(cands)) as ex:
+    with ThreadPoolExecutor(min(len(cands), st.cfg.jobs)) as ex:
         list(ex.map(lambda c: _call(st, c, c.thinking, temperature=0.2 + 0.2 * cands.index(c)), cands))
     st.pending = [c for c in cands if c.status != "llm-error"]
 
@@ -278,6 +319,15 @@ def _prepare(st, c):
         c.status = "no-gain"
         c.problem = f"[metrics] area {a:.1f} / ltp {d} is not better than baseline {st.base.area:.1f} / {st.base.ltp}"
         return
+    if st.course_guarded():
+        c.course = course_eval(st.cfg, [c.file], st.top, timeout=limit)
+        why = st.course_problem(c.course)
+        if why:
+            c.status, c.repairable = "course-worse", True
+            c.problem = (f"[metrics] flattened area {a:.1f} is better, but the course script does not flatten "
+                         f"and then reads {why}. Keep the original module hierarchy (every submodule with "
+                         f"its name, ports and instance) and optimize inside the modules.")
+            return
     c.status = "synth-ok"
 
 
@@ -292,7 +342,17 @@ def node_evaluate(st):
     best_area = st.best.synth.area if st.best else st.base.area
     to_verify = [c for c in pend
                  if (c.status == "synth-ok" and c.score(st.base) < thr - 1e-9)
-                 or (c.status == "ltp-worse" and c.synth.area < best_area)]
+                 or (c.status == "ltp-worse" and c.synth.area < best_area
+                     and (c.strategy != "arithmetic" or st.budget.resynth != "off"))]
+    # Seed/effort variants of ABC often converge to the same netlist; on big designs every
+    # verification costs minutes, so verify one candidate per synthesized signature.
+    seen = set()
+    for c in sorted(to_verify, key=lambda c: c.score(st.base)):
+        sig = (c.status, c.synth.area, c.synth.ltp, tuple(sorted(c.synth.cells.items())))
+        if c.strategy in ("resynth", "arithmetic") and sig in seen:
+            to_verify.remove(c)
+            c.status, c.problem = "duplicate", "same area/ltp/cell mix as a candidate already verified"
+        seen.add(sig)
     for c in pend:
         if c.status in ("synth-ok", "ltp-worse") and c not in to_verify:
             c.status = "not-better"
@@ -317,7 +377,7 @@ def _verify(st, c):
     if r.relaxed and c.status != "ltp-worse":
         # usable only as a fallback (identical after reset; differs in power-up X / glitch events)
         c.status = "relaxed"
-        c.repairable = c.strategy != "resynth"
+        c.repairable = c.strategy not in ("resynth", "arithmetic")
         c.problem = prompts.describe_failure(r, st.info)
         return
     if r.ok:
@@ -330,7 +390,7 @@ def _verify(st, c):
     else:
         c.status = f"fail-{r.stage}"
         # a netlist from ABC has no conversation to continue: never send it to the LLM for repair
-        c.repairable = c.strategy != "resynth"
+        c.repairable = c.strategy not in ("resynth", "arithmetic")
         c.problem = prompts.describe_failure(r, st.info)
 
 
@@ -338,7 +398,7 @@ def _repairable(st):
     thr = st.best_score()
     out = []
     for c in st.candidates:
-        if (not c.repairable or c.strategy == "resynth" or c.depth >= st.budget.max_repair
+        if (not c.repairable or c.strategy in ("resynth", "arithmetic") or c.depth >= st.budget.max_repair
                 or getattr(c, "repaired", False)):
             continue
         if c.synth and c.synth.ok and c.status not in ("ltp-worse",) and c.score(st.base) >= thr:
@@ -400,15 +460,24 @@ def node_resynth(st):
     st.resynth_done = True
     sources = _pending_resynth_sources(st)
     st.resynth_sources.update(sid for sid, _f in sources)
-    jobs = [(sid, files, s) for sid, files in sources for s in DEFAULT_SET]
+    arithmetic_ids = {c.id for c in st.candidates if c.strategy == "arithmetic"}
+    # Carry structures need depth-preserving rewriting. Deep area search tended
+    # to undo their fast carry network; keep the full portfolio for other RTL.
+    jobs = [(sid, files, s, False) for sid, files in sources
+            for s in (("dc2x3", "syn2_dch") if sid in arithmetic_ids else DEFAULT_SET)]
+    # Hierarchical original: also re-synthesize the top alone and keep its submodules, so the
+    # unflattened course reading improves too (a flattened netlist usually regresses there).
+    if st.info.submodules and any(sid == "orig" for sid, _f in sources):
+        jobs += [("orig", [st.rtl_file], s, True) for s in DEFAULT_SET]
     if not jobs:
         return
 
     def work(job):
-        sid, files, script = job
-        text, msg = resynth(st.cfg, files, st.top, os.path.join(st.workdir, "resynth", f"{sid}_{script}"),
-                            script=script, seconds=st.budget.resynth_seconds, orig_src=st.src)
-        return sid, script, text, msg
+        sid, files, script, hier = job
+        tag = ("h_" if hier else "") + script
+        text, msg = resynth(st.cfg, files, st.top, os.path.join(st.workdir, "resynth", f"{sid}_{tag}"),
+                            script=script, seconds=st.budget.resynth_seconds, orig_src=st.src, hier=hier)
+        return sid, tag, text, msg
     # Independent ABC processes share the configured concurrency ceiling.
     with ThreadPoolExecutor(min(len(jobs), st.cfg.jobs)) as ex:
         results = list(ex.map(work, jobs))
@@ -425,9 +494,10 @@ def node_resynth(st):
 
 def route_after_resynth(st):
     if (st.best is None and not st.rescue_done and st.budget.rescue_calls > 0 and st.llm.available()
-            and not st.error and st.elapsed() < st.budget.time_limit):
-        # A combinational original whose own waveform has zero-width re-dumps cannot be matched
-        # event-by-event by ANY restructured design; a relaxed gain is the best attainable there.
+            and not st.error and st.elapsed() < st.budget.time_limit
+            and (st.budget.call_limit is None or st.usage.logical_calls < st.budget.call_limit)):
+        # Zero-width re-dumps can block strict waveform matching after restructuring.
+        # Avoid further rescue calls once this search has found only a relaxed comb gain.
         relaxed_gain = any(c.status == "relaxed" and _gainful(st, c) for c in st.candidates)
         if (st.budget.allow_relaxed and relaxed_gain and not st.info.is_sequential
                 and st.verifier.event_sensitive):
@@ -456,7 +526,7 @@ def node_rescue(st):
         c.messages = [{"role": "system", "content": prompts.SYSTEM}, {"role": "user", "content": user}]
         cands.append(c)
     log(f"rescue round with strategies {picks}", "rescue")
-    with ThreadPoolExecutor(len(cands)) as ex:
+    with ThreadPoolExecutor(min(len(cands), st.cfg.jobs)) as ex:
         list(ex.map(lambda c: _call(st, c, st.thinking_for("rescue"), temperature=0.5), cands))
     st.pending = [c for c in cands if c.status != "llm-error"]
 
@@ -472,7 +542,7 @@ def node_repair(st):
         n.messages = list(c.messages) + [{"role": "assistant", "content": c.response},
                                          {"role": "user", "content": prompts.repair_user(c.problem)}]
         news.append(n)
-    with ThreadPoolExecutor(len(news)) as ex:
+    with ThreadPoolExecutor(min(len(news), getattr(st.cfg, "jobs", len(news)))) as ex:
         list(ex.map(lambda n: _call(st, n, thinking=st.thinking_for("repair"), temperature=0.3), news))
     st.pending = [n for n in news if n.status != "llm-error"]
 
@@ -550,6 +620,8 @@ def node_finalize(st):
         log(f"using RELAXED candidate {chosen.id}: identical after reset, differs only in power-up X or "
             f"zero-width waveform events", "final")
     st.final = chosen
+    if chosen is not None:
+        st.final_course = chosen.course or course_eval(st.cfg, [chosen.file], st.top)
     if not st.stop_reason:
         st.stop_reason = "verified improvement" if chosen else "no verified gain"
     out_v = os.path.join(st.outdir, "optimized.v")
@@ -562,6 +634,8 @@ def node_finalize(st):
 def build_graph():
     g = StateGraph("rtl-opt")
     g.add_node("setup", node_setup)
+    g.add_node("arithmetic", node_arithmetic)
+    g.add_node("evaluate_arithmetic", node_evaluate)
     g.add_node("generate", node_generate)
     g.add_node("evaluate", node_evaluate)
     g.add_node("repair", node_repair)
@@ -574,8 +648,11 @@ def build_graph():
     g.add_edge("resynth", "evaluate_resynth")
     g.add_conditional_edges("evaluate_resynth", route_after_resynth)
     g.add_edge("rescue", "evaluate")
+    after_arithmetic = lambda s: "generate" if s.budget_left() else _end_phase(s)
     g.add_conditional_edges("setup", lambda s: "finalize" if s.error else
-                            ("generate" if s.llm.available() else _end_phase(s)))
+                            ("arithmetic" if s.budget.arithmetic else after_arithmetic(s)))
+    g.add_edge("arithmetic", "evaluate_arithmetic")
+    g.add_conditional_edges("evaluate_arithmetic", after_arithmetic)
     g.add_edge("generate", "evaluate")
     g.add_conditional_edges("evaluate", route_after_evaluate)
     g.add_edge("repair", "evaluate")

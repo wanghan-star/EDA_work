@@ -1,0 +1,1883 @@
+{
+  "top": "LIFObuffer",
+  "input": "/mnt/f/Projects/EDA_work/rtl_agent/cases/public/case6_LIFObuffer/lifo_v1.v",
+  "kind": "sequential",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 101.612,
+    "ltp": 18,
+    "course_area": 101.612,
+    "course_ltp": 18,
+    "cells": {
+      "$_DFFE_PP_": 1,
+      "$_SDFFCE_PP0P_": 22,
+      "$_SDFFCE_PP1P_": 1,
+      "AND2_X1": 7,
+      "AOI211_X1": 6,
+      "AOI21_X1": 10,
+      "AOI222_X1": 4,
+      "INV_X1": 14,
+      "MUX2_X1": 7,
+      "NAND2_X1": 7,
+      "NAND3_X1": 9,
+      "NAND4_X1": 1,
+      "NOR2_X1": 14,
+      "NOR3_X1": 2,
+      "OAI21_X1": 12,
+      "OR2_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 1
+    }
+  },
+  "optimized": {
+    "area": 101.612,
+    "ltp": 18,
+    "cells": {
+      "$_DFFE_PP_": 1,
+      "$_SDFFCE_PP0P_": 22,
+      "$_SDFFCE_PP1P_": 1,
+      "AND2_X1": 7,
+      "AOI211_X1": 6,
+      "AOI21_X1": 10,
+      "AOI222_X1": 4,
+      "INV_X1": 14,
+      "MUX2_X1": 7,
+      "NAND2_X1": 7,
+      "NAND3_X1": 9,
+      "NAND4_X1": 1,
+      "NOR2_X1": 14,
+      "NOR3_X1": 2,
+      "OAI21_X1": 12,
+      "OR2_X1": 1,
+      "OR3_X1": 1,
+      "XNOR2_X1": 1
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 0,
+    "logical_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "cached_tokens": 0,
+    "total_tokens": 0,
+    "llm_seconds": 0.0
+  },
+  "runtime_s": 14.2,
+  "stop_reason": "no verified gain",
+  "graph_trace": [
+    [
+      "setup",
+      0.89
+    ],
+    [
+      "arithmetic",
+      0.0
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "resynth",
+      9.32
+    ],
+    [
+      "evaluate_resynth",
+      3.92
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `EMPTY`: expected 1, got 'bx.\nInputs: dataIn=0, RW=0, EN=1, Rst=1, clk=1.\nExpected outputs: EMPTY=1, dataOut=0.\nYour outputs: EMPTY='bx, dataOut=0.\nAnother failing case cycle 6: inputs dataIn=0, RW=1, EN=1, Rst=0, clk=1; expected EMPTY=1, FULL=0, dataOut='bx; yours EMPTY=1, FULL=0, dataOut=0.\nAnother failing case cycle 15: inputs dataIn=7, RW=0, EN=1, Rst=0, clk=1; expected EMPTY=0, FULL=0, dataOut='bx; yours EMPTY=0, FULL=0, dataOut=4.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 71.554,
+        "ltp": 16,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 2,
+          "AOI21_X1": 2,
+          "AOI222_X1": 1,
+          "AOI22_X1": 2,
+          "INV_X1": 26,
+          "NAND2_X1": 5,
+          "NAND3_X1": 4,
+          "NOR2_X1": 4,
+          "NOR3_X1": 1,
+          "OAI211_X1": 2,
+          "OAI21_X1": 7,
+          "OAI221_X1": 3,
+          "OAI22_X1": 16,
+          "OR2_X1": 2
+        },
+        "n_ff": 25,
+        "ltp_path": [
+          "clk",
+          "SP[2]",
+          "stack_mem[2][1]",
+          "dataOut[1]"
+        ],
+        "error": "",
+        "seconds": 2.02
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['EMPTY', 'dataOut']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "EMPTY",
+          "gold": "1",
+          "opt": "x",
+          "inputs": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "1"
+          },
+          "inputs_prev": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "0"
+          },
+          "outputs_gold": {
+            "EMPTY": "1",
+            "dataOut": "0"
+          },
+          "outputs_opt": {
+            "EMPTY": "x",
+            "dataOut": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "dataIn": "0",
+                "RW": "1",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 155000,
+              "inputs": {
+                "dataIn": "111",
+                "RW": "0",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "100"
+              },
+              "cycle": 15
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "EMPTY",
+            "gold": "1",
+            "opt": "x",
+            "inputs": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "1"
+            },
+            "inputs_prev": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "0"
+            },
+            "outputs_gold": {
+              "EMPTY": "1",
+              "dataOut": "0"
+            },
+            "outputs_opt": {
+              "EMPTY": "x",
+              "dataOut": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "dataIn": "0",
+                  "RW": "1",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 155000,
+                "inputs": {
+                  "dataIn": "111",
+                  "RW": "0",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "100"
+                },
+                "cycle": 15
+              }
+            ]
+          },
+          "bad_outputs": [
+            "EMPTY",
+            "dataOut"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.1
+        },
+        "formal": null,
+        "seconds": 0.22
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `EMPTY`: expected 1, got 'bx.\nInputs: dataIn=0, RW=0, EN=1, Rst=1, clk=1.\nExpected outputs: EMPTY=1, dataOut=0.\nYour outputs: EMPTY='bx, dataOut=0.\nAnother failing case cycle 6: inputs dataIn=0, RW=1, EN=1, Rst=0, clk=1; expected EMPTY=1, FULL=0, dataOut='bx; yours EMPTY=1, FULL=0, dataOut=0.\nAnother failing case cycle 15: inputs dataIn=7, RW=0, EN=1, Rst=0, clk=1; expected EMPTY=0, FULL=0, dataOut='bx; yours EMPTY=0, FULL=0, dataOut=4.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 71.82,
+        "ltp": 18,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 2,
+          "AND2_X1": 1,
+          "AOI21_X1": 2,
+          "AOI221_X1": 1,
+          "AOI22_X1": 2,
+          "INV_X1": 25,
+          "NAND2_X1": 6,
+          "NAND3_X1": 5,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "OAI211_X1": 2,
+          "OAI21_X1": 7,
+          "OAI221_X1": 3,
+          "OAI22_X1": 16,
+          "OR2_X1": 1
+        },
+        "n_ff": 25,
+        "ltp_path": [
+          "clk",
+          "SP[2]",
+          "stack_mem[1][1]",
+          "dataOut[1]"
+        ],
+        "error": "",
+        "seconds": 1.93
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['EMPTY', 'dataOut']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "EMPTY",
+          "gold": "1",
+          "opt": "x",
+          "inputs": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "1"
+          },
+          "inputs_prev": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "0"
+          },
+          "outputs_gold": {
+            "EMPTY": "1",
+            "dataOut": "0"
+          },
+          "outputs_opt": {
+            "EMPTY": "x",
+            "dataOut": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "dataIn": "0",
+                "RW": "1",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 155000,
+              "inputs": {
+                "dataIn": "111",
+                "RW": "0",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "100"
+              },
+              "cycle": 15
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "EMPTY",
+            "gold": "1",
+            "opt": "x",
+            "inputs": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "1"
+            },
+            "inputs_prev": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "0"
+            },
+            "outputs_gold": {
+              "EMPTY": "1",
+              "dataOut": "0"
+            },
+            "outputs_opt": {
+              "EMPTY": "x",
+              "dataOut": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "dataIn": "0",
+                  "RW": "1",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 155000,
+                "inputs": {
+                  "dataIn": "111",
+                  "RW": "0",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "100"
+                },
+                "cycle": 15
+              }
+            ]
+          },
+          "bad_outputs": [
+            "EMPTY",
+            "dataOut"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.12
+        },
+        "formal": null,
+        "seconds": 0.23
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `EMPTY`: expected 1, got 'bx.\nInputs: dataIn=0, RW=0, EN=1, Rst=1, clk=1.\nExpected outputs: EMPTY=1, dataOut=0.\nYour outputs: EMPTY='bx, dataOut=0.\nAnother failing case cycle 6: inputs dataIn=0, RW=1, EN=1, Rst=0, clk=1; expected EMPTY=1, FULL=0, dataOut='bx; yours EMPTY=1, FULL=0, dataOut=0.\nAnother failing case cycle 15: inputs dataIn=7, RW=0, EN=1, Rst=0, clk=1; expected EMPTY=0, FULL=0, dataOut='bx; yours EMPTY=0, FULL=0, dataOut=4.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 71.554,
+        "ltp": 16,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 2,
+          "AOI21_X1": 2,
+          "AOI222_X1": 1,
+          "AOI22_X1": 2,
+          "INV_X1": 26,
+          "NAND2_X1": 5,
+          "NAND3_X1": 4,
+          "NOR2_X1": 4,
+          "NOR3_X1": 1,
+          "OAI211_X1": 2,
+          "OAI21_X1": 7,
+          "OAI221_X1": 3,
+          "OAI22_X1": 16,
+          "OR2_X1": 2
+        },
+        "n_ff": 25,
+        "ltp_path": [
+          "clk",
+          "SP[2]",
+          "stack_mem[2][1]",
+          "dataOut[1]"
+        ],
+        "error": "",
+        "seconds": 2.02
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['EMPTY', 'dataOut']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "EMPTY",
+          "gold": "1",
+          "opt": "x",
+          "inputs": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "1"
+          },
+          "inputs_prev": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "0"
+          },
+          "outputs_gold": {
+            "EMPTY": "1",
+            "dataOut": "0"
+          },
+          "outputs_opt": {
+            "EMPTY": "x",
+            "dataOut": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "dataIn": "0",
+                "RW": "1",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 155000,
+              "inputs": {
+                "dataIn": "111",
+                "RW": "0",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "100"
+              },
+              "cycle": 15
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "EMPTY",
+            "gold": "1",
+            "opt": "x",
+            "inputs": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "1"
+            },
+            "inputs_prev": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "0"
+            },
+            "outputs_gold": {
+              "EMPTY": "1",
+              "dataOut": "0"
+            },
+            "outputs_opt": {
+              "EMPTY": "x",
+              "dataOut": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "dataIn": "0",
+                  "RW": "1",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 155000,
+                "inputs": {
+                  "dataIn": "111",
+                  "RW": "0",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "100"
+                },
+                "cycle": 15
+              }
+            ]
+          },
+          "bad_outputs": [
+            "EMPTY",
+            "dataOut"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.08
+        },
+        "formal": null,
+        "seconds": 0.18
+      }
+    },
+    {
+      "id": "c04",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `EMPTY`: expected 1, got 'bx.\nInputs: dataIn=0, RW=0, EN=1, Rst=1, clk=1.\nExpected outputs: EMPTY=1, dataOut=0.\nYour outputs: EMPTY='bx, dataOut=0.\nAnother failing case cycle 6: inputs dataIn=0, RW=1, EN=1, Rst=0, clk=1; expected EMPTY=1, FULL=0, dataOut='bx; yours EMPTY=1, FULL=0, dataOut=0.\nAnother failing case cycle 15: inputs dataIn=7, RW=0, EN=1, Rst=0, clk=1; expected EMPTY=0, FULL=0, dataOut='bx; yours EMPTY=0, FULL=0, dataOut=4.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 71.82,
+        "ltp": 18,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 2,
+          "AND2_X1": 1,
+          "AOI21_X1": 2,
+          "AOI221_X1": 1,
+          "AOI22_X1": 2,
+          "INV_X1": 25,
+          "NAND2_X1": 6,
+          "NAND3_X1": 5,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "OAI211_X1": 2,
+          "OAI21_X1": 7,
+          "OAI221_X1": 3,
+          "OAI22_X1": 16,
+          "OR2_X1": 1
+        },
+        "n_ff": 25,
+        "ltp_path": [
+          "clk",
+          "SP[2]",
+          "stack_mem[1][1]",
+          "dataOut[1]"
+        ],
+        "error": "",
+        "seconds": 1.93
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['EMPTY', 'dataOut']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "EMPTY",
+          "gold": "1",
+          "opt": "x",
+          "inputs": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "1"
+          },
+          "inputs_prev": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "0"
+          },
+          "outputs_gold": {
+            "EMPTY": "1",
+            "dataOut": "0"
+          },
+          "outputs_opt": {
+            "EMPTY": "x",
+            "dataOut": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "dataIn": "0",
+                "RW": "1",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 155000,
+              "inputs": {
+                "dataIn": "111",
+                "RW": "0",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "100"
+              },
+              "cycle": 15
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "EMPTY",
+            "gold": "1",
+            "opt": "x",
+            "inputs": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "1"
+            },
+            "inputs_prev": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "0"
+            },
+            "outputs_gold": {
+              "EMPTY": "1",
+              "dataOut": "0"
+            },
+            "outputs_opt": {
+              "EMPTY": "x",
+              "dataOut": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "dataIn": "0",
+                  "RW": "1",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 155000,
+                "inputs": {
+                  "dataIn": "111",
+                  "RW": "0",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "100"
+                },
+                "cycle": 15
+              }
+            ]
+          },
+          "bad_outputs": [
+            "EMPTY",
+            "dataOut"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.09
+        },
+        "formal": null,
+        "seconds": 0.2
+      }
+    },
+    {
+      "id": "c05",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `EMPTY`: expected 1, got 'bx.\nInputs: dataIn=0, RW=0, EN=1, Rst=1, clk=1.\nExpected outputs: EMPTY=1, dataOut=0.\nYour outputs: EMPTY='bx, dataOut=0.\nAnother failing case cycle 6: inputs dataIn=0, RW=1, EN=1, Rst=0, clk=1; expected EMPTY=1, FULL=0, dataOut='bx; yours EMPTY=1, FULL=0, dataOut=0.\nAnother failing case cycle 15: inputs dataIn=7, RW=0, EN=1, Rst=0, clk=1; expected EMPTY=0, FULL=0, dataOut='bx; yours EMPTY=0, FULL=0, dataOut=4.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 71.554,
+        "ltp": 16,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 2,
+          "AOI21_X1": 2,
+          "AOI222_X1": 1,
+          "AOI22_X1": 2,
+          "INV_X1": 26,
+          "NAND2_X1": 5,
+          "NAND3_X1": 4,
+          "NOR2_X1": 4,
+          "NOR3_X1": 1,
+          "OAI211_X1": 2,
+          "OAI21_X1": 7,
+          "OAI221_X1": 3,
+          "OAI22_X1": 16,
+          "OR2_X1": 2
+        },
+        "n_ff": 25,
+        "ltp_path": [
+          "clk",
+          "SP[2]",
+          "stack_mem[2][1]",
+          "dataOut[1]"
+        ],
+        "error": "",
+        "seconds": 1.97
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['EMPTY', 'dataOut']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "EMPTY",
+          "gold": "1",
+          "opt": "x",
+          "inputs": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "1"
+          },
+          "inputs_prev": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "0"
+          },
+          "outputs_gold": {
+            "EMPTY": "1",
+            "dataOut": "0"
+          },
+          "outputs_opt": {
+            "EMPTY": "x",
+            "dataOut": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "dataIn": "0",
+                "RW": "1",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 155000,
+              "inputs": {
+                "dataIn": "111",
+                "RW": "0",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "100"
+              },
+              "cycle": 15
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "EMPTY",
+            "gold": "1",
+            "opt": "x",
+            "inputs": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "1"
+            },
+            "inputs_prev": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "0"
+            },
+            "outputs_gold": {
+              "EMPTY": "1",
+              "dataOut": "0"
+            },
+            "outputs_opt": {
+              "EMPTY": "x",
+              "dataOut": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "dataIn": "0",
+                  "RW": "1",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 155000,
+                "inputs": {
+                  "dataIn": "111",
+                  "RW": "0",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "100"
+                },
+                "cycle": 15
+              }
+            ]
+          },
+          "bad_outputs": [
+            "EMPTY",
+            "dataOut"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.07
+        },
+        "formal": null,
+        "seconds": 0.16
+      }
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `EMPTY`: expected 1, got 'bx.\nInputs: dataIn=0, RW=0, EN=1, Rst=1, clk=1.\nExpected outputs: EMPTY=1, dataOut=0.\nYour outputs: EMPTY='bx, dataOut=0.\nAnother failing case cycle 6: inputs dataIn=0, RW=1, EN=1, Rst=0, clk=1; expected EMPTY=1, FULL=0, dataOut='bx; yours EMPTY=1, FULL=0, dataOut=0.\nAnother failing case cycle 15: inputs dataIn=7, RW=0, EN=1, Rst=0, clk=1; expected EMPTY=0, FULL=0, dataOut='bx; yours EMPTY=0, FULL=0, dataOut=4.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 71.82,
+        "ltp": 16,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 2,
+          "AND2_X1": 1,
+          "AOI21_X1": 2,
+          "AOI22_X1": 3,
+          "INV_X1": 26,
+          "NAND2_X1": 7,
+          "NAND3_X1": 4,
+          "NOR2_X1": 3,
+          "NOR3_X1": 1,
+          "OAI211_X1": 3,
+          "OAI21_X1": 6,
+          "OAI221_X1": 3,
+          "OAI22_X1": 16,
+          "OR2_X1": 1
+        },
+        "n_ff": 25,
+        "ltp_path": [
+          "clk",
+          "SP[1]",
+          "stack_mem[0][1]",
+          "dataOut[1]"
+        ],
+        "error": "",
+        "seconds": 1.97
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['EMPTY', 'dataOut']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "EMPTY",
+          "gold": "1",
+          "opt": "x",
+          "inputs": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "1"
+          },
+          "inputs_prev": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "0"
+          },
+          "outputs_gold": {
+            "EMPTY": "1",
+            "dataOut": "0"
+          },
+          "outputs_opt": {
+            "EMPTY": "x",
+            "dataOut": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "dataIn": "0",
+                "RW": "1",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 155000,
+              "inputs": {
+                "dataIn": "111",
+                "RW": "0",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "100"
+              },
+              "cycle": 15
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "EMPTY",
+            "gold": "1",
+            "opt": "x",
+            "inputs": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "1"
+            },
+            "inputs_prev": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "0"
+            },
+            "outputs_gold": {
+              "EMPTY": "1",
+              "dataOut": "0"
+            },
+            "outputs_opt": {
+              "EMPTY": "x",
+              "dataOut": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "dataIn": "0",
+                  "RW": "1",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 155000,
+                "inputs": {
+                  "dataIn": "111",
+                  "RW": "0",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "100"
+                },
+                "cycle": 15
+              }
+            ]
+          },
+          "bad_outputs": [
+            "EMPTY",
+            "dataOut"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.09
+        },
+        "formal": null,
+        "seconds": 0.22
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `EMPTY`: expected 1, got 'bx.\nInputs: dataIn=0, RW=0, EN=1, Rst=1, clk=1.\nExpected outputs: EMPTY=1, dataOut=0.\nYour outputs: EMPTY='bx, dataOut=0.\nAnother failing case cycle 6: inputs dataIn=0, RW=1, EN=1, Rst=0, clk=1; expected EMPTY=1, FULL=0, dataOut='bx; yours EMPTY=1, FULL=0, dataOut=0.\nAnother failing case cycle 15: inputs dataIn=7, RW=0, EN=1, Rst=0, clk=1; expected EMPTY=0, FULL=0, dataOut='bx; yours EMPTY=0, FULL=0, dataOut=4.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 72.352,
+        "ltp": 15,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 2,
+          "AND2_X1": 1,
+          "AOI21_X1": 2,
+          "AOI222_X1": 1,
+          "AOI22_X1": 2,
+          "INV_X1": 26,
+          "NAND2_X1": 6,
+          "NAND3_X1": 4,
+          "NOR2_X1": 4,
+          "NOR3_X1": 1,
+          "OAI211_X1": 2,
+          "OAI21_X1": 7,
+          "OAI221_X1": 3,
+          "OAI22_X1": 16,
+          "OR2_X1": 1
+        },
+        "n_ff": 25,
+        "ltp_path": [
+          "clk",
+          "SP[2]",
+          "stack_mem[0][0]",
+          "dataOut[0]"
+        ],
+        "error": "",
+        "seconds": 2.0
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['EMPTY', 'dataOut']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "EMPTY",
+          "gold": "1",
+          "opt": "x",
+          "inputs": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "1"
+          },
+          "inputs_prev": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "0"
+          },
+          "outputs_gold": {
+            "EMPTY": "1",
+            "dataOut": "0"
+          },
+          "outputs_opt": {
+            "EMPTY": "x",
+            "dataOut": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "dataIn": "0",
+                "RW": "1",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 155000,
+              "inputs": {
+                "dataIn": "111",
+                "RW": "0",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "100"
+              },
+              "cycle": 15
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "EMPTY",
+            "gold": "1",
+            "opt": "x",
+            "inputs": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "1"
+            },
+            "inputs_prev": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "0"
+            },
+            "outputs_gold": {
+              "EMPTY": "1",
+              "dataOut": "0"
+            },
+            "outputs_opt": {
+              "EMPTY": "x",
+              "dataOut": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "dataIn": "0",
+                  "RW": "1",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 155000,
+                "inputs": {
+                  "dataIn": "111",
+                  "RW": "0",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "100"
+                },
+                "cycle": 15
+              }
+            ]
+          },
+          "bad_outputs": [
+            "EMPTY",
+            "dataOut"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.09
+        },
+        "formal": null,
+        "seconds": 0.2
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 108.5 / ltp 18 is not better than baseline 101.6 / 18",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 108.528,
+        "ltp": 18,
+        "cells": {
+          "$_DFFE_PP_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 2,
+          "AND2_X1": 5,
+          "AOI211_X1": 2,
+          "AOI21_X1": 16,
+          "AOI221_X1": 3,
+          "INV_X1": 19,
+          "MUX2_X1": 4,
+          "NAND2_X1": 5,
+          "NAND3_X1": 12,
+          "NAND4_X1": 2,
+          "NOR2_X1": 7,
+          "NOR3_X1": 4,
+          "OAI211_X1": 1,
+          "OAI21_X1": 17,
+          "OAI221_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 5,
+          "OR3_X1": 1,
+          "XNOR2_X1": 1
+        },
+        "n_ff": 25,
+        "ltp_path": [
+          "clk",
+          "SP[1]",
+          "stack_mem[1][3]",
+          "dataOut[3]"
+        ],
+        "error": "",
+        "seconds": 2.05
+      },
+      "verify": null
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, reset_first)] output `EMPTY`: expected 1, got 'bx.\nInputs: dataIn=0, RW=0, EN=1, Rst=1, clk=1.\nExpected outputs: EMPTY=1, dataOut=0.\nYour outputs: EMPTY='bx, dataOut=0.\nAnother failing case cycle 6: inputs dataIn=0, RW=1, EN=1, Rst=0, clk=1; expected EMPTY=1, FULL=0, dataOut='bx; yours EMPTY=1, FULL=0, dataOut=0.\nAnother failing case cycle 15: inputs dataIn=7, RW=0, EN=1, Rst=0, clk=1; expected EMPTY=0, FULL=0, dataOut='bx; yours EMPTY=0, FULL=0, dataOut=4.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 89.908,
+        "ltp": 17,
+        "cells": {
+          "$_SDFFCE_PN0P_": 1,
+          "$_SDFFCE_PP0P_": 22,
+          "$_SDFFCE_PP1P_": 2,
+          "AND2_X1": 3,
+          "AOI21_X1": 8,
+          "AOI22_X1": 2,
+          "INV_X1": 9,
+          "MUX2_X1": 4,
+          "NAND2_X1": 3,
+          "NAND3_X1": 1,
+          "NOR2_X1": 7,
+          "NOR3_X1": 3,
+          "OAI21_X1": 34,
+          "OAI221_X1": 4,
+          "OR2_X1": 8
+        },
+        "n_ff": 25,
+        "ltp_path": [
+          "clk",
+          "SP[2]",
+          "stack_mem[1][3]",
+          "dataOut[3]"
+        ],
+        "error": "",
+        "seconds": 1.13
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['EMPTY', 'dataOut']",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "EMPTY",
+          "gold": "1",
+          "opt": "x",
+          "inputs": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "1"
+          },
+          "inputs_prev": {
+            "dataIn": "0",
+            "RW": "0",
+            "EN": "1",
+            "Rst": "1",
+            "clk": "0"
+          },
+          "outputs_gold": {
+            "EMPTY": "1",
+            "dataOut": "0"
+          },
+          "outputs_opt": {
+            "EMPTY": "x",
+            "dataOut": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 0,
+          "more": [
+            {
+              "time": 65000,
+              "inputs": {
+                "dataIn": "0",
+                "RW": "1",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "1",
+                "FULL": "0",
+                "dataOut": "0"
+              },
+              "cycle": 6
+            },
+            {
+              "time": 155000,
+              "inputs": {
+                "dataIn": "111",
+                "RW": "0",
+                "EN": "1",
+                "Rst": "0",
+                "clk": "1"
+              },
+              "outputs_gold": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "x"
+              },
+              "outputs_opt": {
+                "EMPTY": "0",
+                "FULL": "0",
+                "dataOut": "100"
+              },
+              "cycle": 15
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "EMPTY",
+            "gold": "1",
+            "opt": "x",
+            "inputs": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "1"
+            },
+            "inputs_prev": {
+              "dataIn": "0",
+              "RW": "0",
+              "EN": "1",
+              "Rst": "1",
+              "clk": "0"
+            },
+            "outputs_gold": {
+              "EMPTY": "1",
+              "dataOut": "0"
+            },
+            "outputs_opt": {
+              "EMPTY": "x",
+              "dataOut": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 0,
+            "more": [
+              {
+                "time": 65000,
+                "inputs": {
+                  "dataIn": "0",
+                  "RW": "1",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "1",
+                  "FULL": "0",
+                  "dataOut": "0"
+                },
+                "cycle": 6
+              },
+              {
+                "time": 155000,
+                "inputs": {
+                  "dataIn": "111",
+                  "RW": "0",
+                  "EN": "1",
+                  "Rst": "0",
+                  "clk": "1"
+                },
+                "outputs_gold": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "x"
+                },
+                "outputs_opt": {
+                  "EMPTY": "0",
+                  "FULL": "0",
+                  "dataOut": "100"
+                },
+                "cycle": 15
+              }
+            ]
+          },
+          "bad_outputs": [
+            "EMPTY",
+            "dataOut"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.13
+        },
+        "formal": null,
+        "seconds": 0.24
+      }
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "5ee34c8a8e29aa89ced8dba30da4a48974bf25f6fe366e2e447ec095fe67bda9",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": null,
+    "budget": {
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 0,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 3,
+      "max_refine": 0,
+      "max_repair": 1,
+      "time_limit": 600,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "5ee34c8a8e29aa89ced8dba30da4a48974bf25f6fe366e2e447ec095fe67bda9"
+  }
+}

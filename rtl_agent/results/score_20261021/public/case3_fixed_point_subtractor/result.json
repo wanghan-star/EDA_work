@@ -1,0 +1,814 @@
+{
+  "top": "fixed_point_subtractor",
+  "input": "/mnt/f/Projects/EDA_work/rtl_agent/cases/public/case3_fixed_point_subtractor/fixed_sub_v1.v",
+  "kind": "combinational",
+  "status": "optimized",
+  "tier": "strict",
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 477.736,
+    "ltp": 30,
+    "course_area": 477.736,
+    "course_ltp": 30,
+    "cells": {
+      "AND2_X1": 16,
+      "AND3_X1": 2,
+      "AOI211_X1": 2,
+      "AOI21_X1": 51,
+      "AOI221_X1": 1,
+      "AOI22_X1": 1,
+      "INV_X1": 68,
+      "MUX2_X1": 17,
+      "NAND2_X1": 65,
+      "NAND3_X1": 15,
+      "NAND4_X1": 3,
+      "NOR2_X1": 41,
+      "NOR3_X1": 13,
+      "NOR4_X1": 7,
+      "OAI211_X1": 4,
+      "OAI21_X1": 55,
+      "OAI221_X1": 1,
+      "OAI22_X1": 1,
+      "OR2_X1": 4,
+      "OR3_X1": 3,
+      "OR4_X1": 2,
+      "XNOR2_X1": 65,
+      "XOR2_X1": 13
+    }
+  },
+  "optimized": {
+    "area": 349.258,
+    "ltp": 25,
+    "course_area": 349.258,
+    "course_ltp": 25,
+    "cells": {
+      "AND2_X1": 14,
+      "AOI21_X1": 16,
+      "AOI221_X1": 12,
+      "AOI222_X1": 1,
+      "AOI22_X1": 11,
+      "INV_X1": 37,
+      "MUX2_X1": 1,
+      "NAND2_X1": 9,
+      "NAND3_X1": 2,
+      "NOR2_X1": 58,
+      "NOR3_X1": 2,
+      "NOR4_X1": 2,
+      "OAI21_X1": 2,
+      "OAI221_X1": 5,
+      "OAI22_X1": 9,
+      "OAI33_X1": 9,
+      "OR2_X1": 9,
+      "OR3_X1": 2,
+      "OR4_X1": 7,
+      "XNOR2_X1": 65,
+      "XOR2_X1": 21
+    },
+    "candidate": "c07"
+  },
+  "verification": {
+    "ok": true,
+    "relaxed": false,
+    "stage": "done",
+    "message": "",
+    "mismatch": null,
+    "evidence": "sim: 20010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+    "sim": {
+      "ok": true,
+      "relaxed_ok": false,
+      "course_passed": [
+        "course-tb:stim_fixed_sub.v"
+      ],
+      "error": "",
+      "mismatch": null,
+      "bad_outputs": [],
+      "n_vectors": 20010,
+      "seconds": 2.38
+    },
+    "formal": {
+      "kind": "comb",
+      "status": "proved",
+      "depth": 0,
+      "message": "ABC iprove: miter output is constant 0",
+      "seconds": 1.15,
+      "trace_len": 0
+    },
+    "seconds": 3.76
+  },
+  "usage": {
+    "calls": 0,
+    "logical_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "cached_tokens": 0,
+    "total_tokens": 0,
+    "llm_seconds": 0.0
+  },
+  "runtime_s": 144.8,
+  "stop_reason": "verified improvement",
+  "graph_trace": [
+    [
+      "setup",
+      1.52
+    ],
+    [
+      "arithmetic",
+      0.02
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "resynth",
+      120.86
+    ],
+    [
+      "evaluate_resynth",
+      16.65
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 421.3 is good, but ltp=33 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 421.344,
+        "ltp": 33,
+        "cells": {
+          "AND2_X1": 10,
+          "AND3_X1": 8,
+          "AOI211_X1": 9,
+          "AOI21_X1": 36,
+          "AOI221_X1": 2,
+          "AOI22_X1": 2,
+          "INV_X1": 44,
+          "MUX2_X1": 16,
+          "NAND2_X1": 35,
+          "NAND3_X1": 6,
+          "NAND4_X1": 5,
+          "NOR2_X1": 49,
+          "NOR3_X1": 2,
+          "NOR4_X1": 5,
+          "OAI211_X1": 9,
+          "OAI21_X1": 29,
+          "OAI22_X1": 1,
+          "OR2_X1": 13,
+          "OR3_X1": 11,
+          "OR4_X1": 2,
+          "XNOR2_X1": 55,
+          "XOR2_X1": 24
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[2]"
+        ],
+        "error": "",
+        "seconds": 2.63
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 1.22
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.1,
+          "trace_len": 0
+        },
+        "seconds": 3.5
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 390.8 is good, but ltp=31 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 390.754,
+        "ltp": 31,
+        "cells": {
+          "AND2_X1": 17,
+          "AND3_X1": 2,
+          "AND4_X1": 1,
+          "AOI211_X1": 1,
+          "AOI21_X1": 23,
+          "AOI221_X1": 3,
+          "AOI22_X1": 4,
+          "INV_X1": 41,
+          "MUX2_X1": 23,
+          "NAND2_X1": 48,
+          "NAND3_X1": 7,
+          "NAND4_X1": 8,
+          "NOR2_X1": 41,
+          "NOR4_X1": 3,
+          "OAI211_X1": 7,
+          "OAI21_X1": 30,
+          "OAI22_X1": 5,
+          "OAI33_X1": 1,
+          "OR2_X1": 14,
+          "OR3_X1": 6,
+          "OR4_X1": 5,
+          "XNOR2_X1": 43,
+          "XOR2_X1": 16
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[1]"
+        ],
+        "error": "",
+        "seconds": 2.61
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 1.25
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.04,
+          "trace_len": 0
+        },
+        "seconds": 3.48
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 421.3 is good, but ltp=33 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 421.344,
+        "ltp": 33,
+        "cells": {
+          "AND2_X1": 10,
+          "AND3_X1": 8,
+          "AOI211_X1": 9,
+          "AOI21_X1": 36,
+          "AOI221_X1": 2,
+          "AOI22_X1": 2,
+          "INV_X1": 44,
+          "MUX2_X1": 16,
+          "NAND2_X1": 35,
+          "NAND3_X1": 6,
+          "NAND4_X1": 5,
+          "NOR2_X1": 49,
+          "NOR3_X1": 2,
+          "NOR4_X1": 5,
+          "OAI211_X1": 9,
+          "OAI21_X1": 29,
+          "OAI22_X1": 1,
+          "OR2_X1": 13,
+          "OR3_X1": 11,
+          "OR4_X1": 2,
+          "XNOR2_X1": 55,
+          "XOR2_X1": 24
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[2]"
+        ],
+        "error": "",
+        "seconds": 2.63
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 1.29
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.13,
+          "trace_len": 0
+        },
+        "seconds": 3.62
+      }
+    },
+    {
+      "id": "c04",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 362.292,
+        "ltp": 25,
+        "cells": {
+          "AND2_X1": 21,
+          "AOI211_X1": 8,
+          "AOI21_X1": 14,
+          "AOI221_X1": 7,
+          "AOI222_X1": 1,
+          "AOI22_X1": 9,
+          "INV_X1": 38,
+          "NAND2_X1": 15,
+          "NAND3_X1": 1,
+          "NAND4_X1": 3,
+          "NOR2_X1": 54,
+          "NOR3_X1": 4,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 7,
+          "OAI221_X1": 5,
+          "OAI22_X1": 8,
+          "OAI33_X1": 9,
+          "OR2_X1": 10,
+          "OR4_X1": 8,
+          "XNOR2_X1": 63,
+          "XOR2_X1": 22
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[0]"
+        ],
+        "error": "",
+        "seconds": 2.61
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 1.17
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.11,
+          "trace_len": 0
+        },
+        "seconds": 3.47
+      }
+    },
+    {
+      "id": "c05",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 363.09,
+        "ltp": 25,
+        "cells": {
+          "AND2_X1": 11,
+          "AOI211_X1": 9,
+          "AOI21_X1": 13,
+          "AOI221_X1": 6,
+          "AOI222_X1": 1,
+          "AOI22_X1": 10,
+          "INV_X1": 43,
+          "MUX2_X1": 1,
+          "NAND2_X1": 14,
+          "NAND3_X1": 3,
+          "NOR2_X1": 65,
+          "NOR3_X1": 4,
+          "NOR4_X1": 2,
+          "OAI211_X1": 2,
+          "OAI21_X1": 9,
+          "OAI221_X1": 5,
+          "OAI222_X1": 1,
+          "OAI22_X1": 7,
+          "OAI33_X1": 9,
+          "OR2_X1": 6,
+          "OR3_X1": 2,
+          "OR4_X1": 7,
+          "XNOR2_X1": 64,
+          "XOR2_X1": 20
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[2]"
+        ],
+        "error": "",
+        "seconds": 2.61
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 1.46
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.38,
+          "trace_len": 0
+        },
+        "seconds": 4.08
+      }
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 420.0 is good, but ltp=33 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 420.014,
+        "ltp": 33,
+        "cells": {
+          "AND2_X1": 9,
+          "AND3_X1": 7,
+          "AND4_X1": 3,
+          "AOI211_X1": 6,
+          "AOI21_X1": 29,
+          "AOI221_X1": 1,
+          "AOI22_X1": 2,
+          "INV_X1": 46,
+          "MUX2_X1": 17,
+          "NAND2_X1": 38,
+          "NAND3_X1": 4,
+          "NAND4_X1": 5,
+          "NOR2_X1": 57,
+          "NOR3_X1": 6,
+          "NOR4_X1": 7,
+          "OAI211_X1": 5,
+          "OAI21_X1": 32,
+          "OAI221_X1": 2,
+          "OAI22_X1": 2,
+          "OR2_X1": 13,
+          "OR3_X1": 5,
+          "OR4_X1": 1,
+          "XNOR2_X1": 57,
+          "XOR2_X1": 22
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[0]"
+        ],
+        "error": "",
+        "seconds": 2.67
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 1.65
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.56,
+          "trace_len": 0
+        },
+        "seconds": 4.46
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 349.258,
+        "ltp": 25,
+        "cells": {
+          "AND2_X1": 14,
+          "AOI21_X1": 16,
+          "AOI221_X1": 12,
+          "AOI222_X1": 1,
+          "AOI22_X1": 11,
+          "INV_X1": 37,
+          "MUX2_X1": 1,
+          "NAND2_X1": 9,
+          "NAND3_X1": 2,
+          "NOR2_X1": 58,
+          "NOR3_X1": 2,
+          "NOR4_X1": 2,
+          "OAI21_X1": 2,
+          "OAI221_X1": 5,
+          "OAI22_X1": 9,
+          "OAI33_X1": 9,
+          "OR2_X1": 9,
+          "OR3_X1": 2,
+          "OR4_X1": 7,
+          "XNOR2_X1": 65,
+          "XOR2_X1": 21
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[0]"
+        ],
+        "error": "",
+        "seconds": 2.52
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 1.53
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.26,
+          "trace_len": 0
+        },
+        "seconds": 4.0
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 432.5 is good, but ltp=32 exceeds the baseline ltp=30. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 432.516,
+        "ltp": 32,
+        "cells": {
+          "AND2_X1": 17,
+          "AND3_X1": 1,
+          "AND4_X1": 1,
+          "AOI211_X1": 2,
+          "AOI21_X1": 32,
+          "INV_X1": 42,
+          "MUX2_X1": 20,
+          "NAND2_X1": 50,
+          "NAND3_X1": 11,
+          "NAND4_X1": 2,
+          "NOR2_X1": 40,
+          "NOR3_X1": 2,
+          "NOR4_X1": 8,
+          "OAI211_X1": 7,
+          "OAI21_X1": 44,
+          "OAI221_X1": 2,
+          "OAI22_X1": 2,
+          "OR2_X1": 12,
+          "OR3_X1": 2,
+          "XNOR2_X1": 54,
+          "XOR2_X1": 33
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[0]"
+        ],
+        "error": "",
+        "seconds": 2.87
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:stim_fixed_sub.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6010,
+          "seconds": 1.74
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 2.58,
+          "trace_len": 0
+        },
+        "seconds": 4.59
+      }
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 491.6 / ltp 20 is not better than baseline 477.7 / 30",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 491.568,
+        "ltp": 20,
+        "cells": {
+          "AND2_X1": 16,
+          "AND3_X1": 1,
+          "AOI211_X1": 15,
+          "AOI21_X1": 47,
+          "AOI221_X1": 7,
+          "AOI22_X1": 13,
+          "INV_X1": 56,
+          "MUX2_X1": 11,
+          "NAND2_X1": 51,
+          "NAND3_X1": 9,
+          "NAND4_X1": 6,
+          "NOR2_X1": 59,
+          "NOR3_X1": 11,
+          "NOR4_X1": 5,
+          "OAI211_X1": 12,
+          "OAI21_X1": 35,
+          "OAI221_X1": 2,
+          "OAI22_X1": 7,
+          "OR2_X1": 9,
+          "OR3_X1": 2,
+          "OR4_X1": 1,
+          "XNOR2_X1": 47,
+          "XOR2_X1": 29
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "b[4]"
+        ],
+        "error": "",
+        "seconds": 2.47
+      },
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "96e42185df9b7b350ba6e0196ffe431a7057bbb97d92eecc7246c2a321341fbf",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "liberty_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "llm_model": null,
+    "budget": {
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 0,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 3,
+      "max_refine": 0,
+      "max_repair": 1,
+      "time_limit": 600,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "42b35b6af81d3b0596e95e6ad4f3bd695536a273ec8de7358e9e106b088bce53"
+  },
+  "gain": {
+    "area_pct": -26.89,
+    "ltp_pct": -16.67
+  }
+}

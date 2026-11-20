@@ -1,0 +1,817 @@
+{
+  "top": "verified_accu",
+  "input": "/f/Projects/EDA_work/rtl_agent/cases/public/case5/rtl.v",
+  "kind": "sequential",
+  "status": "optimized",
+  "tier": "relaxed",
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 84.588,
+    "ltp": 62,
+    "course_area": 84.588,
+    "course_ltp": 62,
+    "course_hier_area": null,
+    "cells": {
+      "$_DFF_PN0_": 13,
+      "AND2_X1": 4,
+      "AND3_X1": 1,
+      "AOI211_X1": 5,
+      "AOI21_X1": 8,
+      "AOI22_X1": 1,
+      "INV_X1": 8,
+      "MUX2_X1": 4,
+      "NAND2_X1": 10,
+      "NOR2_X1": 11,
+      "NOR3_X1": 2,
+      "OAI21_X1": 5,
+      "OR2_X1": 1,
+      "XNOR2_X1": 13,
+      "XOR2_X1": 3
+    }
+  },
+  "optimized": {
+    "area": 77.938,
+    "ltp": 48,
+    "course_area": 77.938,
+    "course_ltp": 48,
+    "course_hier_area": null,
+    "cells": {
+      "$_DFF_PN0_": 13,
+      "AND2_X1": 3,
+      "AND3_X1": 2,
+      "AOI21_X1": 9,
+      "AOI22_X1": 4,
+      "INV_X1": 4,
+      "NAND2_X1": 12,
+      "NAND3_X1": 1,
+      "NOR2_X1": 5,
+      "NOR3_X1": 4,
+      "NOR4_X1": 1,
+      "OAI211_X1": 1,
+      "OAI21_X1": 9,
+      "OAI222_X1": 1,
+      "OAI22_X1": 2,
+      "OR2_X1": 3,
+      "XNOR2_X1": 8,
+      "XOR2_X1": 2
+    },
+    "candidate": "c01"
+  },
+  "verification": {
+    "ok": false,
+    "relaxed": true,
+    "stage": "sim-relaxed",
+    "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+    "mismatch": {
+      "kind": "value",
+      "time": 5000,
+      "signal": "valid_out",
+      "gold": "0",
+      "opt": "x",
+      "inputs": {
+        "clk": "1",
+        "rst_n": "1",
+        "data_in": "0",
+        "valid_in": "0"
+      },
+      "inputs_prev": {
+        "clk": "0",
+        "rst_n": "1",
+        "data_in": "0",
+        "valid_in": "0"
+      },
+      "outputs_gold": {
+        "valid_out": "0"
+      },
+      "outputs_opt": {
+        "valid_out": "x"
+      },
+      "stimulus": "no_reset_first",
+      "cycle": 0,
+      "more": []
+    },
+    "evidence": "sim: 15000 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: case5_tb.v; formal: PROVED (temporal induction succeeded (length 5))",
+    "sim": {
+      "ok": false,
+      "relaxed_ok": true,
+      "course_passed": [
+        "course-tb:case5_tb.v"
+      ],
+      "error": "",
+      "mismatch": {
+        "kind": "value",
+        "time": 5000,
+        "signal": "valid_out",
+        "gold": "0",
+        "opt": "x",
+        "inputs": {
+          "clk": "1",
+          "rst_n": "1",
+          "data_in": "0",
+          "valid_in": "0"
+        },
+        "inputs_prev": {
+          "clk": "0",
+          "rst_n": "1",
+          "data_in": "0",
+          "valid_in": "0"
+        },
+        "outputs_gold": {
+          "valid_out": "0"
+        },
+        "outputs_opt": {
+          "valid_out": "x"
+        },
+        "stimulus": "no_reset_first",
+        "cycle": 0,
+        "more": []
+      },
+      "bad_outputs": [
+        "valid_out"
+      ],
+      "n_vectors": 15000,
+      "seconds": 2.12
+    },
+    "formal": {
+      "kind": "seq",
+      "status": "proved",
+      "depth": 5,
+      "message": "temporal induction succeeded (length 5)",
+      "seconds": 1.44,
+      "trace_len": 0
+    },
+    "seconds": 6.37
+  },
+  "usage": {
+    "calls": 0,
+    "logical_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "cached_tokens": 0,
+    "total_tokens": 0,
+    "llm_seconds": 0.0
+  },
+  "runtime_s": 140.7,
+  "stop_reason": "verified improvement",
+  "graph_trace": [
+    [
+      "setup",
+      10.06
+    ],
+    [
+      "arithmetic",
+      0.0
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "resynth",
+      88.52
+    ],
+    [
+      "evaluate_resynth",
+      29.56
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 77.938,
+        "hier_area": null,
+        "ltp": 48,
+        "cells": {
+          "$_DFF_PN0_": 13,
+          "AND2_X1": 3,
+          "AND3_X1": 2,
+          "AOI21_X1": 9,
+          "AOI22_X1": 4,
+          "INV_X1": 4,
+          "NAND2_X1": 12,
+          "NAND3_X1": 1,
+          "NOR2_X1": 5,
+          "NOR3_X1": 4,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 9,
+          "OAI222_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 3,
+          "XNOR2_X1": 8,
+          "XOR2_X1": 2
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 9.82
+      },
+      "course": null,
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: case5_tb.v; formal: PROVED (temporal induction succeeded (length 5))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:case5_tb.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.95
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 5,
+          "message": "temporal induction succeeded (length 5)",
+          "seconds": 2.01,
+          "trace_len": 0
+        },
+        "seconds": 4.27
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=5000ps, no_reset_first)] output `valid_out`: expected 0, got 'bx.\nInputs: clk=1, rst_n=1, data_in=0, valid_in=0.\nExpected outputs: valid_out=0.\nYour outputs: valid_out='bx.\nThis is an X-propagation difference: state is still X (no reset yet) and the original resolves it differently (if/else on an X condition takes the else branch). Restore the original if/else/case structure for the registers feeding this output.",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 78.736,
+        "hier_area": null,
+        "ltp": 51,
+        "cells": {
+          "$_DFF_PN0_": 13,
+          "AND2_X1": 4,
+          "AND3_X1": 1,
+          "AOI21_X1": 8,
+          "AOI22_X1": 4,
+          "INV_X1": 5,
+          "NAND2_X1": 14,
+          "NAND3_X1": 2,
+          "NOR2_X1": 5,
+          "NOR3_X1": 4,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 10,
+          "OAI222_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 5,
+          "XOR2_X1": 5
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 9.85
+      },
+      "course": null,
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: case5_tb.v; formal: PROVED (temporal induction succeeded (length 5))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [
+            "course-tb:case5_tb.v"
+          ],
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 5000,
+            "signal": "valid_out",
+            "gold": "0",
+            "opt": "x",
+            "inputs": {
+              "clk": "1",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "inputs_prev": {
+              "clk": "0",
+              "rst_n": "1",
+              "data_in": "0",
+              "valid_in": "0"
+            },
+            "outputs_gold": {
+              "valid_out": "0"
+            },
+            "outputs_opt": {
+              "valid_out": "x"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "valid_out"
+          ],
+          "n_vectors": 4500,
+          "seconds": 1.27
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 5,
+          "message": "temporal induction succeeded (length 5)",
+          "seconds": 2.39,
+          "trace_len": 0
+        },
+        "seconds": 4.82
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "duplicate",
+      "problem": "same area/ltp/cell mix as a candidate already verified",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 77.938,
+        "hier_area": null,
+        "ltp": 48,
+        "cells": {
+          "$_DFF_PN0_": 13,
+          "AND2_X1": 3,
+          "AND3_X1": 2,
+          "AOI21_X1": 9,
+          "AOI22_X1": 4,
+          "INV_X1": 4,
+          "NAND2_X1": 12,
+          "NAND3_X1": 1,
+          "NOR2_X1": 5,
+          "NOR3_X1": 4,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 9,
+          "OAI222_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 3,
+          "XNOR2_X1": 8,
+          "XOR2_X1": 2
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 9.82
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c04",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "duplicate",
+      "problem": "same area/ltp/cell mix as a candidate already verified",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 78.736,
+        "hier_area": null,
+        "ltp": 51,
+        "cells": {
+          "$_DFF_PN0_": 13,
+          "AND2_X1": 4,
+          "AND3_X1": 1,
+          "AOI21_X1": 8,
+          "AOI22_X1": 4,
+          "INV_X1": 5,
+          "NAND2_X1": 14,
+          "NAND3_X1": 2,
+          "NOR2_X1": 5,
+          "NOR3_X1": 4,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 10,
+          "OAI222_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 5,
+          "XOR2_X1": 5
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 9.83
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c05",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "duplicate",
+      "problem": "same area/ltp/cell mix as a candidate already verified",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 77.938,
+        "hier_area": null,
+        "ltp": 48,
+        "cells": {
+          "$_DFF_PN0_": 13,
+          "AND2_X1": 3,
+          "AND3_X1": 2,
+          "AOI21_X1": 9,
+          "AOI22_X1": 4,
+          "INV_X1": 4,
+          "NAND2_X1": 12,
+          "NAND3_X1": 1,
+          "NOR2_X1": 5,
+          "NOR3_X1": 4,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 9,
+          "OAI222_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 3,
+          "XNOR2_X1": 8,
+          "XOR2_X1": 2
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 9.73
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "duplicate",
+      "problem": "same area/ltp/cell mix as a candidate already verified",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 77.938,
+        "hier_area": null,
+        "ltp": 48,
+        "cells": {
+          "$_DFF_PN0_": 13,
+          "AND2_X1": 3,
+          "AND3_X1": 2,
+          "AOI21_X1": 9,
+          "AOI22_X1": 4,
+          "INV_X1": 4,
+          "NAND2_X1": 12,
+          "NAND3_X1": 1,
+          "NOR2_X1": 5,
+          "NOR3_X1": 4,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 9,
+          "OAI222_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 3,
+          "XNOR2_X1": 8,
+          "XOR2_X1": 2
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 9.73
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "duplicate",
+      "problem": "same area/ltp/cell mix as a candidate already verified",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 77.938,
+        "hier_area": null,
+        "ltp": 48,
+        "cells": {
+          "$_DFF_PN0_": 13,
+          "AND2_X1": 3,
+          "AND3_X1": 2,
+          "AOI21_X1": 9,
+          "AOI22_X1": 4,
+          "INV_X1": 4,
+          "NAND2_X1": 12,
+          "NAND3_X1": 1,
+          "NOR2_X1": 5,
+          "NOR3_X1": 4,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 9,
+          "OAI222_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 3,
+          "XNOR2_X1": 8,
+          "XOR2_X1": 2
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "count[0]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 9.74
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 85.9 / ltp 62 is not better than baseline 84.6 / 62",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 85.918,
+        "hier_area": null,
+        "ltp": 62,
+        "cells": {
+          "$_DFF_PN0_": 13,
+          "AND2_X1": 3,
+          "AND3_X1": 1,
+          "AOI211_X1": 2,
+          "AOI21_X1": 14,
+          "INV_X1": 5,
+          "MUX2_X1": 4,
+          "NAND2_X1": 10,
+          "NOR2_X1": 7,
+          "NOR3_X1": 1,
+          "OAI21_X1": 9,
+          "OR2_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 13,
+          "XOR2_X1": 4
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "count[1]",
+          "valid_out",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 9.7
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 89.9 / ltp 59 is not better than baseline 84.6 / 62",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 89.908,
+        "hier_area": null,
+        "ltp": 59,
+        "cells": {
+          "$_DFF_PN0_": 13,
+          "AND2_X1": 3,
+          "AND3_X1": 1,
+          "AOI211_X1": 4,
+          "AOI21_X1": 10,
+          "AOI22_X1": 3,
+          "INV_X1": 9,
+          "MUX2_X1": 3,
+          "NAND2_X1": 10,
+          "NAND3_X1": 5,
+          "NAND4_X1": 1,
+          "NOR2_X1": 7,
+          "NOR3_X1": 5,
+          "OAI211_X1": 3,
+          "OAI21_X1": 11,
+          "OAI221_X1": 2,
+          "OAI22_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 4,
+          "XOR2_X1": 1
+        },
+        "n_ff": 13,
+        "ltp_path": [
+          "rst_n",
+          "valid_out",
+          "count[1]",
+          "data_out[9]"
+        ],
+        "error": "",
+        "seconds": 5.11
+      },
+      "course": null,
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "67067237d33fa00128ceb7f60c3139cc1daae46d5c4af1d3e0ba140e63846fa2",
+    "python": "3.10.12",
+    "yosys_version": "0.9",
+    "liberty_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "llm_model": null,
+    "budget": {
+      "course_guard": true,
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 6,
+      "max_refine": 1,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "ffc8b37d76464cce474cb66762b77fbfe51c5d26faba5e306346d74f482c75d8"
+  },
+  "gain": {
+    "area_pct": -7.86,
+    "ltp_pct": -22.58
+  }
+}

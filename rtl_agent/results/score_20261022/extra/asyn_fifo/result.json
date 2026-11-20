@@ -1,0 +1,2577 @@
+{
+  "top": "verified_asyn_fifo",
+  "input": "/home/hansome_w/backup/rtl_agent/cases/extra/asyn_fifo/verified_asyn_fifo.v",
+  "kind": "sequential",
+  "status": "no-gain",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 72.618,
+    "ltp": 39,
+    "course_area": 54.264,
+    "course_ltp": 36,
+    "cells": {
+      "$_DFFE_PN0P_": 10,
+      "$_DFFE_PP_": 8,
+      "$_DFF_PN0_": 30,
+      "$memrd": 1,
+      "$memwr_v2": 1,
+      "$scopeinfo": 1,
+      "AND2_X1": 1,
+      "AND3_X1": 1,
+      "AOI21_X1": 1,
+      "AOI221_X1": 2,
+      "AOI22_X1": 1,
+      "INV_X1": 20,
+      "NAND2_X1": 2,
+      "NAND3_X1": 2,
+      "NAND4_X1": 1,
+      "NOR2_X1": 1,
+      "NOR3_X1": 13,
+      "OAI221_X1": 1,
+      "OAI22_X1": 1,
+      "OR2_X1": 1,
+      "XNOR2_X1": 7,
+      "XOR2_X1": 12
+    }
+  },
+  "optimized": {
+    "area": 72.618,
+    "ltp": 39,
+    "course_area": null,
+    "course_ltp": null,
+    "cells": {
+      "$_DFFE_PN0P_": 10,
+      "$_DFFE_PP_": 8,
+      "$_DFF_PN0_": 30,
+      "$memrd": 1,
+      "$memwr_v2": 1,
+      "$scopeinfo": 1,
+      "AND2_X1": 1,
+      "AND3_X1": 1,
+      "AOI21_X1": 1,
+      "AOI221_X1": 2,
+      "AOI22_X1": 1,
+      "INV_X1": 20,
+      "NAND2_X1": 2,
+      "NAND3_X1": 2,
+      "NAND4_X1": 1,
+      "NOR2_X1": 1,
+      "NOR3_X1": 13,
+      "OAI221_X1": 1,
+      "OAI22_X1": 1,
+      "OR2_X1": 1,
+      "XNOR2_X1": 7,
+      "XOR2_X1": 12
+    },
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 8,
+    "logical_calls": 8,
+    "prompt_tokens": 23986,
+    "completion_tokens": 13599,
+    "reasoning_tokens": 0,
+    "cached_tokens": 20352,
+    "total_tokens": 37585,
+    "llm_seconds": 107.1
+  },
+  "runtime_s": 109.5,
+  "stop_reason": "no further gain",
+  "graph_trace": [
+    [
+      "setup",
+      0.57
+    ],
+    [
+      "arithmetic",
+      0.0
+    ],
+    [
+      "evaluate_arithmetic",
+      0.0
+    ],
+    [
+      "generate",
+      15.21
+    ],
+    [
+      "evaluate",
+      0.91
+    ],
+    [
+      "repair",
+      13.03
+    ],
+    [
+      "evaluate",
+      0.25
+    ],
+    [
+      "refine",
+      13.15
+    ],
+    [
+      "evaluate_refine",
+      0.22
+    ],
+    [
+      "resynth",
+      24.84
+    ],
+    [
+      "evaluate_resynth",
+      11.85
+    ],
+    [
+      "rescue",
+      12.31
+    ],
+    [
+      "evaluate",
+      0.4
+    ],
+    [
+      "refine",
+      16.45
+    ],
+    [
+      "evaluate_refine",
+      0.25
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Keep all modules, ports, parameters, and control structure identical.\n- Replace the gray-code XOR with a shared expression; the gray code is only used for the pointer registers, so keep it.\n- The full/empty comparisons are already minimal; no change needed.\n- No redundant operators found; keep as-is to preserve exact behavior.\n- The only safe optimization is to keep the original structure; no area reduction possible without changing behavior.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "hier_area": null,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.34
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c02",
+      "origin": "init:storage",
+      "parent": null,
+      "depth": 0,
+      "strategy": "storage",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Keep dual_port_RAM exactly as-is (memory array, registered read, X semantics).\n- Replace the two-stage synchronizer flops with the same two-stage flops but drive them from the already-registered gray pointers; no logic change needed, but remove redundant separate `waddr_gray`/`raddr_gray` wires by folding gray computation into the pointer register update (same cycle, same value).\n- Compute wfull/rempty directly from the registered pointers with a single comparison each; keep the exact same expressions and procedural assignment style.\n- Keep counter increments and enables identical; no width narrowing possible since ADDR_WIDTH+1 bits are all observable through gray/compare.\n- No resource sharing needed; area reduction comes from removing the redundant gray wires and simplifying the full/empty compare to use the pointer bits directly.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "hier_area": null,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.35
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c03",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 71.8 is better, but the course script does not flatten and then reads literal area 61.446 > 54.264; hierarchy area 74.214 > 67.032. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "- Keep all modules, ports, hierarchy, reset style, and the exact rempty/wfull assign statements.\n- Replace the two binary counters + separate gray registers with a single gray-code counter per side: increment gray directly using the standard `g ^ (g>>1) + 1`-style next-gray logic, removing the binary register and its XOR gray conversion (saves XOR2s and a register stage).\n- Compute waddr/raddr from the gray pointer by gray-to-binary (prefix XOR) only where needed for the RAM address; the RAM address is ADDR_WIDTH bits so the MSB is dropped, narrowing the conversion.\n- Keep the two-flop synchronizers unchanged (they are just flops, free area) but feed them the gray pointers directly.\n- Keep wfull/rempty compares on gray pointers as in original (top-two-bit invert for full), preserving exact cycle behavior.",
+      "synth": {
+        "ok": true,
+        "area": 71.82,
+        "hier_area": null,
+        "ltp": 32,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 20,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 9,
+          "AND3_X1": 1,
+          "AOI211_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 12,
+          "MUX2_X1": 4,
+          "NAND2_X1": 5,
+          "NAND3_X1": 1,
+          "NOR2_X1": 8,
+          "NOR3_X1": 2,
+          "OAI21_X1": 3,
+          "OAI22_X1": 1,
+          "OR3_X1": 1,
+          "XNOR2_X1": 10,
+          "XOR2_X1": 3
+        },
+        "n_ff": 38,
+        "ltp_path": [
+          "wrstn",
+          "rptr_syn[2]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]",
+          "rptr[0]",
+          "rptr_buff[0]",
+          "rptr_syn[0]"
+        ],
+        "error": "",
+        "seconds": 0.39
+      },
+      "course": {
+        "ok": true,
+        "area": 61.446,
+        "hier_area": 74.214,
+        "ltp": 27,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 20,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 13,
+          "AOI211_X1": 1,
+          "AOI21_X1": 4,
+          "INV_X1": 14,
+          "MUX2_X1": 4,
+          "NAND2_X1": 5,
+          "NAND3_X1": 1,
+          "NOR2_X1": 5,
+          "NOR3_X1": 3,
+          "OAI21_X1": 2,
+          "OAI221_X1": 1,
+          "OAI222_X1": 1,
+          "OAI22_X1": 2,
+          "XNOR2_X1": 11,
+          "XOR2_X1": 1
+        },
+        "n_ff": 38,
+        "ltp_path": [
+          "wrstn",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]",
+          "rptr[4]",
+          "rptr_buff[4]",
+          "rptr_syn[4]",
+          "wptr[0]",
+          "wptr_buff[0]",
+          "wptr_syn[0]"
+        ],
+        "error": "",
+        "seconds": 0.52
+      },
+      "verify": null
+    },
+    {
+      "id": "c04",
+      "origin": "repair(c03)",
+      "parent": "c03",
+      "depth": 1,
+      "strategy": "datapath",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Revert to the original binary counters `waddr_bin`/`raddr_bin` and registered gray `wptr`/`rptr` with `assign waddr_gray = waddr_bin ^ (waddr_bin>>1)` — this is the structure the baseline area was measured on.\n- Keep the two-flop synchronizers, `wfull`/`rempty` assigns, and `wen`/`ren` exactly as original.\n- Only micro-optimize inside the modules: nothing that adds top-level combinational logic; leave `dual_port_RAM` unchanged.\n- This restores literal/hierarchy area to the baseline (no regression) while keeping the design bit-exact.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "hier_area": null,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.25
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c05",
+      "origin": "init:logic",
+      "parent": null,
+      "depth": 0,
+      "strategy": "logic",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Keep all modules, ports, resets, and the exact procedural assignment style for wfull/rempty (they are wire assigns in original; keep as assigns).\n- Replace the two separate binary counters + Gray encoders with the standard trick: keep binary counters, compute Gray combinationally as before, but share the increment logic; no resource sharing exists in this flow, so keep one incrementer per clock domain (already the case).\n- Narrow nothing observable: ADDR_WIDTH+1 bits are needed for full/empty detection; keep widths.\n- Reduce logic by computing wfull/rempty compares directly on the Gray-synchronized values with the same bit-inversion pattern, and by removing redundant wire aliases (waddr/raddr) that just slice bits — inline the slices into the RAM instance.\n- Keep dual_port_RAM unchanged (memory array must stay).",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "hier_area": null,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.22
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c06",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 67.6 is better, but the course script does not flatten and then reads literal area 67.564 > 54.264; literal ltp 37 > 36. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.73
+      },
+      "course": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.31
+      },
+      "verify": null
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 67.6 is better, but the course script does not flatten and then reads literal area 67.564 > 54.264; literal ltp 37 > 36. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.79
+      },
+      "course": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.55
+      },
+      "verify": null
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 67.6 is better, but the course script does not flatten and then reads literal area 67.564 > 54.264; literal ltp 37 > 36. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.75
+      },
+      "course": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.68
+      },
+      "verify": null
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 67.6 is better, but the course script does not flatten and then reads literal area 67.564 > 54.264; literal ltp 37 > 36. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 2.36
+      },
+      "course": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.6
+      },
+      "verify": null
+    },
+    {
+      "id": "c10",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 67.6 is better, but the course script does not flatten and then reads literal area 67.564 > 54.264; literal ltp 37 > 36. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.79
+      },
+      "course": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 37,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.91
+      },
+      "verify": null
+    },
+    {
+      "id": "c11",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 73.2 / ltp 41 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 73.15,
+        "hier_area": null,
+        "ltp": 41,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 19,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 14,
+          "OAI21_X1": 1,
+          "OAI221_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 11
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.58
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c12",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 73.2 / ltp 41 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 73.15,
+        "hier_area": null,
+        "ltp": 41,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 19,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 14,
+          "OAI21_X1": 1,
+          "OAI221_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 11
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.96
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c13",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 77.4 / ltp 46 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 77.406,
+        "hier_area": null,
+        "ltp": 46,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 2,
+          "AOI211_X1": 14,
+          "AOI21_X1": 2,
+          "INV_X1": 15,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 4,
+          "NOR3_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 6,
+          "XOR2_X1": 16
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "...",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.wptr[2]",
+          "rtlopt_default_config.wptr_buff[2]",
+          "rtlopt_default_config.wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 1.69
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c14",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 73.2 / ltp 42 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 73.15,
+        "hier_area": null,
+        "ltp": 42,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "INV_X1": 21,
+          "NAND2_X1": 3,
+          "NAND3_X1": 3,
+          "NAND4_X1": 1,
+          "NOR2_X1": 2,
+          "NOR3_X1": 13,
+          "NOR4_X1": 1,
+          "OAI21_X1": 1,
+          "OAI221_X1": 1,
+          "OAI22_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 11
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "rtlopt_default_config.dual_port_RAM.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 2.0
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c15",
+      "origin": "resynth:h_deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[waveform-events] Output `rempty` has the same settled values but the original also produces events [(165000, '0'), (205000, '1'), (255000, '1')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (h_deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 40,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.39
+      },
+      "course": null,
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 165000,
+          "signal": "rempty",
+          "gold_only_events": [
+            [
+              165000,
+              "0"
+            ],
+            [
+              205000,
+              "1"
+            ],
+            [
+              255000,
+              "1"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "wclk": "1",
+            "rclk": "1",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "inputs_prev": {
+            "wclk": "1",
+            "rclk": "0",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "outputs_gold": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "outputs_opt": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 16
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 165000,
+            "signal": "rempty",
+            "gold_only_events": [
+              [
+                165000,
+                "0"
+              ],
+              [
+                205000,
+                "1"
+              ],
+              [
+                255000,
+                "1"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "wclk": "1",
+              "rclk": "1",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "inputs_prev": {
+              "wclk": "1",
+              "rclk": "0",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "outputs_gold": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "outputs_opt": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 16
+          },
+          "bad_outputs": [
+            "wfull",
+            "rempty"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.62
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "skipped",
+          "depth": 0,
+          "message": "multi-clock design: formal proof unsupported",
+          "seconds": 0.0,
+          "trace_len": 0
+        },
+        "seconds": 0.81
+      }
+    },
+    {
+      "id": "c16",
+      "origin": "resynth:h_deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[waveform-events] Output `rempty` has the same settled values but the original also produces events [(165000, '0'), (205000, '1'), (255000, '1')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (h_deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 40,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.65
+      },
+      "course": null,
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 165000,
+          "signal": "rempty",
+          "gold_only_events": [
+            [
+              165000,
+              "0"
+            ],
+            [
+              205000,
+              "1"
+            ],
+            [
+              255000,
+              "1"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "wclk": "1",
+            "rclk": "1",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "inputs_prev": {
+            "wclk": "1",
+            "rclk": "0",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "outputs_gold": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "outputs_opt": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 16
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 165000,
+            "signal": "rempty",
+            "gold_only_events": [
+              [
+                165000,
+                "0"
+              ],
+              [
+                205000,
+                "1"
+              ],
+              [
+                255000,
+                "1"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "wclk": "1",
+              "rclk": "1",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "inputs_prev": {
+              "wclk": "1",
+              "rclk": "0",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "outputs_gold": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "outputs_opt": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 16
+          },
+          "bad_outputs": [
+            "wfull",
+            "rempty"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.59
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "skipped",
+          "depth": 0,
+          "message": "multi-clock design: formal proof unsupported",
+          "seconds": 0.0,
+          "trace_len": 0
+        },
+        "seconds": 0.75
+      }
+    },
+    {
+      "id": "c17",
+      "origin": "resynth:h_deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[waveform-events] Output `rempty` has the same settled values but the original also produces events [(165000, '0'), (205000, '1'), (255000, '1')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (h_deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 40,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.28
+      },
+      "course": null,
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 165000,
+          "signal": "rempty",
+          "gold_only_events": [
+            [
+              165000,
+              "0"
+            ],
+            [
+              205000,
+              "1"
+            ],
+            [
+              255000,
+              "1"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "wclk": "1",
+            "rclk": "1",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "inputs_prev": {
+            "wclk": "1",
+            "rclk": "0",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "outputs_gold": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "outputs_opt": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 16
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 165000,
+            "signal": "rempty",
+            "gold_only_events": [
+              [
+                165000,
+                "0"
+              ],
+              [
+                205000,
+                "1"
+              ],
+              [
+                255000,
+                "1"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "wclk": "1",
+              "rclk": "1",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "inputs_prev": {
+              "wclk": "1",
+              "rclk": "0",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "outputs_gold": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "outputs_opt": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 16
+          },
+          "bad_outputs": [
+            "wfull",
+            "rempty"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.62
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "skipped",
+          "depth": 0,
+          "message": "multi-clock design: formal proof unsupported",
+          "seconds": 0.0,
+          "trace_len": 0
+        },
+        "seconds": 0.77
+      }
+    },
+    {
+      "id": "c18",
+      "origin": "resynth:h_deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[waveform-events] Output `rempty` has the same settled values but the original also produces events [(165000, '0'), (205000, '1'), (255000, '1')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (h_deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 40,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.08
+      },
+      "course": null,
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 165000,
+          "signal": "rempty",
+          "gold_only_events": [
+            [
+              165000,
+              "0"
+            ],
+            [
+              205000,
+              "1"
+            ],
+            [
+              255000,
+              "1"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "wclk": "1",
+            "rclk": "1",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "inputs_prev": {
+            "wclk": "1",
+            "rclk": "0",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "outputs_gold": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "outputs_opt": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 16
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 165000,
+            "signal": "rempty",
+            "gold_only_events": [
+              [
+                165000,
+                "0"
+              ],
+              [
+                205000,
+                "1"
+              ],
+              [
+                255000,
+                "1"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "wclk": "1",
+              "rclk": "1",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "inputs_prev": {
+              "wclk": "1",
+              "rclk": "0",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "outputs_gold": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "outputs_opt": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 16
+          },
+          "bad_outputs": [
+            "wfull",
+            "rempty"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.62
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "skipped",
+          "depth": 0,
+          "message": "multi-clock design: formal proof unsupported",
+          "seconds": 0.0,
+          "trace_len": 0
+        },
+        "seconds": 0.81
+      }
+    },
+    {
+      "id": "c19",
+      "origin": "resynth:h_deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "fail-sim-relaxed",
+      "problem": "[waveform-events] Output `rempty` has the same settled values but the original also produces events [(165000, '0'), (205000, '1'), (255000, '1')] that yours does not: it re-assigns this output procedurally inside a time step. Replicate the original assignment sequence for this output exactly (same default/intermediate assignments, same statement order).",
+      "plan": "ABC logic re-synthesis (h_deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 67.564,
+        "hier_area": null,
+        "ltp": 40,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR3_X1": 2,
+          "OAI221_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.12
+      },
+      "course": null,
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['wfull', 'rempty'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 165000,
+          "signal": "rempty",
+          "gold_only_events": [
+            [
+              165000,
+              "0"
+            ],
+            [
+              205000,
+              "1"
+            ],
+            [
+              255000,
+              "1"
+            ]
+          ],
+          "opt_only_events": [],
+          "inputs": {
+            "wclk": "1",
+            "rclk": "1",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "inputs_prev": {
+            "wclk": "1",
+            "rclk": "0",
+            "wrstn": "1",
+            "rrstn": "1",
+            "winc": "0",
+            "rinc": "0",
+            "wdata": "111110"
+          },
+          "outputs_gold": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "outputs_opt": {
+            "wfull": "0",
+            "rempty": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 16
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: skipped (multi-clock design: formal proof unsupported)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 165000,
+            "signal": "rempty",
+            "gold_only_events": [
+              [
+                165000,
+                "0"
+              ],
+              [
+                205000,
+                "1"
+              ],
+              [
+                255000,
+                "1"
+              ]
+            ],
+            "opt_only_events": [],
+            "inputs": {
+              "wclk": "1",
+              "rclk": "1",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "inputs_prev": {
+              "wclk": "1",
+              "rclk": "0",
+              "wrstn": "1",
+              "rrstn": "1",
+              "winc": "0",
+              "rinc": "0",
+              "wdata": "111110"
+            },
+            "outputs_gold": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "outputs_opt": {
+              "wfull": "0",
+              "rempty": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 16
+          },
+          "bad_outputs": [
+            "wfull",
+            "rempty"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.71
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "skipped",
+          "depth": 0,
+          "message": "multi-clock design: formal proof unsupported",
+          "seconds": 0.0,
+          "trace_len": 0
+        },
+        "seconds": 0.88
+      }
+    },
+    {
+      "id": "c20",
+      "origin": "resynth:h_deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 73.2 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (h_deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 73.15,
+        "hier_area": null,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 19,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 14,
+          "OAI21_X1": 1,
+          "OAI221_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 11
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.14
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c21",
+      "origin": "resynth:h_deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 73.2 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (h_deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 73.15,
+        "hier_area": null,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AOI21_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 19,
+          "NAND2_X1": 4,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 14,
+          "OAI21_X1": 1,
+          "OAI221_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 9,
+          "XOR2_X1": 11
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.19
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c22",
+      "origin": "resynth:h_dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 77.4 / ltp 48 is not better than baseline 72.6 / 39",
+      "plan": "ABC logic re-synthesis (h_dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 77.406,
+        "hier_area": null,
+        "ltp": 48,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 2,
+          "AOI211_X1": 14,
+          "AOI21_X1": 2,
+          "INV_X1": 15,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 4,
+          "NOR3_X1": 2,
+          "OR2_X1": 1,
+          "XNOR2_X1": 6,
+          "XOR2_X1": 16
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[4]",
+          "rtlopt_default_config.rptr_buff[4]",
+          "rtlopt_default_config.rptr_syn[4]",
+          "...",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.waddr[3]",
+          "rtlopt_default_config.wptr[2]",
+          "rtlopt_default_config.wptr_buff[2]",
+          "rtlopt_default_config.wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 1.16
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c23",
+      "origin": "resynth:h_syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "course-worse",
+      "problem": "[metrics] flattened area 66.5 is better, but the course script does not flatten and then reads literal area 54.796 > 54.264; literal ltp 41 > 36; hierarchy area 67.564 > 67.032. Keep the original module hierarchy (every submodule with its name, ports and instance) and optimize inside the modules.",
+      "plan": "ABC logic re-synthesis (h_syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 66.5,
+        "hier_area": null,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 13,
+          "AOI21_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 1,
+          "NOR4_X1": 2,
+          "OAI221_X1": 1,
+          "OAI22_X1": 2,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 13
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 1.13
+      },
+      "course": {
+        "ok": true,
+        "area": 54.796,
+        "hier_area": 67.564,
+        "ltp": 41,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "AND2_X1": 14,
+          "AOI21_X1": 2,
+          "INV_X1": 4,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 2,
+          "NOR3_X1": 2,
+          "XNOR2_X1": 8,
+          "XOR2_X1": 16
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "rrstn",
+          "rtlopt_default_config.wptr_buff[4]",
+          "rtlopt_default_config.wptr_syn[4]",
+          "rtlopt_default_config.raddr[3]",
+          "rtlopt_default_config.raddr_bin_reg[4]",
+          "rtlopt_default_config.rptr[3]",
+          "rtlopt_default_config.rptr_buff[3]",
+          "rtlopt_default_config.rptr_syn[3]",
+          "rtlopt_default_config.waddr[3]",
+          "rtlopt_default_config.waddr_bin_reg[4]",
+          "rtlopt_default_config.wptr[3]",
+          "rtlopt_default_config.wptr_buff[3]",
+          "rtlopt_default_config.wptr_syn[3]"
+        ],
+        "error": "",
+        "seconds": 0.99
+      },
+      "verify": null
+    },
+    {
+      "id": "c24",
+      "origin": "rescue:pipeline",
+      "parent": null,
+      "depth": 0,
+      "strategy": "pipeline",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Precompute Gray-code XOR terms one stage earlier: instead of computing waddr_gray combinationally from waddr_bin and registering it into wptr, register the XOR result directly — but that's already what happens. Instead, fold the Gray encode into the increment: compute next Gray directly from current Gray with a small combinational function, saving the XOR stage.\n- Use the standard Gray-increment trick: next_gray = gray ^ (1 << ctz(~gray)) where ctz is the position of the lowest 0 bit — this is a single XOR with a one-hot mask, cheaper than binary add + XOR.\n- Keep the sync chains and compares identical (they are already minimal: XOR2 + compare).\n- Narrow nothing (ADDR_WIDTH+1 bits are needed for full/empty distinction).\n- Keep dual_port_RAM unchanged.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "hier_area": null,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.33
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c25",
+      "origin": "rescue:minimal",
+      "parent": null,
+      "depth": 0,
+      "strategy": "minimal",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Keep the exact same structure and hierarchy; only shrink logic where provably equivalent.\n- Replace the two separate Gray-code XOR computations with a single shared expression per pointer (already minimal: x^(x>>1)).\n- For wfull, note the comparison is against rptr_syn with top two bits inverted; keep as-is but let synthesis share the XOR/XNOR terms.\n- Narrow nothing (ADDR_WIDTH+1 bits are all observable through the pointer comparisons and RAM address).\n- Keep all if/else and reset structure identical to preserve X semantics and cycle-exact behaviour.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "hier_area": null,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.39
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c26",
+      "origin": "init:sequential",
+      "parent": null,
+      "depth": 0,
+      "strategy": "sequential",
+      "status": "no-gain",
+      "problem": "[metrics] area 72.6 / ltp 39 is not better than baseline 72.6 / 39",
+      "plan": "- Keep all modules, ports, hierarchy, and the exact procedural assignment style for wfull/rempty.\n- Replace the two separate binary counters + gray encoders with a single registered gray counter per domain, since gray-to-binary is not needed for addressing (only low bits of binary are used for RAM address). But address needs binary; keep binary counter and compute gray combinationally as before — no area win there.\n- Actually the biggest win: wfull/rempty comparisons are on gray pointers; keep them but narrow the sync registers to only the bits needed for comparison. wfull needs all ADDR_WIDTH+1 bits of rptr_syn; rempty needs all ADDR_WIDTH+1 bits of wptr_syn. No narrowing possible.\n- Reduce logic: replace the 2-stage synchronizer registers' reset with sync reset folded into the flop (free), and share the gray encoding logic. Also replace `waddr_bin + 1'd1` with a simpler increment and remove redundant `waddr`/`raddr` wire slicing.\n- Use `wptr <= waddr_gray` directly (already done). Combine the two always blocks per domain where possible to reduce muxing.\n- The main area cost is the XOR gray encoders (12 XOR2 + 7 XNOR2) and the comparators (NOR3x13). Replace the equality comparators with a single XOR-reduction: `wfull = ~|(wptr ^ {~rptr_syn[ADDR_WIDTH:ADDR_WIDTH-1], rptr_syn[ADDR_WIDTH-2:0]})` — but that's the same logic. Instead, note wfull compares wptr to rptr_syn with MSB inverted and bit ADDR_WIDTH-1 inverted. This is equivalent to comparing the gray-coded pointers with the standard async FIFO full condition. Keep as is but factor.\n- Actually a real win: the gray encoders for waddr_bin and raddr_bin are combinational and feed wptr/rptr. Since wptr is just a registered version of waddr_gray, and waddr_bin is a registered binary counter, we can instead register the gray counter directly (gray counter increments by toggling bits based on trailing ones). This eliminates the XOR encoder entirely (saves ~19 XOR/XNOR cells) at the cost of a slightly more complex increment logic. But the increment logic for gray is also XOR-heavy. Net win uncertain.\n- Simpler: keep binary counters, but compute gray with a shared XOR tree and let Yosys optimize. The current design already does this.",
+      "synth": {
+        "ok": true,
+        "area": 72.618,
+        "hier_area": null,
+        "ltp": 39,
+        "cells": {
+          "$_DFFE_PN0P_": 10,
+          "$_DFFE_PP_": 8,
+          "$_DFF_PN0_": 30,
+          "$memrd": 1,
+          "$memwr_v2": 1,
+          "$scopeinfo": 1,
+          "AND2_X1": 1,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "AOI221_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 20,
+          "NAND2_X1": 2,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 1,
+          "NOR3_X1": 13,
+          "OAI221_X1": 1,
+          "OAI22_X1": 1,
+          "OR2_X1": 1,
+          "XNOR2_X1": 7,
+          "XOR2_X1": 12
+        },
+        "n_ff": 48,
+        "ltp_path": [
+          "wrstn",
+          "waddr_bin[4]",
+          "wptr[4]",
+          "wptr_buff[4]",
+          "wptr_syn[4]",
+          "raddr_bin[4]",
+          "rptr[3]",
+          "rptr_buff[3]",
+          "rptr_syn[3]",
+          "waddr_bin[3]",
+          "wptr[2]",
+          "wptr_buff[2]",
+          "wptr_syn[2]"
+        ],
+        "error": "",
+        "seconds": 0.25
+      },
+      "course": null,
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "9d197e9a06e2f1144fbda0f41ac3e989f55ccbe8079e1e4021127b8d6dbc93dc",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "liberty_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "llm_model": "deepseek-v4.1-flash",
+    "budget": {
+      "course_guard": true,
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 9,
+      "max_refine": 2,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "9d197e9a06e2f1144fbda0f41ac3e989f55ccbe8079e1e4021127b8d6dbc93dc"
+  }
+}

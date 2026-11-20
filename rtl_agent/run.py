@@ -3,6 +3,7 @@
 
   python3 run.py --rtl design.v [--top TOP] [--out runs/design] [--budget normal]
   python3 run.py --batch cases/public --out runs/public          # every *.v below the folder
+  python3 run.py --rtl ../opti_demo/case/case1/rtl.v             # official layout, uses case/tb/case1_tb.v
 """
 
 import argparse
@@ -46,21 +47,43 @@ def _looks_like_testbench(path):
 
 
 def course_testbenches(rtl, explicit=()):
-    """Explicit --tb files, else course-style stimuli (stim_*.v / tb_*.v) next to the design."""
+    """Explicit --tb files, else course-provided stimuli found by the course layouts:
+
+    * opti_demo (2026-11): case/<name>/rtl.v with case/tb/<name>_tb.v
+    * earlier releases:    stim_*.v / tb_*.v / *_tb.v next to the design
+    """
     if explicit:
         return [os.path.abspath(p) for p in explicit]
     folder = os.path.dirname(os.path.abspath(rtl))
-    return sorted(os.path.join(folder, f) for f in os.listdir(folder)
-                  if f.endswith(".v") and re.match(r"^(stim|tb)_", f, re.I))
+    name = os.path.basename(folder)
+    found = [os.path.join(folder, f) for f in os.listdir(folder)
+             if f.endswith(".v") and (re.match(r"^(stim|tb)_", f, re.I) or re.search(r"_tb\.v$", f, re.I))
+             and os.path.abspath(os.path.join(folder, f)) != os.path.abspath(rtl)]
+    for c in (os.path.join(os.path.dirname(folder), "tb", f"{name}_tb.v"),
+              os.path.join(os.path.dirname(folder), "tb", f"stim_{name}.v")):
+        if os.path.isfile(c):
+            found.append(c)
+    return sorted(dict.fromkeys(os.path.abspath(f) for f in found))
+
+
+def default_case_name(rtl):
+    """Output folder name: the file stem, or the case folder for generic names (case1/rtl.v -> case1)."""
+    stem = os.path.splitext(os.path.basename(rtl))[0]
+    if stem.lower() in ("rtl", "design", "top", "dut", "src", "input"):
+        return os.path.basename(os.path.dirname(os.path.abspath(rtl))) or stem
+    return stem
 
 
 def run_one(cfg, rtl, outdir, top, budget, keep, resynth="full", allow_mem=False, allow_relaxed=True,
-            accept="bounded", tbs=()):
+            accept="bounded", tbs=(), arithmetic=True, call_limit=None, course_guard=True):
     b = dict(BUDGETS[budget])
     b["resynth"] = resynth
     b["allow_mem"] = allow_mem
     b["allow_relaxed"] = allow_relaxed
     b["accept"] = accept
+    b["arithmetic"] = arithmetic
+    b["call_limit"] = call_limit
+    b["course_guard"] = course_guard
     st = optimize(cfg, rtl, outdir, top=top, budget=Budget(**b), keep_work=keep,
                   course_tbs=course_testbenches(rtl, tbs))
     u = st.usage.to_dict()
@@ -131,9 +154,13 @@ def main():
     source.add_argument("--batch", help="folder: optimize every .v file found below it")
     ap.add_argument("--out", default=None, help="output folder")
     ap.add_argument("--budget", default="normal", choices=sorted(BUDGETS))
+    ap.add_argument("--max-calls", type=int, default=None,
+                    help="hard per-case logical LLM call cap, including rescue (0 disables requests)")
     ap.add_argument("--env-file", default=None)
     ap.add_argument("--keep-work", action="store_true")
-    ap.add_argument("--offline", action="store_true", help="disable LLM requests, use ABC only")
+    ap.add_argument("--offline", action="store_true", help="disable LLM requests; arithmetic and ABC remain available")
+    ap.add_argument("--no-arithmetic", dest="arithmetic", action="store_false",
+                    help="disable deterministic source-level arithmetic candidates (ablation)")
     ap.add_argument("--accept", choices=["bounded", "proved"], default="bounded",
                     help="formal evidence accepted on top of strict simulation: bounded (default: complete "
                          "proof, bounded model check, simulation-only for multi-clock designs) or proved "
@@ -145,16 +172,22 @@ def main():
     ap.add_argument("--strict", action="store_true", help="shortcut for --accept proved --no-relaxed")
     ap.add_argument("--tb", action="append", default=[],
                     help="course-style stimulus testbench (__VCD__/__SEED__ placeholders) that every output must "
-                         "pass strictly; default: stim_*.v / tb_*.v next to the design")
+                         "pass strictly; default: case/tb/<case>_tb.v (opti_demo layout) or stim_*.v / tb_*.v "
+                         "next to the design")
     ap.set_defaults(allow_relaxed=True)
     ap.add_argument("--resynth", default=os.environ.get("RTL_AGENT_RESYNTH", "full"),
                     choices=["full", "fallback", "off"],
                     help="zero-token ABC re-synthesis candidates (gate-level output): full = also applied to "
                          "the best LLM design, fallback = only if the LLM found no gain, off = readable RTL only")
+    ap.add_argument("--flat-metric-only", dest="course_guard", action="store_false",
+                    help="hierarchical designs: judge candidates on the flattened metric only (default also "
+                         "rejects candidates that regress the unflattened course-script reading)")
     ap.add_argument("--allow-mem", action="store_true",
                     help="accept candidates that infer extra memories (their logic is not counted by the "
                          "course script; off by default because it is not a real saving)")
     args = ap.parse_args()
+    if args.max_calls is not None and args.max_calls < 0:
+        ap.error("--max-calls must be nonnegative")
     if args.strict:
         args.accept, args.allow_relaxed = "proved", False
 
@@ -171,7 +204,7 @@ def main():
         if not cases:
             ap.error("no design .v files found (testbenches and output folder are excluded)")
     else:
-        name = os.path.splitext(os.path.basename(args.rtl))[0]
+        name = default_case_name(args.rtl)
         out = args.out or os.path.join("runs", name)
         if os.path.realpath(args.rtl) == os.path.realpath(os.path.join(out, "optimized.v")):
             ap.error("output optimized.v would overwrite the input; choose a different --out")
@@ -191,7 +224,7 @@ def main():
         try:
             st = run_one(cfg, args.rtl, out, args.top, args.budget, args.keep_work, args.resynth,
                          args.allow_mem, args.allow_relaxed, args.accept,
-                         args.tb)
+                         args.tb, args.arithmetic, args.max_calls, args.course_guard)
         except (OSError, ValueError, RuntimeError) as exc:
             failure_result(args.rtl, out, exc)
             return 1
@@ -206,7 +239,7 @@ def main():
             try:
                 st = run_one(cfg, f, case_out, None, args.budget, args.keep_work, args.resynth,
                              args.allow_mem, args.allow_relaxed, args.accept,
-                         args.tb)
+                         args.tb, args.arithmetic, args.max_calls, args.course_guard)
             except (OSError, ValueError, RuntimeError) as exc:
                 failed = True
                 error = failure_result(f, case_out, exc)

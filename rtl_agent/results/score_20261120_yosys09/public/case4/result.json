@@ -1,0 +1,80 @@
+{
+  "top": "div_16bit",
+  "input": "/f/Projects/EDA_work/rtl_agent/cases/public/case4/rtl.v",
+  "kind": null,
+  "status": "error",
+  "tier": null,
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "cannot elaborate input: /f/Projects/EDA_work/rtl_agent/cases/public/case4/rtl.v:49: ERROR: syntax error, unexpected invalid token",
+  "baseline": {
+    "area": null,
+    "ltp": null,
+    "course_area": null,
+    "course_ltp": null,
+    "course_hier_area": null,
+    "cells": {}
+  },
+  "optimized": {
+    "area": null,
+    "ltp": null,
+    "course_area": null,
+    "course_ltp": null,
+    "course_hier_area": null,
+    "cells": {},
+    "candidate": null
+  },
+  "verification": null,
+  "usage": {
+    "calls": 0,
+    "logical_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "cached_tokens": 0,
+    "total_tokens": 0,
+    "llm_seconds": 0.0
+  },
+  "runtime_s": 0.1,
+  "stop_reason": "no verified gain",
+  "graph_trace": [
+    [
+      "setup",
+      0.06
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [],
+  "reproducibility": {
+    "input_sha256": "29234fb08eb361ace4da727583d7b5f4bed2d1a164fdff4811f3657da0a3ed84",
+    "python": "3.10.12",
+    "yosys_version": "0.9",
+    "liberty_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "llm_model": null,
+    "budget": {
+      "course_guard": true,
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 6,
+      "max_refine": 1,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "29234fb08eb361ace4da727583d7b5f4bed2d1a164fdff4811f3657da0a3ed84"
+  }
+}

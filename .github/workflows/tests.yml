@@ -9,8 +9,10 @@ jobs:
         with:
           python-version: "3.11"
       - name: Unit regressions (no API)
-        run: python -m unittest discover -s rtl_agent/tests -p test_regressions.py -v
+        run: python -m unittest discover -s rtl_agent/tests -p 'test_*.py' -v
       - name: Install EDA tools
         run: sudo apt-get update && sudo apt-get install -y yosys iverilog
       - name: Real equivalence self-check (no API)
-        run: python rtl_agent/tests/test_selfcheck.py
+        run: |
+          python -m unittest discover -s rtl_agent/tests -p test_arithmetic.py -v
+          python rtl_agent/tests/test_selfcheck.py

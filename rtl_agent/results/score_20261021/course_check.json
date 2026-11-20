@@ -1,0 +1,207 @@
+{
+  "checker_sha256": "bea03f2c39d21514b61b5225a34fd4b6796e9202fed678cecb2e54968c063c9a",
+  "complete": true,
+  "passed": true,
+  "cases": [
+    {
+      "case": "case1_barrel_shifter",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_barrel.v",
+          "sha256": "20a837f5ab47ba1aed2ed3cec84476e052eb6074720ab67a322482998d773aa1",
+          "exit_code": 0,
+          "seconds": 0.48,
+          "error": ""
+        }
+      ],
+      "input_sha256": "b3176d33276588af0b42011f451bf89513bed431546e72bd2f533e5dc2ad9e02",
+      "output_sha256": "dfff3027319f95400a3d493adee5dbdd0ae13245f3c55f3ec7bdf347fe5a3434",
+      "status": "no-gain",
+      "baseline": {
+        "area": 1.862,
+        "ltp": 1
+      },
+      "optimized": {
+        "area": 1.862,
+        "ltp": 1
+      },
+      "literal_gain": false
+    },
+    {
+      "case": "case2_fp_rounding",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_fp_round.v",
+          "sha256": "116dd49fed7553f4fbf96adffb0a002dc717e9166931fbcbca5fa016466336cf",
+          "exit_code": 0,
+          "seconds": 0.37,
+          "error": ""
+        }
+      ],
+      "input_sha256": "79816cb65463571cbe3022ffda5603e8292b48b027cc2f329a023374c14af9d0",
+      "output_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873",
+      "status": "no-gain",
+      "baseline": {
+        "area": 88.046,
+        "ltp": 11
+      },
+      "optimized": {
+        "area": 88.046,
+        "ltp": 11
+      },
+      "literal_gain": false
+    },
+    {
+      "case": "case3_fixed_point_subtractor",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_fixed_sub.v",
+          "sha256": "0cf0d991e6dbe19cc53fffec6d9a7e967b2ea6f35c5919398944e5c5e0b4dadd",
+          "exit_code": 0,
+          "seconds": 0.73,
+          "error": ""
+        }
+      ],
+      "input_sha256": "282e01c4f8557425673d5b51e05478106fa8b3d97e500aa14a8ca70b367c665b",
+      "output_sha256": "42b35b6af81d3b0596e95e6ad4f3bd695536a273ec8de7358e9e106b088bce53",
+      "status": "optimized",
+      "baseline": {
+        "area": 477.736,
+        "ltp": 30
+      },
+      "optimized": {
+        "area": 349.258,
+        "ltp": 25
+      },
+      "literal_gain": true
+    },
+    {
+      "case": "case4_div_16bit",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_div16.v",
+          "sha256": "29aea10d6aebdbbc88e99a9e2a80776cacdfd7d5c02e3161d3d346a287afb1b9",
+          "exit_code": 0,
+          "seconds": 0.68,
+          "error": ""
+        }
+      ],
+      "input_sha256": "bce89b8d2f4a34dcef8e49fd482c6c80b29cafc15033eb312c43665a8bd80558",
+      "output_sha256": "29234fb08eb361ace4da727583d7b5f4bed2d1a164fdff4811f3657da0a3ed84",
+      "status": "no-gain",
+      "baseline": {
+        "area": 775.124,
+        "ltp": 59
+      },
+      "optimized": {
+        "area": 775.124,
+        "ltp": 59
+      },
+      "literal_gain": false
+    },
+    {
+      "case": "case5_verified_accu",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_accu.v",
+          "sha256": "0d6cde93730584b4760feccc50eb6f8742abd1be95d65c001e3cc0aca12544e9",
+          "exit_code": 0,
+          "seconds": 0.51,
+          "error": ""
+        }
+      ],
+      "input_sha256": "c6f3615496c2b6695da790c638364e29a52a5ebce09e81b83d273c607ec87041",
+      "output_sha256": "280b2c17fd7a2b9d2ca1a7acdafcf45f3ee6e61ad6c9356a67603f93edda2605",
+      "status": "optimized",
+      "baseline": {
+        "area": 74.48,
+        "ltp": 56
+      },
+      "optimized": {
+        "area": 69.958,
+        "ltp": 47
+      },
+      "literal_gain": true
+    },
+    {
+      "case": "case6_LIFObuffer",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_lifo.v",
+          "sha256": "644cdbe4c057cb7a25f374cf772e38ef77dade4976fa5ad0fd2571bec81b38e6",
+          "exit_code": 0,
+          "seconds": 0.38,
+          "error": ""
+        }
+      ],
+      "input_sha256": "f97fa7e1b5dd42d45829d4525cda42a8c887374c5fccd84d8af7e7f54a7e712b",
+      "output_sha256": "dd8cb8e2cad31e41fe05da59bf392660f5014c26c4efb150508a2917453d3bf5",
+      "status": "optimized",
+      "baseline": {
+        "area": 101.612,
+        "ltp": 18
+      },
+      "optimized": {
+        "area": 97.888,
+        "ltp": 17
+      },
+      "literal_gain": true
+    },
+    {
+      "case": "case7_verified_adder_64bit",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_adder64.v",
+          "sha256": "a9cb8326190f94680e6ff224c49adcdec0def02aa8cfa4a74fb4938de18bb688",
+          "exit_code": 0,
+          "seconds": 0.55,
+          "error": ""
+        }
+      ],
+      "input_sha256": "9571bdcdf2c340e018d97d8026c5877f18b55d1cec0a14fd94c2f1fa404f21fc",
+      "output_sha256": "c0276c4f8504b632eda2f46217d4e7b424abb81d6fefbfa28d51782a745d5844",
+      "status": "optimized",
+      "baseline": {
+        "area": 484.386,
+        "ltp": 57
+      },
+      "optimized": {
+        "area": 441.56,
+        "ltp": 50
+      },
+      "literal_gain": true
+    },
+    {
+      "case": "case8_verified_radix2_div",
+      "verdict": "PASS",
+      "stimuli": [
+        {
+          "file": "stim_radix2_div.v",
+          "sha256": "f3b7b11d4ab7cf48b29769234a7c206209061342521e53255385629eea7f59cd",
+          "exit_code": 0,
+          "seconds": 0.38,
+          "error": ""
+        }
+      ],
+      "input_sha256": "4ec0998f85d18ed1fbcf65f7422e6d0270bcbf0fe3183d815d9a26e6d3851939",
+      "output_sha256": "fdd52d4e7f0247c666b218eaa0a9c4a7c1747b43f72e3c45f3feeb895bc675a7",
+      "status": "optimized",
+      "baseline": {
+        "area": 212.268,
+        "ltp": 76
+      },
+      "optimized": {
+        "area": 198.968,
+        "ltp": 76
+      },
+      "literal_gain": true
+    }
+  ]
+}

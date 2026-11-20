@@ -1,0 +1,358 @@
+[
+  {
+    "case": "case3_fixed_point_subtractor",
+    "accepted": true,
+    "output_sha256": "42b35b6af81d3b0596e95e6ad4f3bd695536a273ec8de7358e9e106b088bce53",
+    "verification": {
+      "ok": true,
+      "relaxed": false,
+      "stage": "done",
+      "message": "",
+      "mismatch": null,
+      "evidence": "sim: 20010 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_fixed_sub.v; formal: PROVED (ABC iprove: miter output is constant 0)",
+      "sim": {
+        "ok": true,
+        "relaxed_ok": false,
+        "course_passed": [
+          "course-tb:stim_fixed_sub.v"
+        ],
+        "error": "",
+        "mismatch": null,
+        "bad_outputs": [],
+        "n_vectors": 20010,
+        "seconds": 3.26
+      },
+      "formal": {
+        "kind": "comb",
+        "status": "proved",
+        "depth": 0,
+        "message": "ABC iprove: miter output is constant 0",
+        "seconds": 1.34,
+        "trace_len": 0
+      },
+      "seconds": 4.87
+    }
+  },
+  {
+    "case": "case5_verified_accu",
+    "accepted": true,
+    "output_sha256": "280b2c17fd7a2b9d2ca1a7acdafcf45f3ee6e61ad6c9356a67603f93edda2605",
+    "verification": {
+      "ok": false,
+      "relaxed": true,
+      "stage": "sim-relaxed",
+      "message": "strict waveform mismatch on ['valid_out'] (power-up X / zero-width events only)",
+      "mismatch": {
+        "kind": "value",
+        "time": 5000,
+        "signal": "valid_out",
+        "gold": "0",
+        "opt": "x",
+        "inputs": {
+          "clk": "1",
+          "rst_n": "1",
+          "data_in": "0",
+          "valid_in": "0"
+        },
+        "inputs_prev": {
+          "clk": "0",
+          "rst_n": "1",
+          "data_in": "0",
+          "valid_in": "0"
+        },
+        "outputs_gold": {
+          "valid_out": "0"
+        },
+        "outputs_opt": {
+          "valid_out": "x"
+        },
+        "stimulus": "no_reset_first",
+        "cycle": 0,
+        "more": []
+      },
+      "evidence": "sim: 15000 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_accu.v; formal: PROVED (temporal induction succeeded (length 7))",
+      "sim": {
+        "ok": false,
+        "relaxed_ok": true,
+        "course_passed": [
+          "course-tb:stim_accu.v"
+        ],
+        "error": "",
+        "mismatch": {
+          "kind": "value",
+          "time": 5000,
+          "signal": "valid_out",
+          "gold": "0",
+          "opt": "x",
+          "inputs": {
+            "clk": "1",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst_n": "1",
+            "data_in": "0",
+            "valid_in": "0"
+          },
+          "outputs_gold": {
+            "valid_out": "0"
+          },
+          "outputs_opt": {
+            "valid_out": "x"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "bad_outputs": [
+          "valid_out"
+        ],
+        "n_vectors": 15000,
+        "seconds": 0.81
+      },
+      "formal": {
+        "kind": "seq",
+        "status": "proved",
+        "depth": 7,
+        "message": "temporal induction succeeded (length 7)",
+        "seconds": 0.73,
+        "trace_len": 0
+      },
+      "seconds": 2.08
+    }
+  },
+  {
+    "case": "case6_LIFObuffer",
+    "accepted": true,
+    "output_sha256": "dd8cb8e2cad31e41fe05da59bf392660f5014c26c4efb150508a2917453d3bf5",
+    "verification": {
+      "ok": true,
+      "relaxed": false,
+      "stage": "done",
+      "message": "",
+      "mismatch": null,
+      "evidence": "sim: 15000 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_lifo.v; formal: bounded PASS, 30 cycles",
+      "sim": {
+        "ok": true,
+        "relaxed_ok": false,
+        "course_passed": [
+          "course-tb:stim_lifo.v"
+        ],
+        "error": "",
+        "mismatch": null,
+        "bad_outputs": [],
+        "n_vectors": 15000,
+        "seconds": 0.11
+      },
+      "formal": {
+        "kind": "seq",
+        "status": "bounded",
+        "depth": 30,
+        "message": "no counter-example within 30 cycles (induction inconclusive)",
+        "seconds": 46.82,
+        "trace_len": 0
+      },
+      "seconds": 47.04
+    }
+  },
+  {
+    "case": "case7_verified_adder_64bit",
+    "accepted": true,
+    "output_sha256": "c0276c4f8504b632eda2f46217d4e7b424abb81d6fefbfa28d51782a745d5844",
+    "verification": {
+      "ok": true,
+      "relaxed": false,
+      "stage": "done",
+      "message": "",
+      "mismatch": null,
+      "evidence": "sim: 15000 vectors/cycles strict-VCD PASS; course stimuli PASS: stim_adder64.v; formal: PROVED (temporal induction succeeded (length 4))",
+      "sim": {
+        "ok": true,
+        "relaxed_ok": false,
+        "course_passed": [
+          "course-tb:stim_adder64.v"
+        ],
+        "error": "",
+        "mismatch": null,
+        "bad_outputs": [],
+        "n_vectors": 15000,
+        "seconds": 5.28
+      },
+      "formal": {
+        "kind": "seq",
+        "status": "proved",
+        "depth": 4,
+        "message": "temporal induction succeeded (length 4)",
+        "seconds": 4.14,
+        "trace_len": 0
+      },
+      "seconds": 9.88
+    }
+  },
+  {
+    "case": "case8_verified_radix2_div",
+    "accepted": true,
+    "output_sha256": "fdd52d4e7f0247c666b218eaa0a9c4a7c1747b43f72e3c45f3feeb895bc675a7",
+    "verification": {
+      "ok": false,
+      "relaxed": true,
+      "stage": "sim-relaxed",
+      "message": "strict waveform mismatch on ['result'] (power-up X / zero-width events only)",
+      "mismatch": {
+        "kind": "value",
+        "time": 42000,
+        "signal": "result",
+        "gold": "x",
+        "opt": "x0",
+        "inputs": {
+          "clk": "0",
+          "rst": "1",
+          "dividend": "0",
+          "divisor": "0",
+          "sign": "0",
+          "opn_valid": "1",
+          "res_ready": "1"
+        },
+        "inputs_prev": {
+          "clk": "0",
+          "rst": "0",
+          "dividend": "11110",
+          "divisor": "1001001",
+          "sign": "1",
+          "opn_valid": "0",
+          "res_ready": "0"
+        },
+        "outputs_gold": {
+          "result": "x"
+        },
+        "outputs_opt": {
+          "result": "x0"
+        },
+        "stimulus": "no_reset_first",
+        "cycle": 4,
+        "more": []
+      },
+      "evidence": "sim: 15000 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); course stimuli PASS: stim_radix2_div.v; formal: PROVED (temporal induction succeeded (length 11))",
+      "sim": {
+        "ok": false,
+        "relaxed_ok": true,
+        "course_passed": [
+          "course-tb:stim_radix2_div.v"
+        ],
+        "error": "",
+        "mismatch": {
+          "kind": "value",
+          "time": 42000,
+          "signal": "result",
+          "gold": "x",
+          "opt": "x0",
+          "inputs": {
+            "clk": "0",
+            "rst": "1",
+            "dividend": "0",
+            "divisor": "0",
+            "sign": "0",
+            "opn_valid": "1",
+            "res_ready": "1"
+          },
+          "inputs_prev": {
+            "clk": "0",
+            "rst": "0",
+            "dividend": "11110",
+            "divisor": "1001001",
+            "sign": "1",
+            "opn_valid": "0",
+            "res_ready": "0"
+          },
+          "outputs_gold": {
+            "result": "x"
+          },
+          "outputs_opt": {
+            "result": "x0"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 4,
+          "more": []
+        },
+        "bad_outputs": [
+          "result"
+        ],
+        "n_vectors": 15000,
+        "seconds": 0.14
+      },
+      "formal": {
+        "kind": "seq",
+        "status": "proved",
+        "depth": 11,
+        "message": "temporal induction succeeded (length 11)",
+        "seconds": 5.54,
+        "trace_len": 0
+      },
+      "seconds": 6.05
+    }
+  },
+  {
+    "case": "fixed_sub_N8",
+    "accepted": true,
+    "verification": {
+      "ok": true,
+      "relaxed": false,
+      "stage": "done",
+      "message": "",
+      "mismatch": null,
+      "evidence": "sim: 65538 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+      "sim": {
+        "ok": true,
+        "relaxed_ok": false,
+        "course_passed": [],
+        "error": "",
+        "mismatch": null,
+        "bad_outputs": [],
+        "n_vectors": 65538,
+        "seconds": 0.13
+      },
+      "formal": {
+        "kind": "comb",
+        "status": "proved",
+        "depth": 0,
+        "message": "ABC iprove: miter output is constant 0",
+        "seconds": 0.07,
+        "trace_len": 0
+      },
+      "seconds": 0.33
+    }
+  },
+  {
+    "case": "fixed_sub_N16",
+    "accepted": true,
+    "verification": {
+      "ok": true,
+      "relaxed": false,
+      "stage": "done",
+      "message": "",
+      "mismatch": null,
+      "evidence": "sim: 20010 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+      "sim": {
+        "ok": true,
+        "relaxed_ok": false,
+        "course_passed": [],
+        "error": "",
+        "mismatch": null,
+        "bad_outputs": [],
+        "n_vectors": 20010,
+        "seconds": 0.05
+      },
+      "formal": {
+        "kind": "comb",
+        "status": "proved",
+        "depth": 0,
+        "message": "ABC iprove: miter output is constant 0",
+        "seconds": 0.09,
+        "trace_len": 0
+      },
+      "seconds": 0.19
+    }
+  }
+]

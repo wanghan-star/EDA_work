@@ -1,0 +1,1407 @@
+{
+  "top": "verified_traffic_light",
+  "input": "/home/hansome_w/backup/rtl_agent/cases/extra/traffic_light/verified_traffic_light.v",
+  "kind": "sequential",
+  "status": "optimized",
+  "tier": "strict",
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 53.466,
+    "ltp": 45,
+    "course_area": 53.466,
+    "course_ltp": 45,
+    "cells": {
+      "$_DFF_PN0_": 14,
+      "$_DFF_PN1_": 2,
+      "AND2_X1": 4,
+      "AOI21_X1": 3,
+      "INV_X1": 7,
+      "MUX2_X1": 1,
+      "NAND2_X1": 6,
+      "NAND3_X1": 3,
+      "NAND4_X1": 2,
+      "NOR2_X1": 7,
+      "NOR3_X1": 2,
+      "NOR4_X1": 1,
+      "OAI21_X1": 4,
+      "OR2_X1": 2,
+      "OR4_X1": 1,
+      "XNOR2_X1": 3,
+      "XOR2_X1": 5
+    }
+  },
+  "optimized": {
+    "area": 50.806,
+    "ltp": 32,
+    "cells": {
+      "$_DFF_PN0_": 14,
+      "$_DFF_PN1_": 2,
+      "AND2_X1": 3,
+      "AOI21_X1": 2,
+      "AOI22_X1": 1,
+      "INV_X1": 6,
+      "MUX2_X1": 1,
+      "NAND2_X1": 11,
+      "NAND3_X1": 2,
+      "NAND4_X1": 2,
+      "NOR2_X1": 4,
+      "NOR3_X1": 3,
+      "NOR4_X1": 2,
+      "OAI21_X1": 3,
+      "OR2_X1": 2,
+      "XNOR2_X1": 6,
+      "XOR2_X1": 1
+    },
+    "candidate": "c07"
+  },
+  "verification": {
+    "ok": true,
+    "relaxed": false,
+    "stage": "done",
+    "message": "",
+    "mismatch": null,
+    "evidence": "sim: 15000 vectors/cycles strict-VCD PASS; formal: PROVED (temporal induction succeeded (length 4))",
+    "sim": {
+      "ok": true,
+      "relaxed_ok": false,
+      "error": "",
+      "mismatch": null,
+      "bad_outputs": [],
+      "n_vectors": 15000,
+      "seconds": 0.52
+    },
+    "formal": {
+      "kind": "seq",
+      "status": "proved",
+      "depth": 4,
+      "message": "temporal induction succeeded (length 4)",
+      "seconds": 0.49,
+      "trace_len": 0
+    },
+    "seconds": 1.16
+  },
+  "usage": {
+    "calls": 6,
+    "logical_calls": 6,
+    "prompt_tokens": 13898,
+    "completion_tokens": 6455,
+    "reasoning_tokens": 0,
+    "cached_tokens": 3840,
+    "total_tokens": 20353,
+    "llm_seconds": 53.3
+  },
+  "runtime_s": 51.8,
+  "stop_reason": "budget exhausted",
+  "graph_trace": [
+    [
+      "setup",
+      0.45
+    ],
+    [
+      "generate",
+      9.88
+    ],
+    [
+      "evaluate",
+      0.84
+    ],
+    [
+      "repair",
+      6.79
+    ],
+    [
+      "evaluate",
+      0.34
+    ],
+    [
+      "refine",
+      9.29
+    ],
+    [
+      "evaluate_refine",
+      0.36
+    ],
+    [
+      "repair",
+      10.46
+    ],
+    [
+      "evaluate",
+      1.0
+    ],
+    [
+      "resynth",
+      8.34
+    ],
+    [
+      "evaluate_resynth",
+      2.71
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=0ps, no_reset_first)] output `clock`: expected 'bx, got 'bxxxxxx.\nInputs: rst_n=1, clk=0, pass_request=1.\nExpected outputs: clock='bx.\nYour outputs: clock='bxxxxxx.\n(Sequential design: the difference may come from state built up in earlier cycles.)",
+      "plan": "- Keep identical state/FSM and branch structure; no operator sharing possible (all compares are cnt==3, cnt>10, distinct).\n- Narrow cnt to 6 bits: max value is 60, min reachable 0 (decrement), so 6 bits (0..63) suffices; 60 fits, 0..63 covers wrap. This shrinks the subtractor and comparators.\n- Replace `cnt == 3` with `cnt[7:2]==0 && cnt[1:0]==3`? No—narrowing to 6 bits makes cnt==3 a 6-bit compare, cheaper.\n- Keep p_* registers and output registers as-is (free flops); keep async reset style.\n- cnt>10 with 6-bit cnt is cheaper than 8-bit.",
+      "synth": {
+        "ok": true,
+        "area": 47.88,
+        "ltp": 39,
+        "cells": {
+          "$_DFF_PN0_": 12,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 4,
+          "AND3_X1": 2,
+          "AOI21_X1": 3,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 1,
+          "NAND2_X1": 5,
+          "NAND3_X1": 3,
+          "NAND4_X1": 2,
+          "NOR2_X1": 4,
+          "NOR3_X1": 1,
+          "OAI21_X1": 6,
+          "OR3_X1": 1,
+          "OR4_X1": 1,
+          "XNOR2_X1": 4,
+          "XOR2_X1": 1
+        },
+        "n_ff": 14,
+        "ltp_path": [
+          "rst_n",
+          "state[1]",
+          "p_green",
+          "green",
+          "cnt[5]",
+          "state[0]",
+          "p_red",
+          "red",
+          "cnt[0]"
+        ],
+        "error": "",
+        "seconds": 0.34
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['clock'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 0,
+          "signal": "clock",
+          "gold": "x",
+          "opt": "xxxxxx",
+          "inputs": {
+            "rst_n": "1",
+            "clk": "0",
+            "pass_request": "1"
+          },
+          "inputs_prev": {
+            "rst_n": "x",
+            "clk": "x",
+            "pass_request": "x"
+          },
+          "outputs_gold": {
+            "clock": "x"
+          },
+          "outputs_opt": {
+            "clock": "xxxxxx"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 0,
+            "signal": "clock",
+            "gold": "x",
+            "opt": "xxxxxx",
+            "inputs": {
+              "rst_n": "1",
+              "clk": "0",
+              "pass_request": "1"
+            },
+            "inputs_prev": {
+              "rst_n": "x",
+              "clk": "x",
+              "pass_request": "x"
+            },
+            "outputs_gold": {
+              "clock": "x"
+            },
+            "outputs_opt": {
+              "clock": "xxxxxx"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "clock"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.05
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 0.32,
+          "trace_len": 0
+        },
+        "seconds": 0.49
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "init:sequential",
+      "parent": null,
+      "depth": 0,
+      "strategy": "sequential",
+      "status": "no-gain",
+      "problem": "[metrics] area 59.9 / ltp 35 is not better than baseline 53.5 / 45",
+      "plan": "- Keep the same three always blocks and reset style; do not add/remove resets.\n- Replace the 2-bit FSM plus separate p_* flags with a one-hot registered state, since flops are free and this removes state decode logic.\n- Keep cnt as 8-bit because it can underflow and clock must match exactly; simplify only the comparison logic.\n- Fold the p_* decode into the one-hot state so red/yellow/green are direct delayed copies of state bits.\n- Use parallel conditions for cnt reloads to reduce priority-chain logic where equivalent.",
+      "synth": {
+        "ok": true,
+        "area": 59.85,
+        "ltp": 35,
+        "cells": {
+          "$_DFF_PN0_": 15,
+          "$_DFF_PN1_": 3,
+          "AND2_X1": 4,
+          "AND3_X1": 1,
+          "AND4_X1": 1,
+          "AOI21_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 3,
+          "NAND2_X1": 5,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 6,
+          "NOR3_X1": 2,
+          "NOR4_X1": 5,
+          "OAI211_X1": 1,
+          "OAI21_X1": 6,
+          "OR2_X1": 1,
+          "OR3_X1": 2,
+          "XNOR2_X1": 3,
+          "XOR2_X1": 2
+        },
+        "n_ff": 18,
+        "ltp_path": [
+          "rst_n",
+          "cnt[7]",
+          "state[2]",
+          "p_green",
+          "green",
+          "cnt[2]"
+        ],
+        "error": "",
+        "seconds": 0.33
+      },
+      "verify": null
+    },
+    {
+      "id": "c03",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "no-gain",
+      "problem": "[metrics] area 53.5 / ltp 46 is not better than baseline 53.5 / 45",
+      "plan": "- Keep the 4-state structure: state/cnt/p_* registers and the delayed output registers unchanged in reset/branch style so X-before-reset matches.\n- cnt is only ever compared to 3 and reloaded with 5/10/60; but it decrements freely, so keep 8-bit width (clock is the full cnt, observable). No narrowing possible since clock=cnt.\n- Merge the three p_* assignment groups: p_red/p_yellow/p_green are functions of state only (idle/s1_red/s2_yellow/s3_green), so replace the case's p_* assignments with a parallel decode, keeping state transitions in the case.\n- The cnt reload priority chain: rewrite as one mux tree selecting the reload value vs cnt-1, sharing the decrement; keep exact priority order.\n- The green/yellow/red falling-edge reloads use p_* (previous outputs), so use those directly instead of recomputing.",
+      "synth": {
+        "ok": true,
+        "area": 53.466,
+        "ltp": 46,
+        "cells": {
+          "$_DFF_PN0_": 14,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 4,
+          "AOI21_X1": 3,
+          "INV_X1": 7,
+          "MUX2_X1": 1,
+          "NAND2_X1": 6,
+          "NAND3_X1": 3,
+          "NAND4_X1": 2,
+          "NOR2_X1": 7,
+          "NOR3_X1": 2,
+          "NOR4_X1": 1,
+          "OAI21_X1": 4,
+          "OR2_X1": 2,
+          "OR4_X1": 1,
+          "XNOR2_X1": 4,
+          "XOR2_X1": 4
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "cnt[7]",
+          "state[0]",
+          "p_green",
+          "green",
+          "cnt[5]"
+        ],
+        "error": "",
+        "seconds": 0.33
+      },
+      "verify": null
+    },
+    {
+      "id": "c04",
+      "origin": "repair(c01)",
+      "parent": "c01",
+      "depth": 1,
+      "strategy": "conservative",
+      "status": "no-gain",
+      "problem": "[metrics] area 53.5 / ltp 45 is not better than baseline 53.5 / 45",
+      "plan": "- Revert cnt to 8 bits so the unreset X pattern on `clock` matches exactly (all 8 bits X).\n- Keep the rest of the structure identical to the original; the 6-bit narrowing was the only change and it is unsafe because cnt's X state is observable.\n- No other cases affected since only the width changed.",
+      "synth": {
+        "ok": true,
+        "area": 53.466,
+        "ltp": 45,
+        "cells": {
+          "$_DFF_PN0_": 14,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 4,
+          "AOI21_X1": 3,
+          "INV_X1": 7,
+          "MUX2_X1": 1,
+          "NAND2_X1": 6,
+          "NAND3_X1": 3,
+          "NAND4_X1": 2,
+          "NOR2_X1": 7,
+          "NOR3_X1": 2,
+          "NOR4_X1": 1,
+          "OAI21_X1": 4,
+          "OR2_X1": 2,
+          "OR4_X1": 1,
+          "XNOR2_X1": 3,
+          "XOR2_X1": 5
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "cnt[1]",
+          "state[0]",
+          "p_green",
+          "green",
+          "cnt[7]"
+        ],
+        "error": "",
+        "seconds": 0.34
+      },
+      "verify": null
+    },
+    {
+      "id": "c05",
+      "origin": "init:logic",
+      "parent": null,
+      "depth": 0,
+      "strategy": "logic",
+      "status": "fail-sim",
+      "problem": "[simulation mismatch at cycle 6 (t=65000ps, reset_first)] output `red`: expected 0, got 1.\nInputs: rst_n=1, clk=1, pass_request=0.\nExpected outputs: clock=8, red=0, yellow=0, green=0.\nYour outputs: clock=8, red=1, yellow=0, green=0.\nAnother failing case cycle 7: inputs rst_n=1, clk=1, pass_request=0; expected clock=10, red=1, yellow=0, green=0; yours clock=7, red=1, yellow=0, green=0.\nAnother failing case cycle 8: inputs rst_n=1, clk=1, pass_request=0; expected clock=9, red=1, yellow=0, green=0; yours clock=6, red=1, yellow=0, green=0.\n(Sequential design: the difference may come from state built up in earlier cycles.)",
+      "plan": "- Merge p_red/p_yellow/p_green into the state encoding: since p_* are exactly the color of `state`, derive them combinationally from state instead of separate flops (state already holds it). But outputs red/yellow/green are p_* delayed → keep one flop stage for outputs, driven by decoded state.\n- Actually keep p_* as the registered color but note p_* = decode(state) after the transition; simpler: outputs = decode(state) delayed. Replace p_* flops with combinational decode of state, and register outputs from that decode.\n- Narrow cnt to 6 bits (max 60) — but clock output is 8-bit; zero-extend. cnt only needs 0..60, so 6 bits suffice; comparisons cnt==3 and cnt>10 shrink.\n- Replace the priority cnt chain: conditions are mutually exclusive by color phase; compute next cnt with a single mux tree on (pass_request&green&cnt>10), (!green&p_green), (!yellow&p_yellow), (!red&p_red), else cnt-1. Keep structure but use decoded colors.\n- Keep reset style and X semantics: registers without reset stay X; keep if/else on rst_n.",
+      "synth": {
+        "ok": true,
+        "area": 30.59,
+        "ltp": 21,
+        "cells": {
+          "$_DFF_PN0_": 9,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 3,
+          "AND3_X1": 1,
+          "AOI21_X1": 2,
+          "INV_X1": 2,
+          "MUX2_X1": 1,
+          "NAND2_X1": 1,
+          "NAND4_X1": 1,
+          "NOR2_X1": 7,
+          "NOR3_X1": 1,
+          "OAI21_X1": 2,
+          "OR2_X1": 1,
+          "OR3_X1": 2,
+          "XNOR2_X1": 4
+        },
+        "n_ff": 11,
+        "ltp_path": [
+          "rst_n",
+          "cnt[5]",
+          "state[0]",
+          "cnt[3]"
+        ],
+        "error": "",
+        "seconds": 0.31
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": false,
+        "stage": "sim",
+        "message": "simulation mismatch on ['clock', 'red', 'yellow', 'green']",
+        "mismatch": {
+          "kind": "value",
+          "time": 65000,
+          "signal": "red",
+          "gold": "0",
+          "opt": "1",
+          "inputs": {
+            "rst_n": "1",
+            "clk": "1",
+            "pass_request": "0"
+          },
+          "inputs_prev": {
+            "rst_n": "1",
+            "clk": "0",
+            "pass_request": "0"
+          },
+          "outputs_gold": {
+            "clock": "1000",
+            "red": "0",
+            "yellow": "0",
+            "green": "0"
+          },
+          "outputs_opt": {
+            "clock": "1000",
+            "red": "1",
+            "yellow": "0",
+            "green": "0"
+          },
+          "stimulus": "reset_first",
+          "cycle": 6,
+          "more": [
+            {
+              "time": 75000,
+              "inputs": {
+                "rst_n": "1",
+                "clk": "1",
+                "pass_request": "0"
+              },
+              "outputs_gold": {
+                "clock": "1010",
+                "red": "1",
+                "yellow": "0",
+                "green": "0"
+              },
+              "outputs_opt": {
+                "clock": "111",
+                "red": "1",
+                "yellow": "0",
+                "green": "0"
+              },
+              "cycle": 7
+            },
+            {
+              "time": 85000,
+              "inputs": {
+                "rst_n": "1",
+                "clk": "1",
+                "pass_request": "0"
+              },
+              "outputs_gold": {
+                "clock": "1001",
+                "red": "1",
+                "yellow": "0",
+                "green": "0"
+              },
+              "outputs_opt": {
+                "clock": "110",
+                "red": "1",
+                "yellow": "0",
+                "green": "0"
+              },
+              "cycle": 8
+            }
+          ]
+        },
+        "evidence": "sim: 1500 vectors/cycles strict-VCD FAIL",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": false,
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 65000,
+            "signal": "red",
+            "gold": "0",
+            "opt": "1",
+            "inputs": {
+              "rst_n": "1",
+              "clk": "1",
+              "pass_request": "0"
+            },
+            "inputs_prev": {
+              "rst_n": "1",
+              "clk": "0",
+              "pass_request": "0"
+            },
+            "outputs_gold": {
+              "clock": "1000",
+              "red": "0",
+              "yellow": "0",
+              "green": "0"
+            },
+            "outputs_opt": {
+              "clock": "1000",
+              "red": "1",
+              "yellow": "0",
+              "green": "0"
+            },
+            "stimulus": "reset_first",
+            "cycle": 6,
+            "more": [
+              {
+                "time": 75000,
+                "inputs": {
+                  "rst_n": "1",
+                  "clk": "1",
+                  "pass_request": "0"
+                },
+                "outputs_gold": {
+                  "clock": "1010",
+                  "red": "1",
+                  "yellow": "0",
+                  "green": "0"
+                },
+                "outputs_opt": {
+                  "clock": "111",
+                  "red": "1",
+                  "yellow": "0",
+                  "green": "0"
+                },
+                "cycle": 7
+              },
+              {
+                "time": 85000,
+                "inputs": {
+                  "rst_n": "1",
+                  "clk": "1",
+                  "pass_request": "0"
+                },
+                "outputs_gold": {
+                  "clock": "1001",
+                  "red": "1",
+                  "yellow": "0",
+                  "green": "0"
+                },
+                "outputs_opt": {
+                  "clock": "110",
+                  "red": "1",
+                  "yellow": "0",
+                  "green": "0"
+                },
+                "cycle": 8
+              }
+            ]
+          },
+          "bad_outputs": [
+            "clock",
+            "red",
+            "yellow",
+            "green"
+          ],
+          "n_vectors": 1500,
+          "seconds": 0.02
+        },
+        "formal": null,
+        "seconds": 0.04
+      }
+    },
+    {
+      "id": "c06",
+      "origin": "repair(c05)",
+      "parent": "c05",
+      "depth": 1,
+      "strategy": "logic",
+      "status": "relaxed",
+      "problem": "[simulation mismatch at cycle 0 (t=0ps, no_reset_first)] output `clock`: expected 'bx, got 'bxxxxxx.\nInputs: rst_n=1, clk=0, pass_request=1.\nExpected outputs: clock='bx.\nYour outputs: clock='bxxxxxx.\n(Sequential design: the difference may come from state built up in earlier cycles.)",
+      "plan": "- Restore p_red/p_yellow/p_green as registers (they are the color of the *next* state, registered), since outputs and cnt conditions depend on them with correct one-cycle lag.\n- Keep cnt narrowed to 6 bits (max 60) — safe since clock is zero-extended and cnt never exceeds 60.\n- Keep state FSM identical; keep p_* update identical to original; keep cnt priority chain identical using p_* and outputs.\n- Outputs red/yellow/green remain registered copies of p_*.",
+      "synth": {
+        "ok": true,
+        "area": 47.88,
+        "ltp": 39,
+        "cells": {
+          "$_DFF_PN0_": 12,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 4,
+          "AND3_X1": 2,
+          "AOI21_X1": 3,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 1,
+          "NAND2_X1": 5,
+          "NAND3_X1": 3,
+          "NAND4_X1": 2,
+          "NOR2_X1": 4,
+          "NOR3_X1": 1,
+          "OAI21_X1": 6,
+          "OR3_X1": 1,
+          "OR4_X1": 1,
+          "XNOR2_X1": 4,
+          "XOR2_X1": 1
+        },
+        "n_ff": 14,
+        "ltp_path": [
+          "rst_n",
+          "state[1]",
+          "p_green",
+          "green",
+          "cnt[5]",
+          "state[0]",
+          "p_red",
+          "red",
+          "cnt[0]"
+        ],
+        "error": "",
+        "seconds": 0.39
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['clock'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "value",
+          "time": 0,
+          "signal": "clock",
+          "gold": "x",
+          "opt": "xxxxxx",
+          "inputs": {
+            "rst_n": "1",
+            "clk": "0",
+            "pass_request": "1"
+          },
+          "inputs_prev": {
+            "rst_n": "x",
+            "clk": "x",
+            "pass_request": "x"
+          },
+          "outputs_gold": {
+            "clock": "x"
+          },
+          "outputs_opt": {
+            "clock": "xxxxxx"
+          },
+          "stimulus": "no_reset_first",
+          "cycle": 0,
+          "more": []
+        },
+        "evidence": "sim: 4500 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "error": "",
+          "mismatch": {
+            "kind": "value",
+            "time": 0,
+            "signal": "clock",
+            "gold": "x",
+            "opt": "xxxxxx",
+            "inputs": {
+              "rst_n": "1",
+              "clk": "0",
+              "pass_request": "1"
+            },
+            "inputs_prev": {
+              "rst_n": "x",
+              "clk": "x",
+              "pass_request": "x"
+            },
+            "outputs_gold": {
+              "clock": "x"
+            },
+            "outputs_opt": {
+              "clock": "xxxxxx"
+            },
+            "stimulus": "no_reset_first",
+            "cycle": 0,
+            "more": []
+          },
+          "bad_outputs": [
+            "clock"
+          ],
+          "n_vectors": 4500,
+          "seconds": 0.06
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 0.38,
+          "trace_len": 0
+        },
+        "seconds": 0.61
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 50.806,
+        "ltp": 32,
+        "cells": {
+          "$_DFF_PN0_": 14,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 3,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 1,
+          "NAND2_X1": 11,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 4,
+          "NOR3_X1": 3,
+          "NOR4_X1": 2,
+          "OAI21_X1": 3,
+          "OR2_X1": 2,
+          "XNOR2_X1": 6,
+          "XOR2_X1": 1
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "clock[7]",
+          "state[0]",
+          "p_yellow",
+          "yellow",
+          "clock[2]"
+        ],
+        "error": "",
+        "seconds": 0.73
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.42
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 0.65,
+          "trace_len": 0
+        },
+        "seconds": 1.2
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 50.806,
+        "ltp": 32,
+        "cells": {
+          "$_DFF_PN0_": 14,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 3,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 1,
+          "NAND2_X1": 11,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 4,
+          "NOR3_X1": 3,
+          "NOR4_X1": 2,
+          "OAI21_X1": 3,
+          "OR2_X1": 2,
+          "XNOR2_X1": 6,
+          "XOR2_X1": 1
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "clock[7]",
+          "state[0]",
+          "p_yellow",
+          "yellow",
+          "clock[2]"
+        ],
+        "error": "",
+        "seconds": 0.83
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.35
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 0.68,
+          "trace_len": 0
+        },
+        "seconds": 1.17
+      }
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 50.806,
+        "ltp": 32,
+        "cells": {
+          "$_DFF_PN0_": 14,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 3,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 1,
+          "NAND2_X1": 11,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 4,
+          "NOR3_X1": 3,
+          "NOR4_X1": 2,
+          "OAI21_X1": 3,
+          "OR2_X1": 2,
+          "XNOR2_X1": 6,
+          "XOR2_X1": 1
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "clock[7]",
+          "state[0]",
+          "p_yellow",
+          "yellow",
+          "clock[2]"
+        ],
+        "error": "",
+        "seconds": 0.82
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.37
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 0.71,
+          "trace_len": 0
+        },
+        "seconds": 1.32
+      }
+    },
+    {
+      "id": "c10",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 50.806,
+        "ltp": 32,
+        "cells": {
+          "$_DFF_PN0_": 14,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 3,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 1,
+          "NAND2_X1": 11,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 4,
+          "NOR3_X1": 3,
+          "NOR4_X1": 2,
+          "OAI21_X1": 3,
+          "OR2_X1": 2,
+          "XNOR2_X1": 6,
+          "XOR2_X1": 1
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "clock[7]",
+          "state[0]",
+          "p_yellow",
+          "yellow",
+          "clock[2]"
+        ],
+        "error": "",
+        "seconds": 0.73
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.37
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 0.67,
+          "trace_len": 0
+        },
+        "seconds": 1.32
+      }
+    },
+    {
+      "id": "c11",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 50.806,
+        "ltp": 32,
+        "cells": {
+          "$_DFF_PN0_": 14,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 3,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 1,
+          "NAND2_X1": 11,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 4,
+          "NOR3_X1": 3,
+          "NOR4_X1": 2,
+          "OAI21_X1": 3,
+          "OR2_X1": 2,
+          "XNOR2_X1": 6,
+          "XOR2_X1": 1
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "clock[7]",
+          "state[0]",
+          "p_yellow",
+          "yellow",
+          "clock[2]"
+        ],
+        "error": "",
+        "seconds": 0.77
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.36
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 0.68,
+          "trace_len": 0
+        },
+        "seconds": 1.32
+      }
+    },
+    {
+      "id": "c12",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 51.072,
+        "ltp": 41,
+        "cells": {
+          "$_DFF_PN0_": 14,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 3,
+          "AOI21_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 1,
+          "NAND2_X1": 11,
+          "NAND3_X1": 4,
+          "NAND4_X1": 2,
+          "NOR2_X1": 5,
+          "NOR3_X1": 1,
+          "NOR4_X1": 2,
+          "OAI21_X1": 5,
+          "OR2_X1": 1,
+          "XNOR2_X1": 5,
+          "XOR2_X1": 1
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "yellow",
+          "clock[7]",
+          "state[0]",
+          "p_green",
+          "green",
+          "clock[3]"
+        ],
+        "error": "",
+        "seconds": 0.72
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.42
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 0.68,
+          "trace_len": 0
+        },
+        "seconds": 1.33
+      }
+    },
+    {
+      "id": "c13",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 50.806,
+        "ltp": 35,
+        "cells": {
+          "$_DFF_PN0_": 14,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 3,
+          "AOI21_X1": 2,
+          "AOI22_X1": 1,
+          "INV_X1": 6,
+          "MUX2_X1": 1,
+          "NAND2_X1": 11,
+          "NAND3_X1": 2,
+          "NAND4_X1": 2,
+          "NOR2_X1": 4,
+          "NOR3_X1": 3,
+          "NOR4_X1": 2,
+          "OAI21_X1": 3,
+          "OR2_X1": 2,
+          "XNOR2_X1": 6,
+          "XOR2_X1": 1
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "clock[7]",
+          "state[0]",
+          "p_red",
+          "red",
+          "clock[6]"
+        ],
+        "error": "",
+        "seconds": 0.84
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.38
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 0.66,
+          "trace_len": 0
+        },
+        "seconds": 1.29
+      }
+    },
+    {
+      "id": "c14",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 49.5 is good, but ltp=46 exceeds the baseline ltp=45. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 49.476,
+        "ltp": 46,
+        "cells": {
+          "$_DFFE_PN0P_": 1,
+          "$_DFF_PN0_": 13,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 3,
+          "AND3_X1": 1,
+          "AOI21_X1": 1,
+          "INV_X1": 6,
+          "NAND2_X1": 8,
+          "NAND3_X1": 4,
+          "NAND4_X1": 1,
+          "NOR2_X1": 6,
+          "NOR3_X1": 3,
+          "NOR4_X1": 2,
+          "OAI21_X1": 8,
+          "XNOR2_X1": 4,
+          "XOR2_X1": 2
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "red",
+          "clock[3]",
+          "state[0]",
+          "p_yellow",
+          "yellow",
+          "clock[6]"
+        ],
+        "error": "",
+        "seconds": 0.88
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.32
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 0.69,
+          "trace_len": 0
+        },
+        "seconds": 1.24
+      }
+    },
+    {
+      "id": "c15",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 55.1 / ltp 42 is not better than baseline 53.5 / 45",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 55.062,
+        "ltp": 42,
+        "cells": {
+          "$_DFF_PN0_": 14,
+          "$_DFF_PN1_": 2,
+          "AND2_X1": 3,
+          "AND3_X1": 2,
+          "AOI211_X1": 1,
+          "AOI21_X1": 3,
+          "AOI221_X1": 1,
+          "INV_X1": 8,
+          "MUX2_X1": 1,
+          "NAND2_X1": 4,
+          "NOR2_X1": 11,
+          "NOR3_X1": 3,
+          "NOR4_X1": 1,
+          "OAI21_X1": 4,
+          "OR2_X1": 2,
+          "OR3_X1": 1,
+          "OR4_X1": 2,
+          "XNOR2_X1": 4,
+          "XOR2_X1": 2
+        },
+        "n_ff": 16,
+        "ltp_path": [
+          "rst_n",
+          "clock[3]",
+          "state[0]",
+          "p_red",
+          "red",
+          "clock[5]"
+        ],
+        "error": "",
+        "seconds": 0.64
+      },
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "68f158d2d6d7679794df636758872f138afff52d9ab47a02045f61a5fb0d4ae8",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": "deepseek-v4.1-flash",
+    "budget": {
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 6,
+      "max_refine": 1,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "proved"
+  },
+  "gain": {
+    "area_pct": -4.98,
+    "ltp_pct": -28.89
+  },
+  "run": "final2x",
+  "runs_compared": [
+    "final2x",
+    "extra2"
+  ]
+}

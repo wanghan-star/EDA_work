@@ -31,7 +31,7 @@
 \vspace{-2.5em}
 
 \begin{abstract}
-本文实现了一个全自动的 RTL 优化 Agent（\code{rtl\_agent}）：输入任意 Verilog 设计，系统在“生成—验证—评估—反馈”的闭环中联合使用大模型改写与 ABC 逻辑重综合两类优化引擎，使用课程评分脚本的面积与逻辑深度指标（层次化设计先展平，并另记字面基线），并以“形式证明 + 与课程检查器同语义的 4 值波形比对”双重保证等价性，最终输出优化 RTL 与报告。系统为纯 Python 标准库实现，采用 LangGraph 风格的状态图编排，调用量和耗时逐用例记录，实验表格由实际运行结果生成。开发过程中我们对评分口径做了逐项实证分析（触发器面积不计入、\code{ltp} 穿过寄存器计数、未展平的层次化设计面积失真、存储器不映射等），并据此设计了优化策略与防作弊约束。
+本文实现了一个全自动的 RTL 优化 Agent（\code{rtl\_agent}）：输入任意 Verilog 设计，系统在“生成—验证—评估—反馈”的闭环中联合使用确定性算术结构优化、大模型改写与 ABC 逻辑重综合三类优化引擎，使用课程评分脚本的面积与逻辑深度指标（层次化设计先展平，并另记字面基线），并以“形式证明 + 与课程检查器同语义的 4 值波形比对”双重保证等价性，最终输出优化 RTL 与报告。系统为纯 Python 标准库实现，采用 LangGraph 风格的状态图编排，调用量和耗时逐用例记录，实验表格由实际运行结果生成。开发过程中我们对评分口径做了逐项实证分析（触发器面积不计入、\code{ltp} 穿过寄存器计数、未展平的层次化设计面积失真、存储器不映射等），并据此设计了优化策略与防作弊约束。
 \end{abstract}
 
 %=====================================================================
@@ -44,8 +44,8 @@
 评分项 & 分值 & 本方案的对应设计 \\
 \midrule
 流程搭建 & 30 & 完整闭环：RTL 输入 $\rightarrow$ 基线评估 $\rightarrow$ 候选生成 $\rightarrow$ 等价性验证（形式 + 仿真）$\rightarrow$ 综合评估 $\rightarrow$ 反馈修复/精炼 $\rightarrow$ 最终复核 $\rightarrow$ 报告（\S\ref{sec:arch}） \\
-公开组合/时序 & 15+15 & 双引擎优化（LLM 算法级改写 + 零 token ABC 重综合），按 $0.5\cdot$面积 $+0.3\cdot$延时 的目标选优，并保证面积下降、\code{ltp} 不恶化（\S\ref{sec:opt}） \\
-Hidden Case & 30 & 不依赖用例知识的通用流程；针对时序电路强化：多时钟激励、复位极性自动识别、复位前 X 语义检查、存储器处理；健壮性用例（异步 FIFO、状态机）回归（\S\ref{sec:verify}） \\
+公开组合/时序 & 15+15 & 三类候选协同优化（算术结构 + LLM 改写 + ABC 重综合），按 $0.5\cdot$面积 $+0.3\cdot$延时 的目标选优，并保证面积下降、\code{ltp} 不恶化（\S\ref{sec:opt}） \\
+Hidden Case & 30 & 不依赖用例知识的通用流程；针对时序电路强化：多时钟激励、复位极性自动识别、复位前 X 语义检查、存储器处理；层次化设计按课程未展平口径守卫；5 个时序代理用例全部获益；健壮性用例（异步 FIFO、状态机）回归（\S\ref{sec:verify}） \\
 token / 运行时间 & 各 10\% & 关闭隐式推理、可见的简短分析、并行调用、“先评估后验证”、零 token 重综合承担主要优化（\S\ref{sec:eff}） \\
 方案报告 & 10 & 本文 \\
 \bottomrule
@@ -67,7 +67,7 @@ abc -liberty LIB; stat -liberty LIB; ltp      # area = 最后一条 "Chip area f
 \begin{enumerate}
 \item \textbf{触发器面积不计入。}流程中没有 \code{dfflibmap}，寄存器保持为 \code{\$\_DFF\_*} 内部单元，\code{stat -liberty} 报告 “Area for cell type \$\_DFF\_PN0\_ is unknown”。被 \code{opt\_dff} 吸收进触发器的使能、同步复位选择逻辑同样不计面积。因此时序电路的面积只由组合逻辑决定。
 \item \textbf{\code{ltp} 穿过寄存器计数。}阅读 \code{passes/cmds/ltp.cc} 源码可知：它对全部连线做最长路径 DFS，触发器是普通节点（未加 \code{-noff}），遇环截断。对时序电路，“延时”实际上是穿过移位链、计数器等的多周期长链，降低每级寄存器之间的逻辑层数才能降低它。
-\item \textbf{层次化设计的面积失真。}脚本不展平，且取“最后一条”模块面积。以 case1 桶形移位器为例，它报告的是子模块 \code{mux2X1} 的 1.862，而真实总面积为 39.37。我们一律在展平后评估（单模块设计两者完全相同），并在报告中同时给出字面口径。
+\item \textbf{层次化设计的面积失真。}脚本不展平，且取“最后一条”模块面积。实测 \code{stat} 按\emph{模块名排序}输出，只含子模块实例的模块不打印面积行，\code{ltp} 同理取最后一个模块。以 case1 桶形移位器为例，它报告的是子模块 \code{mux2X1} 的 1.862/1，展平为 39.4/4，层次总面积（\code{Chip area for top module}）为 44.688。异步 FIFO 的三种读数分别为 54.264/36（顶层）、72.618/39（展平）与 67.032。三者不可互换：只在展平口径下更优的网表，按课程脚本可能是退化（见 \S\ref{sec:hier}）。我们以展平口径择优，并对层次化设计要求未展平的两种读数都不恶化。
 \item \textbf{存储器不映射。}没有 \code{memory} pass，推断出的 \code{\$mem} 单元面积为“未知”。若改写风格使数组被推断为存储器，其译码与读出逻辑会从面积中“消失”，例如 LIFO 会“降低” 62.8\%，但真实硬件并未变小。本方案默认\textbf{拒绝}此类候选（\code{--allow-mem} 可开启）。
 \item \textbf{流程中没有资源共享。}没有 \code{share}、\code{opt -full}、\code{wreduce}，源码中每个运算符（包括互斥分支中的）都会各自生成电路，RTL 级的显式共享因此有价值。
 \item \textbf{ABC 默认脚本较轻。}用 \code{\&deepsyn} 等更强的脚本预先优化逻辑后，课程流程重新综合仍能保留大部分收益（实测组合电路 $-5\%\sim-25\%$）。
@@ -90,7 +90,7 @@ abc -liberty LIB; stat -liberty LIB; ltp      # area = 最后一条 "Chip area f
 \node[n] (rep) at (4.6,1.75) {repair};
 \node[n] (ref) at (7.0,1.75) {refine};
 \node[n] (res) at (7.5,-1.75) {rescue};
-\draw[->] (setup) -- node[lab,above=1pt]{基线·分析} (gen);
+\draw[->] (setup) -- node[lab,above=1pt]{算术候选·验证} (gen);
 \draw[->] (gen) -- node[lab,above=1pt]{LLM 并行} (eval);
 \draw[->] (eval.north west) to[bend left=10] node[lab,left=1pt,pos=0.45]{可修复失败} (rep.south west);
 \draw[->] (rep.south east) to[bend left=10] (eval.north);
@@ -102,19 +102,20 @@ abc -liberty LIB; stat -liberty LIB; ltp      # area = 最后一条 "Chip area f
 \draw[->] (rs.south) |- node[lab,pos=0.25,right=1pt]{无严格收益} (res.east);
 \draw[->] (res.west) -| (eval.south);
 \end{tikzpicture}
-\caption{Agent 状态图（\code{agent/graph.py} 实现的 LangGraph 风格 \code{StateGraph}，节点读写共享状态，条件边由路由函数决定；绿色节点不消耗 token）}
+\caption{Agent 状态图（\code{agent/graph.py} 实现的 LangGraph 风格 \code{StateGraph}，setup 后先执行零 token 的 arithmetic / evaluate\_arithmetic，再进入图示搜索；条件边由路由函数决定）}
 \end{figure}
 
 \begin{table}[h]\centering\small
-\caption{模块组成（纯 Python 标准库，约 2500 行）}
+\caption{模块组成（纯 Python 标准库）}
 \begin{tabularx}{\linewidth}{@{}lX@{}}
 \toprule
 模块 & 职责 \\ \midrule
-\code{graph.py / optimizer.py} & 状态图引擎；节点 setup / generate / evaluate / repair / refine / resynth / rescue / finalize；预算、停止条件与救援策略 \\
+\code{graph.py / optimizer.py} & 状态图引擎；算术候选生成与验证、模型搜索、修复、精炼、重综合、救援与终验；预算、停止条件与救援策略 \\
 \code{llm.py / prompts.py} & OpenAI 兼容客户端（重试、思考开关、逐次 token 计量与完整调用留档）；提示词模板与失败反馈生成 \\
 \code{synth.py} & 课程口径评估（展平/字面两种）、单元统计、\code{ltp} 关键路径解析；设计结构分析（时钟、复位极性、存储器、X 赋值） \\
 \code{tbgen.py / simcheck.py / vcd.py} & 激励生成、iverilog 4 值仿真、与课程检查器同语义的 VCD 解析与逐事件比对、反例诊断 \\
 \code{formal.py / verify.py} & Yosys miter + ABC \code{iprove}（组合）、SAT 时序归纳（时序）；反例回放；分级验收 \\
+\code{arithmetic.py / specialize.py} & 通用算术结构候选；默认配置内联优化、非默认参数保留原始语义 \\
 \code{resynth.py} & 零 token ABC 深度重综合候选生成，以无毛刺的单 always 块形式输出 \\
 \code{report.py / run.py} & 每用例 \code{report.md / result.json}、批量汇总；命令行入口 \\
 \bottomrule
@@ -123,6 +124,15 @@ abc -liberty LIB; stat -liberty LIB; ltp      # area = 最后一条 "Chip area f
 
 %=====================================================================
 \section{优化引擎}\label{sec:opt}
+
+\subsection{零 token 的算术结构候选}
+新增与模块名无关的有限语法识别器，针对同宽无符号的 $a+b+c_{in}$ 生成进位融合与 4/8 位分块先行进位候选。例如下面的拼接把进位合并到一次宽位加法，保留完整输出位宽与溢出语义：
+\begin{lstlisting}
+(({1'b0, a, 1'b1} + {1'b0, b, ci}) >> 1)
+\end{lstlisting}
+只处理可确认位宽与符号性的表达式，对宏、已有生成块及不支持的语法保守跳过；生成全局与单点变换，所有候选仍经过同一综合、仿真和形式验证链。算术候选重综合仅选两种降深度脚本，以控制搜索耗时。
+
+64 位流水线加法器仅算术阶段得到面积 474.278、深度 48；加上重综合后最终为 441.560、50，相对原设计分别下降 8.8\% 与 12.3\%。该结果不使用模型 token，通过 15000 拍严格事件比对与长度为 4 的完整时序归纳证明。
 
 \subsection{LLM 多策略改写}
 \begin{itemize}
@@ -144,7 +154,7 @@ abc -liberty LIB; stat -liberty LIB; ltp      # area = 最后一条 "Chip area f
 \begin{itemize}
 \item \textbf{无毛刺输出形式。}深层门级网表在零延时仿真中会产生零宽毛刺，iverilog 会把它们记成重复的 VCD 事件，导致与行为级原设计的逐事件比对失败。我们把网表改写为单个 \code{always @*} 块，按拓扑序阻塞赋值，每个信号每次求值只赋值一次。综合结果完全相同，仿真中不再有毛刺。
 \item \textbf{保留存储器}（\code{memory -nomap}），避免把原设计中不计面积的 RAM 展开成计面积的寄存器与选择器。
-\item \textbf{结果可复现。}\code{\&deepsyn} 默认按时间截断，同一脚本在高负载下只得到 396.1（case3），空闲时则是 342.9，结果随机器负载波动。我们改为“连续 $J$ 步无改进即停”，时间上限仅作保险，因此在工具版本一致且未触发时间上限时可提高同种子结果的可复现性。又因为不同种子之间结果相差可达 20\% 以上，采用多种子、多力度的组合并行搜索。
+\item \textbf{结果可复现。}\code{\&deepsyn} 默认按时间截断，同一脚本在高负载下只得到 396.1（case3），空闲时则是 342.9，结果随机器负载波动。我们改为“连续 $J$ 步无改进即停”，时间上限仅作保险，因此在工具版本一致且未触发时间上限时可提高同种子结果的可复现性。但 $J=400$ 的两个脚本在 case3 上实测会跑满 60\,s 上限（低负载下也是 62--63\,s），本机重跑得到 365.2--366.3，而交付快照为 349.258，所以这两个脚本的结果仍与机器速度有关。交付文件固定不变，并以课程检查器独立复核。又因为不同种子之间结果相差可达 20\% 以上，采用多种子、多力度的组合并行搜索。
 \end{itemize}
 该引擎默认对所有用例启用（\code{--resynth full}），输出可能是门级网表；若课程要求输出可读 RTL，可切换为 \code{fallback}（仅在 LLM 无收益时使用）或 \code{off}。
 
@@ -152,6 +162,11 @@ abc -liberty LIB; stat -liberty LIB; ltp      # area = 最后一条 "Chip area f
 候选必须满足\textbf{面积严格下降且 \code{ltp} 不增加}（与 demo 的验收准则一致）。在此约束下最小化
 \[ J = 0.5\cdot \frac{A}{A_0} + 0.3\cdot\frac{D}{D_0}, \]
 与评分公式中面积、延时的权重一致。最终选中的候选还要经过更强激励与更深形式验证的复核（\code{finalize}），复核失败则依次换用次优候选。
+
+\subsection{层次化设计：双口径守卫与保层次重综合}\label{sec:hier}
+含子模块的设计（或字面读数与展平读数不同的设计）启用守卫：候选在展平口径更优之外，还要用课程原版命令（不展平）重新综合，要求最后模块面积、\code{ltp} 与层次总面积\emph{都不恶化}，否则判为 \code{course-worse}。对 LLM 候选，这一反馈会提示其保留子模块，提示词也改为“保留层次、在模块内优化”，不再要求内联子模块。
+
+与之配套，重综合对层次化原设计另跑一组\textbf{保层次}脚本：不展平，各模块按原名就地优化，带参数的子模块（以及参数化顶层下的全部子模块）作为黑盒原样保留，因此不会出现 \code{\$paramod} 派生名。由于课程脚本按模块名取最后一个模块，保持模块名不变才能在两种口径下进行同口径比较；我们不添加或改名模块来“挑选”被报告的模块。\code{--flat-metric-only} 可关闭该守卫。
 
 %=====================================================================
 \section{等价性验证体系}\label{sec:verify}
@@ -172,7 +187,7 @@ abc -liberty LIB; stat -liberty LIB; ltp      # area = 最后一条 "Chip area f
 \begin{itemize}
 \item \textbf{激励生成。}组合电路输入总位宽不超过 16 位时穷举，否则使用角点值加 6000 组随机向量（含同宽输入相等、相差 1 等比较器边界）。时序电路自动识别时钟与复位极性（同时依据 Yosys 推断出的 \code{\$adff/\$sdff} 极性和源码中首个 if 条件），每次生成 3 段激励：复位优先、复位前先打 4 拍（检查上电 X 语义）、随机中途复位；控制信号按段随机偏置，数据信号混合随机、零、全 1、小值。输入在两个有效时钟沿之间变化，不存在竞争；多时钟设计的各时钟周期互不成整数比。
 \item \textbf{与课程检查器同语义的比对。}VCD 解析与比较逻辑与 \code{opti\_demo/equiv\_agent.py} 完全相同，按输出逐“时间–值”事件比较。这能捕获复位前 X 传播差异、零宽重复事件、显式敏感列表导致的读旧值等仅靠形式验证发现不了的问题。
-\item \textbf{形式证明。}组合电路构造 miter，转为 AIG 后用 ABC \code{iprove} 完整证明，可满足时用 \code{write\_cex} 导出反例并映射回端口位。时序电路在复位约束、上电未定义态（3 值）下做 SAT 时序归纳：归纳成功即为完整证明，否则给出 30 拍有界模型检查结果。所有反例都在 4 值仿真中回放确认后才判为失败；无法回放的“未确认反例”与工具错误在任何策略下都拒绝。多时钟设计暂无形式模型，仅凭严格仿真。
+\item \textbf{形式证明。}组合电路构造 miter，转为 AIG 后用 ABC \code{iprove} 完整证明，可满足时用 \code{write\_cex} 导出反例并映射回端口位。时序电路在复位约束、上电未定义态（3 值）下做 SAT 时序归纳：归纳成功即为完整证明，否则给出 30 拍有界模型检查结果。所有反例都在 4 值仿真中回放确认后才判为失败；无法回放的“未确认反例”、未知结论、超时与工具错误在任何策略下都拒绝。多时钟设计暂无形式模型，仅凭严格仿真。
 \item \textbf{分级验收。}\emph{严格档}：全部激励下逐事件一致，且形式验证通过。\emph{宽松档}：复位后各输出完全一致、形式验证通过，差异仅为复位完成前的上电 X 或零宽重复事件。严格档优先，没有任何严格收益时才采用宽松档，并在报告中注明（\code{--no-relaxed} 可关闭）。最终复核准备失败时回退原设计。
 \item \textbf{验收策略。}默认 \code{--accept bounded}：接受完整证明、30 拍有界检查和多时钟仅仿真，前提都是严格仿真通过；\code{--strict} 只接受完整证明且关闭宽松档。默认如此设置的理由是：时序电路被重构后，归纳证明很少能完整通过，而隐藏用例全部是时序电路；只接受完整证明会丢掉 LIFO（$-36.6\%$）、radix2（$-10.9\%$）这类已通过严格仿真与有界检查的优化。报告中如实区分各用例的证据强度。
 \item \textbf{验证链自检}（\code{tests/test\_selfcheck.py}）。其中“针尖”变体只在 $2^{24}$ 个输入中的 1 个上出错，有限随机仿真很容易漏检，必须由形式验证抓出并经回放确认。该测试曾帮助我们发现两个会让验证空跑的缺陷：两值模式下使用 \code{miter -ignore\_gold\_x} 会被常量折叠成恒 0；以及 ABC 已判定可满足但 Yosys 求解反例超时时，结论被错误地降级为“未知”。
@@ -181,7 +196,7 @@ abc -liberty LIB; stat -liberty LIB; ltp      # area = 最后一条 "Chip area f
 %=====================================================================
 \section{效率设计（token 与运行时间）}\label{sec:eff}
 \begin{itemize}
-\item 关闭隐式推理（见 4.1 节），对失控生成（\code{finish=length}）不重试，避免重复付费。
+\item 关闭隐式推理（见 LLM 多策略改写），对失控生成（\code{finish=length}）不重试，避免重复付费。
 \item 提示词只包含当前代码、关键指标与压缩后的反馈；精炼阶段以已验证的当前最优解作为规格，不再重复发送历史。
 \item \emph{先评估后验证}：先做毫秒级的规则检查与秒级的综合评分，只有比当前最优更好的候选才进入仿真和形式验证。
 \item 参考设计的仿真波形只生成一次并缓存；候选的评估、验证、重综合都在线程池中并行执行。
@@ -191,18 +206,48 @@ abc -liberty LIB; stat -liberty LIB; ltp      # area = 最后一条 "Chip area f
 
 %=====================================================================
 \section{实验结果}\label{sec:results}
-实验环境：WSL Ubuntu、Yosys 0.52、Icarus Verilog 12、22 核 CPU；LLM 为 \code{deepseek-v4.1-flash}（关闭思考），默认验收策略（\code{--accept bounded}，宽松兜底开启）。公开用例为课程仓库于 2026-10-21 发布的 8 个官方用例，每个都附带官方激励 \code{stim\_*.v}，该激励被设为必须逐事件严格通过的验收激励。同一套系统运行多轮（\code{normal} 预算，无收益用例另以 \code{high} 预算补跑），每个用例取各轮中通过全部验证且 $J$ 最优的结果；额外用例为双时钟异步 FIFO、交通灯、GCD 与 demo 电路。隐藏用例未公开，本表不代表隐藏用例成绩。
+实验环境：WSL Ubuntu、Yosys 0.52、Icarus Verilog 12、22 核 CPU；LLM 为 \code{deepseek-v4.1-flash}（关闭思考），默认验收策略（\code{--accept bounded}，宽松兜底开启）。公开用例取自课程仓库 2026-10-21 的快照，共 8 个官方用例，每个都附带官方激励 \code{stim\_*.v}，该激励被设为必须逐事件严格通过的验收激励。同一套系统运行多轮（\code{normal} 预算，无收益用例另以 \code{high} 预算补跑），本次最终快照结合新算术候选、默认参数顶层内联的重综合结果与历史已验证结果择优，另以课程原版检查器复核；额外用例为双时钟异步 FIFO、交通灯、GCD 与 demo 电路（异步 FIFO 已按 \S\ref{sec:hier} 的守卫重跑）；第三组是隐藏用例代理集（\S\ref{sec:proxy}），以 0 token 运行。隐藏用例未公开，本表不代表隐藏用例成绩。
 
 \input{results.tex}
 
-8 个官方公开用例中 4 个获得经验证的正收益，\textbf{8 个输出全部通过课程原版检查器}（\code{equiv\_agent.py} 加官方激励，由 \code{tools/course\_check.py} 独立复核，面积与 ltp 用 \code{run\_demo.sh} 原版命令重算，结果与本系统一致）。几点观察：
+8 个官方公开用例中 5 个获得经验证的正收益（本轮改进前为 4 个），\textbf{8 个输出全部通过课程原版检查器}（\code{equiv\_agent.py} 加官方激励，由 \code{tools/course\_check.py} 独立复核，面积与 ltp 用 \code{run\_demo.sh} 原版命令重算，同时记录字面口径与展平口径；新增的 case3/case7 两种口径完全一致）。几点观察：
 \begin{itemize}
-\item \textbf{两个引擎互补。}定点减法器（$-23.2\%$）、accu（$-6.1\%$，ltp $-16\%$）的收益来自零 token 的重综合；LIFO（$-3.7\%$）与 radix2（$-6.3\%$）来自 LLM 救援轮的 storage 策略，即重组存储结构、去掉冗余状态。额外用例中，GCD 由 LLM 改写后再做重综合，面积 $-63.3\%$、ltp 从 252 降到 53，并有完整证明；opt\_top 的 LLM 方案把两个乘法器合并为一个（$-50.5\%$），它最初只因自身的零宽毛刺被判为宽松档，经重综合成单次求值的网表后升为严格档。
-\item \textbf{官方激励的约束。}barrel（24 个 \code{mux2X1} 级联）与 div16（循环中反复阻塞赋值）的原设计自身就会产生零宽毛刺事件，任何结构不同的实现都无法在官方激励上逐事件一致。系统把这类候选判为不合格，交付原设计，以免被课程检查器拒绝。
-\item \textbf{其他无收益用例。}fp\_rounding 的基线（88.0）已很精简；64 位流水线加法器在面积下降时 ltp 必然加深。LLM 输出有随机性：在官方发布前的复刻版 LIFO 上，某一轮曾发现“清零不可观测”而得到 $-36.6\%$，其他轮次没有复现。
+\item \textbf{三类候选互补。}定点减法器（$-26.9\%$）、accu（$-6.1\%$，ltp $-16\%$）的收益来自零 token 的重综合；LIFO（$-3.7\%$）与 radix2（$-6.3\%$）来自 LLM 救援轮的 storage 策略，即重组存储结构、去掉冗余状态。额外用例中，异步 FIFO 旧版的 $-7.0\%$ 只在展平口径成立，按课程脚本是退化（字面 54.264/36 $\rightarrow$ 67.564/37），守卫启用后输出原设计（8 次调用、37585 token 均未找到保层次收益）；GCD 由 LLM 改写后再做重综合，面积 $-63.3\%$、ltp 从 252 降到 53，并有完整证明；opt\_top 的 LLM 方案把两个乘法器合并为一个（$-50.5\%$），它最初只因自身的零宽毛刺被判为宽松档，经重综合成单次求值的网表后升为严格档。
+\item \textbf{官方激励的约束。}barrel（24 个 \code{mux2X1} 级联）与 div16（循环中反复阻塞赋值）的原设计自身就会产生零宽毛刺事件，本次尝试的部分结构重写未能在官方激励上逐事件一致；这不是所有优化均不可能的证明。系统把这类候选判为不合格，交付原设计，以免被课程检查器拒绝。
+\item \textbf{其他无收益用例。}fp\_rounding 的基线（88.0）已很精简；64 位流水线加法器原先未找到合格改进，本轮通过进位结构优化与重综合实现面积、深度同时下降。LLM 输出有随机性：在官方发布前的复刻版 LIFO 上，某一轮曾发现“清零不可观测”而得到 $-36.6\%$，其他轮次没有复现。
+\end{itemize}
+
+\subsection{隐藏用例代理集}\label{sec:proxy}
+隐藏用例全部是时序电路，其中 hidden3 有 21 个端口，与课程仓库 \code{case/bench/mac8} 的时序族端口完全一致。我们把 5 个时序 mac8 变体（v4--v8，附课程激励 \code{stim\_mac8.v}）放入 \code{cases/proxy/}，作为不针对公开用例调参的健壮性测试（表中最后一组）。先以 0 token 运行，再对零 token 无收益的 v5/v6 以 DeepSeek（\code{--budget quick --max-calls 3}）重跑。结果：\textbf{5/5 获得经验证的正收益，5/5 通过课程原版检查器}。
+\begin{itemize}
+\item v4/v7/v8 的收益来自零 token 重综合（$-21.2\%$、$-6.5\%$、$-5.3\%$，ltp 同时下降）。
+\item v5/v6 的 ABC 候选面积更小但 \code{ltp} 更深（如 v5 为 3604.8/164，基线 3869.5/161），不满足约束。DeepSeek 的 datapath 策略把 v5 在 \code{case} 各分支中的 10 个乘法改为按状态选择操作数、共用 2 个乘法器，面积 $-68.8\%$、ltp $161\rightarrow106$，仅用 7353 token。v6 由 storage 策略得到 $-1.8\%$、ltp $171\rightarrow106$（6924 token）。这正是“本流程不做资源共享”这一口径分析在提示词中的作用。
+\item 乘法器设计每个候选的仿真加有界检查约 3--4 分钟，单用例耗时 11--20 分钟，主要花在验证上。综合指标完全相同的候选只验证一个，可省去冗余验证。
 \end{itemize}
 
 %=====================================================================
+\subsection{参数语义与评分口径修复}
+重综合得到的网表位宽已固定，仅恢复参数声明不能恢复参数化功能。本轮输出保留原接口：默认参数配置将优化逻辑直接内联到顶层，非默认配置实例化保留的原始 RTL。不能可靠解析的接口不采用特化。接口检查同时比较参数默认值及端口符号性。
+
+探索中，额外的默认配置辅助模块曾让课程的未展平 \code{ltp} 误读为 1。该结果未作为最终交付：改为顶层内联后，加法器两种口径均为 441.560/50，定点减法器均为 349.258/25。对后者另以 $N=8,16$ 验证非默认参数，均通过完整形式证明。原先已存在的 case1 层次差异仍如实列出。
+
+\subsection{消融、模型联调与成本}
+\begin{table}[h]\centering\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+单次实验 & 面积 & ltp & token & 秒 \\\midrule
+case7：仅算术结构 & 474.278 & 48 & 0 & 31 \\
+case7：最终算术与重综合 & 441.560 & 50 & 0 & 60 \\
+case3：最终重综合与参数保护 & 349.258 & 25 & 0 & 145 \\
+case6：本轮 DeepSeek 搜索 & 98.420 & 17 & 13365 & 79 \\
+\bottomrule
+\end{tabular}
+\caption{有限消融与联调记录；时间为本机单次观测，非统计估计}
+\end{table}
+主模型按要求设置为 \code{deepseek-v4.1-flash}，已通过阿里云兼容接口实测。case6 的 5 次逻辑调用得到 3.1\% 面积收益，但历史 3.7\% 的已验证结果更好，最终保留历史结果；case2 的 2 次调用消耗 4968 token，未找到收益。此前 Qwen 的两项试验共消耗 18178 token，均无收益。这些有限样本不能用于模型优劣排名。
+
+\code{--max-calls} 为包含救援在内的逻辑调用硬上限，HTTP 重试另计；模型输出上限与并发遵守配置。结果表的 token 和时间为胜出运行，\code{selection.json} 另外汇总全部提供的搜索记录。历史快照缺少部分未胜出轮次，因此全搜索成本明确标记为不完整，不把胜出运行成本当作总成本。隐藏用例尚不可见，评分又包含排名项，本报告不预测最终分数。
+
 \section{开发中发现的关键问题}
 \begin{table}[h]\centering\small
 \begin{tabularx}{\linewidth}{@{}lX@{}}
@@ -215,18 +260,31 @@ LLM 沿用原设计的 \code{always @(a,b)} 却读取中间信号 & 规则检查
 复位受使能门控（LIFO） & 复位阶段将控制信号偏向 1，并加长复位 \\
 思考模式失控（16000 token 无答案） & 默认关闭，改用可见的简短分析 \\
 存储器推断导致面积“消失” & 默认拒绝，提供 \code{--allow-mem} 开关 \\
-层次化设计字面面积失真 & 统一展平评估，报告同时给出两种口径 \\
+层次化设计字面面积失真 & 展平口径择优，另要求课程未展平读数与层次总面积都不恶化（双口径守卫） \\
+展平网表在未展平脚本下是退化（异步 FIFO） & 守卫拒绝此类候选；新增保层次重综合；提示词改为保留子模块 \\
+参数守卫误拒 \code{\textasciigrave timescale} 与带 \code{\#()} 头时体内的 \code{parameter} & 只拒绝宏与条件编译；体内参数按局部参数处理，不参与覆盖判断 \\
+大设计每个候选验证需数分钟 & 综合指标与单元构成完全相同的重综合/算术候选只验证一个 \\
 两值 miter 用 \code{-ignore\_gold\_x} 导致验证空跑 & 仅在 3 值模式下使用；以“针尖”变体自检防回归 \\
 ABC 已判定可满足，Yosys 求反例时超时 & 直接用 ABC \code{write\_cex} 导出反例 \\
 \code{\&deepsyn} 结果随机器负载波动 & 改为按迭代数截断，并使用多种子组合 \\
 旧版 Yosys（0.9）缺少 \code{opt\_dff}/\code{dffunmap} & 检测版本并回退到旧命令 \\
+Ubuntu 22.04 的 \code{berkeley-abc} 无 abc.rc，\code{\&deepsyn} 调用的 \code{compress2rs} 等别名缺失，重综合静默失效 & 探测 ABC，缺失时在脚本前注入标准别名 \\
+Yosys 0.9 的 \code{abc -g -script} 读回 \code{\$lut}，0.9 的 JSON 不导出参数默认值 & 旧版追加 \code{map}；用 iverilog 展开求默认参数，失败仍拒绝 \\
+网表改写为 \code{always @*} 后 0 时刻不求值、0.9 输出端口缺 \code{wire} 声明 & 仅仿真可见的 0 时刻触发（\code{\textasciigrave ifndef SYNTHESIS}）；补 \code{reg} 声明 \\
+课程仓库改为 \code{case/caseN/rtl.v} 与 \code{case/tb/caseN\_tb.v} & 自动按新布局查找官方激励，输出目录取用例目录名 \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
 %=====================================================================
 \section{本次工程完善与回归}
+2026-10-22 新增层次化双口径守卫、保层次重综合、参数守卫修复与验证去重，回归增至 45 项（新增 6 项层次化测试，含真实 Yosys 保层次重综合与仿真一致性），6 项 EDA 自检仍全部通过。公开用例以新代码零 token 重跑，accu、adder64 与交付结果一致；case3 的胜出脚本受 60\,s 上限影响（见 \S\ref{sec:opt}），LIFO/radix2 的交付收益来自 LLM。
+
+2026-10-21 至 10-22 的增强已通过 39 项单元与 HDL 回归、6 项真实 EDA 验证链自检，以及全部 8 项原版课程独立复核。对最终 5 个优化结果再次运行高强度验证：4 个完整证明、1 个 30 拍有界检查；其中 accu 与 radix2 的额外复位前激励为宽松档，官方激励均严格通过。验证记录绑定最终输出 SHA-256。HDL 回归覆盖小位宽穷举、不同参数位宽、溢出、非默认参数回退与两种评分口径一致性。课程激励编译失败、缺输出、综合工具失败或缺少用例时，独立检查均明确失败。
+
 修复了几类可能错误放行的问题：形式证据强弱混在一起（现分级为 proved / bounded / skipped，由 \code{--accept} 控制接受范围；工具错误与无法回放的反例在任何策略下都拒绝）、已确认反例遗留宽松标志、最终复核准备失败仍输出候选、病态候选综合卡满全局超时。回归测试覆盖这些分支以及两种验收策略，此外还覆盖输入校验、批量失败隔离、目录重名、调用预算与密钥日志脱敏。已有六项真实 EDA 自检覆盖组合/时序自等价、结构改写、端口不一致及功能错误，并保留仅一个输入组合出错的“针尖”反例。新增 CI 自动执行离线回归与真实 EDA 自检。
+
+2026-11-20：课程仓库改为 \code{case/caseN/rtl.v} 与 \code{case/tb/caseN\_tb.v}，\code{cases/public/} 已与之逐字节一致，Agent 自动按新布局查找官方激励，隐藏用例按相同布局放入即可批量运行。另在课程 README 推荐的 Ubuntu 22.04 \code{apt} 工具链（Yosys 0.9 + berkeley-abc）上发现零 token 重综合全部静默失效（缺少 abc.rc 别名、\code{\$lut} 读回、参数默认值不导出等，见上表），修复后离线实测 case5 $-7.9\%$、case7 $-9.4\%$、case8 $-7.8\%$，7 个可解析用例全部通过课程原版检查器；回归增至 49 项。同一交付文件在 0.9 下重新打分时部分用例由收益变为退化，case4 在 0.9 下无法解析，说明评分数值依赖 Yosys 版本——Agent 始终以运行机器上的 Yosys 评估择优，在评测方环境中运行时口径一致。详见 \code{results/score\_20261120\_yosys09/}。
 
 \section{使用方法}
 \begin{lstlisting}
@@ -234,13 +292,16 @@ cp .env.example .env                      # 配置 LLM_BASE_URL / LLM_API_KEY / 
 python3 tests/test_selfcheck.py           # 验证链自检
 python3 run.py --rtl design.v --out runs/design            # 单用例
 python3 run.py --batch cases/public --out runs/public      # 批量
+python3 run.py --batch ../opti_demo/case --out runs/course # 课程仓库布局（含隐藏用例）
+# --max-calls 5 限制总逻辑调用；--no-arithmetic 可做算术阶段消融
 # 可选：--budget quick|normal|high  --resynth full|fallback|off
 # --offline 禁用模型；--strict 只接受完整证明并关闭宽松兜底；--no-relaxed 只关闭宽松兜底
+# --flat-metric-only 层次化设计只按展平口径择优（默认还要求课程未展平读数不恶化）
 \end{lstlisting}
 
 报告可通过以下命令重建（从 \code{rtl\_agent/} 执行，随后进入 \code{docs/report/} 编译）：
 \begin{lstlisting}
-python3 docs/report/make_results.py results/public results/extra --output docs/report/results.tex
+python3 docs/report/make_results.py results/score_20261021/public results/extra --output docs/report/results.tex
 cd docs/report
 xelatex -interaction=nonstopmode -halt-on-error report.tex
 xelatex -interaction=nonstopmode -halt-on-error report.tex
@@ -248,9 +309,9 @@ xelatex -interaction=nonstopmode -halt-on-error report.tex
 
 \section{局限与展望}
 \begin{itemize}
-\item 开发阶段使用本地复刻的用例（保留在 \code{cases/reconstructed/} 供自检）；官方用例发布后直接放入 \code{cases/public/} 重跑，未改动 Agent 代码之外的任何流程。
+\item 开发阶段使用本地复刻的用例（保留在 \code{cases/reconstructed/} 供自检）；官方用例发布后直接放入 \code{cases/public/} 重跑，独立复核保留课程检查器与原版综合命令。
 \item 课程最终的等价检查方式未知。我们以“与 demo 检查器同语义”为准，并做了更严格的复位前检查；宽松档可能被严格逐事件检查器拒绝，因此只作兜底；有界检查与仿真不是完整证明，报告中如实标注证据强度。
-\item 流水线加法器这类设计，深度重综合能降低约 29\% 面积，但会把 \code{ltp} 加深约 26\%，被约束挡住。深度受限的面积优化（例如分段进位选择）是下一步方向。
+\item 仍有 3 个公开用例未找到合格收益。后续可探索更广的算术模式、事件语义保持与更强时序证明；不能据本次搜索认定原设计已最优。
 \item 形式结论只适用于默认参数实例以及声明的复位和初始态模型；多时钟证明尚不支持。\code{ltp} 是逻辑深度代理量，并不代表真实物理时序。
 \end{itemize}
 

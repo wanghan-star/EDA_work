@@ -92,17 +92,16 @@ class GoldSim:
             vcd = os.path.join(self.workdir, f"gold{i}.vcd")
             ok, err, _ = _simulate(self.cfg, tb, self.gold_files, vcd, vec, self.workdir, f"gold{i}", self.timeout)
             if not ok and isinstance(st, CourseTB):
-                # a provided testbench that does not even run with the original is not usable
-                self.dropped.append(f"{st.kind}: {err.splitlines()[0] if err else 'failed'}")
-                continue
+                self.error = f"required {st.kind} failed on reference: {err}"
+                return False
             if not ok:
                 self.error = err
                 return False
             wave = parse_vcd(vcd)
             missing = [o for o in outs if o not in wave]
             if missing and isinstance(st, CourseTB):
-                self.dropped.append(f"{st.kind}: outputs not dumped {missing}")
-                continue
+                self.error = f"required {st.kind}: outputs not dumped {missing}"
+                return False
             if missing:
                 self.error = f"outputs missing from gold VCD: {missing}"
                 return False

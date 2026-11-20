@@ -1,0 +1,2036 @@
+{
+  "top": "verified_adder_64bit",
+  "input": "/f/Projects/EDA_work/rtl_agent/cases/public/case7/rtl.v",
+  "kind": "sequential",
+  "status": "optimized",
+  "tier": "strict",
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 614.726,
+    "ltp": 66,
+    "course_area": 614.726,
+    "course_ltp": 66,
+    "course_hier_area": null,
+    "cells": {
+      "$_DFF_PN0_": 360,
+      "AND2_X1": 37,
+      "AND3_X1": 13,
+      "AOI211_X1": 1,
+      "AOI21_X1": 37,
+      "AOI221_X1": 1,
+      "AOI22_X1": 1,
+      "INV_X1": 11,
+      "MUX2_X1": 47,
+      "NAND2_X1": 69,
+      "NAND3_X1": 1,
+      "NOR2_X1": 36,
+      "NOR3_X1": 1,
+      "OAI211_X1": 4,
+      "OAI21_X1": 59,
+      "OAI22_X1": 1,
+      "OR2_X1": 28,
+      "OR3_X1": 7,
+      "XNOR2_X1": 85,
+      "XOR2_X1": 57
+    }
+  },
+  "optimized": {
+    "area": 556.738,
+    "ltp": 54,
+    "course_area": 556.738,
+    "course_ltp": 54,
+    "course_hier_area": null,
+    "cells": {
+      "$_DFF_PN0_": 360,
+      "AND2_X1": 16,
+      "AND3_X1": 4,
+      "AND4_X1": 1,
+      "AOI211_X1": 4,
+      "AOI21_X1": 35,
+      "AOI221_X1": 2,
+      "AOI22_X1": 4,
+      "INV_X1": 14,
+      "MUX2_X1": 56,
+      "NAND2_X1": 72,
+      "NAND3_X1": 9,
+      "NAND4_X1": 1,
+      "NOR2_X1": 53,
+      "NOR3_X1": 7,
+      "NOR4_X1": 1,
+      "OAI211_X1": 10,
+      "OAI21_X1": 36,
+      "OAI221_X1": 7,
+      "OAI22_X1": 3,
+      "OR2_X1": 14,
+      "OR3_X1": 1,
+      "XNOR2_X1": 51,
+      "XOR2_X1": 54
+    },
+    "candidate": "c23"
+  },
+  "verification": {
+    "ok": true,
+    "relaxed": false,
+    "stage": "done",
+    "message": "",
+    "mismatch": null,
+    "evidence": "sim: 15000 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+    "sim": {
+      "ok": true,
+      "relaxed_ok": false,
+      "course_passed": [
+        "course-tb:case7_tb.v"
+      ],
+      "error": "",
+      "mismatch": null,
+      "bad_outputs": [],
+      "n_vectors": 15000,
+      "seconds": 11.73
+    },
+    "formal": {
+      "kind": "seq",
+      "status": "proved",
+      "depth": 4,
+      "message": "temporal induction succeeded (length 4)",
+      "seconds": 20.35,
+      "trace_len": 0
+    },
+    "seconds": 36.23
+  },
+  "usage": {
+    "calls": 0,
+    "logical_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "cached_tokens": 0,
+    "total_tokens": 0,
+    "llm_seconds": 0.0
+  },
+  "runtime_s": 460.3,
+  "stop_reason": "verified improvement",
+  "graph_trace": [
+    [
+      "setup",
+      11.27
+    ],
+    [
+      "arithmetic",
+      0.02
+    ],
+    [
+      "evaluate_arithmetic",
+      117.68
+    ],
+    [
+      "resynth",
+      124.94
+    ],
+    [
+      "evaluate_resynth",
+      155.85
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "arithmetic:fused_all",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 493.2 is good, but ltp=77 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 493.164,
+        "hier_area": null,
+        "ltp": 77,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 25,
+          "AND3_X1": 3,
+          "AOI211_X1": 7,
+          "AOI21_X1": 52,
+          "AOI22_X1": 2,
+          "INV_X1": 19,
+          "MUX2_X1": 44,
+          "NAND2_X1": 52,
+          "NAND3_X1": 1,
+          "NOR2_X1": 35,
+          "NOR3_X1": 2,
+          "OAI21_X1": 29,
+          "OAI22_X1": 4,
+          "OR2_X1": 9,
+          "OR3_X1": 1,
+          "XNOR2_X1": 59,
+          "XOR2_X1": 56
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 8.6
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 1.03
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 15.98,
+          "trace_len": 0
+        },
+        "seconds": 19.04
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "arithmetic:fused_0",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 578.0 is good, but ltp=70 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 578.018,
+        "hier_area": null,
+        "ltp": 70,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 27,
+          "AND3_X1": 14,
+          "AOI211_X1": 3,
+          "AOI21_X1": 40,
+          "INV_X1": 16,
+          "MUX2_X1": 41,
+          "NAND2_X1": 79,
+          "NAND3_X1": 9,
+          "NOR2_X1": 34,
+          "NOR3_X1": 1,
+          "OAI211_X1": 6,
+          "OAI21_X1": 48,
+          "OAI22_X1": 3,
+          "OR2_X1": 26,
+          "OR3_X1": 5,
+          "XNOR2_X1": 75,
+          "XOR2_X1": 51
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[2]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[15]"
+        ],
+        "error": "",
+        "seconds": 8.59
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.85
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 15.38,
+          "trace_len": 0
+        },
+        "seconds": 18.54
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "arithmetic:fused_1",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 571.1 is good, but ltp=70 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 571.102,
+        "hier_area": null,
+        "ltp": 70,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 34,
+          "AND3_X1": 11,
+          "AOI211_X1": 4,
+          "AOI21_X1": 51,
+          "AOI22_X1": 2,
+          "INV_X1": 17,
+          "MUX2_X1": 38,
+          "NAND2_X1": 65,
+          "NAND3_X1": 3,
+          "NOR2_X1": 36,
+          "NOR3_X1": 1,
+          "OAI211_X1": 2,
+          "OAI21_X1": 51,
+          "OAI22_X1": 3,
+          "OR2_X1": 19,
+          "OR3_X1": 6,
+          "XNOR2_X1": 74,
+          "XOR2_X1": 54
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[2]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[15]"
+        ],
+        "error": "",
+        "seconds": 8.69
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 1.05
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 15.12,
+          "trace_len": 0
+        },
+        "seconds": 18.29
+      }
+    },
+    {
+      "id": "c04",
+      "origin": "arithmetic:fused_2",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 570.0 is good, but ltp=70 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 570.038,
+        "hier_area": null,
+        "ltp": 70,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 33,
+          "AND3_X1": 9,
+          "AOI211_X1": 4,
+          "AOI21_X1": 48,
+          "AOI22_X1": 2,
+          "INV_X1": 17,
+          "MUX2_X1": 36,
+          "NAND2_X1": 70,
+          "NAND3_X1": 3,
+          "NOR2_X1": 35,
+          "NOR3_X1": 2,
+          "OAI211_X1": 2,
+          "OAI21_X1": 54,
+          "OAI22_X1": 3,
+          "OR2_X1": 18,
+          "OR3_X1": 6,
+          "XNOR2_X1": 77,
+          "XOR2_X1": 53
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[2]",
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "error": "",
+        "seconds": 8.82
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 0.96
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 14.85,
+          "trace_len": 0
+        },
+        "seconds": 17.66
+      }
+    },
+    {
+      "id": "c05",
+      "origin": "arithmetic:cla4_all",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 532.3 is good, but ltp=67 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 532.266,
+        "hier_area": null,
+        "ltp": 67,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 14,
+          "AND3_X1": 3,
+          "AOI211_X1": 9,
+          "AOI21_X1": 49,
+          "AOI221_X1": 2,
+          "INV_X1": 18,
+          "MUX2_X1": 47,
+          "NAND2_X1": 62,
+          "NAND3_X1": 6,
+          "NAND4_X1": 1,
+          "NOR2_X1": 42,
+          "NOR3_X1": 5,
+          "NOR4_X1": 2,
+          "OAI211_X1": 9,
+          "OAI21_X1": 28,
+          "OAI221_X1": 3,
+          "OAI22_X1": 10,
+          "OR2_X1": 14,
+          "XNOR2_X1": 66,
+          "XOR2_X1": 44
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[15]"
+        ],
+        "error": "",
+        "seconds": 13.57
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 4.64
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 22.68,
+          "trace_len": 0
+        },
+        "seconds": 30.8
+      }
+    },
+    {
+      "id": "c06",
+      "origin": "arithmetic:cla4_0",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "verified",
+      "problem": "",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 587.86,
+        "hier_area": null,
+        "ltp": 66,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 27,
+          "AND3_X1": 17,
+          "AOI211_X1": 4,
+          "AOI21_X1": 47,
+          "AOI221_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 16,
+          "MUX2_X1": 47,
+          "NAND2_X1": 65,
+          "NAND3_X1": 2,
+          "NAND4_X1": 1,
+          "NOR2_X1": 45,
+          "NOR3_X1": 2,
+          "OAI211_X1": 10,
+          "OAI21_X1": 38,
+          "OAI221_X1": 1,
+          "OAI22_X1": 5,
+          "OR2_X1": 21,
+          "OR3_X1": 5,
+          "XNOR2_X1": 73,
+          "XOR2_X1": 51
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[2]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[15]"
+        ],
+        "error": "",
+        "seconds": 13.57
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 2.31
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 17.98,
+          "trace_len": 0
+        },
+        "seconds": 22.67
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "arithmetic:cla4_1",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 586.8 is good, but ltp=67 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 586.796,
+        "hier_area": null,
+        "ltp": 67,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 25,
+          "AND3_X1": 18,
+          "AOI211_X1": 4,
+          "AOI21_X1": 47,
+          "AOI221_X1": 2,
+          "INV_X1": 14,
+          "MUX2_X1": 41,
+          "NAND2_X1": 74,
+          "NAND3_X1": 5,
+          "NOR2_X1": 42,
+          "NOR3_X1": 4,
+          "OAI211_X1": 6,
+          "OAI21_X1": 43,
+          "OAI221_X1": 1,
+          "OAI22_X1": 7,
+          "OR2_X1": 21,
+          "OR3_X1": 4,
+          "XNOR2_X1": 72,
+          "XOR2_X1": 53
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[15]"
+        ],
+        "error": "",
+        "seconds": 13.42
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 2.14
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 20.06,
+          "trace_len": 0
+        },
+        "seconds": 24.7
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "arithmetic:cla4_2",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "verified",
+      "problem": "",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 584.668,
+        "hier_area": null,
+        "ltp": 66,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 30,
+          "AND3_X1": 15,
+          "AOI211_X1": 3,
+          "AOI21_X1": 46,
+          "AOI221_X1": 1,
+          "AOI22_X1": 2,
+          "INV_X1": 15,
+          "MUX2_X1": 45,
+          "NAND2_X1": 63,
+          "NAND3_X1": 5,
+          "NOR2_X1": 39,
+          "NOR3_X1": 3,
+          "OAI211_X1": 6,
+          "OAI21_X1": 44,
+          "OAI221_X1": 1,
+          "OAI22_X1": 8,
+          "OR2_X1": 17,
+          "OR3_X1": 7,
+          "XNOR2_X1": 71,
+          "XOR2_X1": 54
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[15]"
+        ],
+        "error": "",
+        "seconds": 13.14
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 2.16
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 17.75,
+          "trace_len": 0
+        },
+        "seconds": 22.57
+      }
+    },
+    {
+      "id": "c09",
+      "origin": "arithmetic:cla8_all",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "verified",
+      "problem": "",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 564.718,
+        "hier_area": null,
+        "ltp": 55,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 15,
+          "AND3_X1": 6,
+          "AND4_X1": 4,
+          "AOI211_X1": 7,
+          "AOI21_X1": 42,
+          "AOI221_X1": 1,
+          "AOI22_X1": 4,
+          "INV_X1": 16,
+          "MUX2_X1": 60,
+          "NAND2_X1": 54,
+          "NAND3_X1": 3,
+          "NAND4_X1": 4,
+          "NOR2_X1": 48,
+          "NOR3_X1": 6,
+          "OAI211_X1": 6,
+          "OAI21_X1": 33,
+          "OAI221_X1": 2,
+          "OAI22_X1": 4,
+          "OR2_X1": 13,
+          "XNOR2_X1": 71,
+          "XOR2_X1": 49
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[14]"
+        ],
+        "error": "",
+        "seconds": 14.09
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 9.52
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 23.84,
+          "trace_len": 0
+        },
+        "seconds": 40.32
+      }
+    },
+    {
+      "id": "c10",
+      "origin": "arithmetic:cla8_0",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "verified",
+      "problem": "",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 609.938,
+        "hier_area": null,
+        "ltp": 60,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 27,
+          "AND3_X1": 14,
+          "AOI211_X1": 1,
+          "AOI21_X1": 38,
+          "AOI221_X1": 2,
+          "AOI22_X1": 2,
+          "INV_X1": 15,
+          "MUX2_X1": 45,
+          "NAND2_X1": 79,
+          "NAND3_X1": 7,
+          "NAND4_X1": 1,
+          "NOR2_X1": 44,
+          "NOR3_X1": 4,
+          "NOR4_X1": 2,
+          "OAI211_X1": 7,
+          "OAI21_X1": 51,
+          "OAI22_X1": 3,
+          "OR2_X1": 23,
+          "OR3_X1": 5,
+          "XNOR2_X1": 75,
+          "XOR2_X1": 57
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[15]"
+        ],
+        "error": "",
+        "seconds": 14.05
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.79
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 19.15,
+          "trace_len": 0
+        },
+        "seconds": 26.36
+      }
+    },
+    {
+      "id": "c11",
+      "origin": "arithmetic:cla8_1",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "verified",
+      "problem": "",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 598.234,
+        "hier_area": null,
+        "ltp": 62,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 24,
+          "AND3_X1": 13,
+          "AOI211_X1": 5,
+          "AOI21_X1": 39,
+          "AOI22_X1": 2,
+          "INV_X1": 12,
+          "MUX2_X1": 49,
+          "NAND2_X1": 76,
+          "NAND3_X1": 5,
+          "NAND4_X1": 2,
+          "NOR2_X1": 38,
+          "NOR3_X1": 1,
+          "NOR4_X1": 1,
+          "OAI211_X1": 6,
+          "OAI21_X1": 49,
+          "OAI22_X1": 1,
+          "OR2_X1": 22,
+          "OR3_X1": 4,
+          "XNOR2_X1": 80,
+          "XOR2_X1": 55
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[15]"
+        ],
+        "error": "",
+        "seconds": 14.08
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 4.05
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 19.49,
+          "trace_len": 0
+        },
+        "seconds": 25.82
+      }
+    },
+    {
+      "id": "c12",
+      "origin": "arithmetic:cla8_2",
+      "parent": null,
+      "depth": 0,
+      "strategy": "arithmetic",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 594.5 is good, but ltp=68 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "Unsigned carry fusion / block lookahead; original parameters and state retained",
+      "synth": {
+        "ok": true,
+        "area": 594.51,
+        "hier_area": null,
+        "ltp": 68,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 26,
+          "AND3_X1": 6,
+          "AOI211_X1": 2,
+          "AOI21_X1": 31,
+          "INV_X1": 10,
+          "MUX2_X1": 52,
+          "NAND2_X1": 82,
+          "NAND3_X1": 4,
+          "NAND4_X1": 1,
+          "NOR2_X1": 40,
+          "NOR4_X1": 1,
+          "OAI211_X1": 6,
+          "OAI21_X1": 52,
+          "OAI22_X1": 1,
+          "OR2_X1": 22,
+          "OR3_X1": 4,
+          "XNOR2_X1": 78,
+          "XOR2_X1": 62
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "addb[1]",
+          "c1",
+          "c2",
+          "c3",
+          "s4[14]"
+        ],
+        "error": "",
+        "seconds": 14.05
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 3.97
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 18.03,
+          "trace_len": 0
+        },
+        "seconds": 24.28
+      }
+    },
+    {
+      "id": "c13",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 509.9 is good, but ltp=75 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 509.922,
+        "hier_area": null,
+        "ltp": 75,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 14,
+          "AND3_X1": 14,
+          "AOI211_X1": 2,
+          "AOI21_X1": 46,
+          "AOI22_X1": 1,
+          "INV_X1": 48,
+          "MUX2_X1": 30,
+          "NAND2_X1": 77,
+          "NAND3_X1": 9,
+          "NOR2_X1": 46,
+          "NOR3_X1": 19,
+          "OAI211_X1": 3,
+          "OAI21_X1": 48,
+          "OR2_X1": 11,
+          "OR3_X1": 10,
+          "XNOR2_X1": 47,
+          "XOR2_X1": 37
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.result_reg[63]"
+        ],
+        "error": "",
+        "seconds": 11.27
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 5.83
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 24.5,
+          "trace_len": 0
+        },
+        "seconds": 33.78
+      }
+    },
+    {
+      "id": "c14",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 499.3 is good, but ltp=75 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 499.282,
+        "hier_area": null,
+        "ltp": 75,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 18,
+          "AND3_X1": 9,
+          "AOI211_X1": 3,
+          "AOI21_X1": 39,
+          "INV_X1": 40,
+          "MUX2_X1": 39,
+          "NAND2_X1": 39,
+          "NAND3_X1": 9,
+          "NOR2_X1": 59,
+          "NOR3_X1": 10,
+          "OAI211_X1": 6,
+          "OAI21_X1": 45,
+          "OAI22_X1": 5,
+          "OR2_X1": 10,
+          "OR3_X1": 9,
+          "XNOR2_X1": 52,
+          "XOR2_X1": 39
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[0]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.c4"
+        ],
+        "error": "",
+        "seconds": 11.23
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 5.35
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 24.56,
+          "trace_len": 0
+        },
+        "seconds": 33.43
+      }
+    },
+    {
+      "id": "c15",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 510.5 is good, but ltp=75 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 510.454,
+        "hier_area": null,
+        "ltp": 75,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 17,
+          "AND3_X1": 21,
+          "AOI211_X1": 2,
+          "AOI21_X1": 37,
+          "INV_X1": 43,
+          "MUX2_X1": 44,
+          "NAND2_X1": 49,
+          "NAND3_X1": 7,
+          "NOR2_X1": 46,
+          "NOR3_X1": 5,
+          "OAI211_X1": 4,
+          "OAI21_X1": 48,
+          "OR2_X1": 17,
+          "OR3_X1": 13,
+          "XNOR2_X1": 27,
+          "XOR2_X1": 59
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.result_reg[63]"
+        ],
+        "error": "",
+        "seconds": 11.24
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 4.47
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 25.44,
+          "trace_len": 0
+        },
+        "seconds": 33.26
+      }
+    },
+    {
+      "id": "c16",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 516.0 is good, but ltp=74 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 516.04,
+        "hier_area": null,
+        "ltp": 74,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 18,
+          "AND3_X1": 16,
+          "AOI211_X1": 4,
+          "AOI21_X1": 46,
+          "INV_X1": 53,
+          "MUX2_X1": 29,
+          "NAND2_X1": 84,
+          "NAND3_X1": 5,
+          "NOR2_X1": 31,
+          "NOR3_X1": 16,
+          "OAI211_X1": 2,
+          "OAI21_X1": 60,
+          "OR2_X1": 13,
+          "OR3_X1": 8,
+          "XNOR2_X1": 38,
+          "XOR2_X1": 46
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.result_reg[63]"
+        ],
+        "error": "",
+        "seconds": 11.28
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 5.2
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 21.61,
+          "trace_len": 0
+        },
+        "seconds": 30.35
+      }
+    },
+    {
+      "id": "c17",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 501.1 is good, but ltp=75 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 501.144,
+        "hier_area": null,
+        "ltp": 75,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 29,
+          "AND3_X1": 19,
+          "AOI211_X1": 2,
+          "AOI21_X1": 33,
+          "AOI22_X1": 1,
+          "INV_X1": 40,
+          "MUX2_X1": 35,
+          "NAND2_X1": 61,
+          "NAND3_X1": 8,
+          "NOR2_X1": 30,
+          "NOR3_X1": 10,
+          "OAI211_X1": 4,
+          "OAI21_X1": 52,
+          "OAI22_X1": 8,
+          "OR2_X1": 10,
+          "OR3_X1": 10,
+          "XNOR2_X1": 38,
+          "XOR2_X1": 45
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.result_reg[63]"
+        ],
+        "error": "",
+        "seconds": 13.05
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 5.35
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 28.37,
+          "trace_len": 0
+        },
+        "seconds": 37.07
+      }
+    },
+    {
+      "id": "c18",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 511.3 is good, but ltp=75 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 511.252,
+        "hier_area": null,
+        "ltp": 75,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 16,
+          "AND3_X1": 15,
+          "AOI211_X1": 2,
+          "AOI21_X1": 48,
+          "AOI22_X1": 1,
+          "INV_X1": 49,
+          "MUX2_X1": 30,
+          "NAND2_X1": 73,
+          "NAND3_X1": 8,
+          "NOR2_X1": 45,
+          "NOR3_X1": 20,
+          "OAI211_X1": 3,
+          "OAI21_X1": 48,
+          "OR2_X1": 12,
+          "OR3_X1": 11,
+          "XNOR2_X1": 45,
+          "XOR2_X1": 37
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.result_reg[63]"
+        ],
+        "error": "",
+        "seconds": 13.18
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 4.81
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 29.91,
+          "trace_len": 0
+        },
+        "seconds": 38.54
+      }
+    },
+    {
+      "id": "c19",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 510.7 is good, but ltp=74 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 510.72,
+        "hier_area": null,
+        "ltp": 74,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 23,
+          "AND3_X1": 16,
+          "AOI211_X1": 4,
+          "AOI21_X1": 35,
+          "INV_X1": 51,
+          "MUX2_X1": 27,
+          "NAND2_X1": 85,
+          "NAND3_X1": 14,
+          "NOR2_X1": 31,
+          "NOR3_X1": 14,
+          "OAI211_X1": 2,
+          "OAI21_X1": 64,
+          "OR2_X1": 12,
+          "OR3_X1": 11,
+          "XNOR2_X1": 38,
+          "XOR2_X1": 40
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.result_reg[63]"
+        ],
+        "error": "",
+        "seconds": 13.2
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 4.76
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 29.54,
+          "trace_len": 0
+        },
+        "seconds": 37.87
+      }
+    },
+    {
+      "id": "c20",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "not-better",
+      "problem": "[metrics] area 609.4 is good but ltp=73 exceeds the baseline ltp=66. Your longest path runs through: adda[0] -> rtlopt_default_config.c1 -> rtlopt_default_config.c2 -> rtlopt_default_config.c3 -> rtlopt_default_config.result_reg[63]. Shorten that chain (fewer cell levels between registers).",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 609.406,
+        "hier_area": null,
+        "ltp": 73,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 30,
+          "AND3_X1": 5,
+          "AOI211_X1": 4,
+          "AOI21_X1": 32,
+          "AOI22_X1": 3,
+          "INV_X1": 10,
+          "MUX2_X1": 52,
+          "NAND2_X1": 71,
+          "NOR2_X1": 44,
+          "NOR3_X1": 2,
+          "OAI211_X1": 1,
+          "OAI21_X1": 48,
+          "OAI22_X1": 1,
+          "OR2_X1": 18,
+          "OR3_X1": 6,
+          "XNOR2_X1": 96,
+          "XOR2_X1": 61
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[0]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.result_reg[63]"
+        ],
+        "error": "",
+        "seconds": 13.25
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c21",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 715.0 / ltp 55 is not better than baseline 614.7 / 66",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 715.008,
+        "hier_area": null,
+        "ltp": 55,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 26,
+          "AND3_X1": 6,
+          "AND4_X1": 4,
+          "AOI211_X1": 9,
+          "AOI21_X1": 38,
+          "AOI221_X1": 3,
+          "AOI22_X1": 9,
+          "INV_X1": 22,
+          "MUX2_X1": 55,
+          "NAND2_X1": 82,
+          "NAND3_X1": 8,
+          "NAND4_X1": 6,
+          "NOR2_X1": 99,
+          "NOR3_X1": 12,
+          "NOR4_X1": 2,
+          "OAI211_X1": 14,
+          "OAI21_X1": 47,
+          "OAI221_X1": 3,
+          "OAI22_X1": 9,
+          "OR2_X1": 21,
+          "OR3_X1": 7,
+          "OR4_X1": 2,
+          "XNOR2_X1": 73,
+          "XOR2_X1": 48
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[5]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.c4"
+        ],
+        "error": "",
+        "seconds": 14.34
+      },
+      "course": null,
+      "verify": null
+    },
+    {
+      "id": "c22",
+      "origin": "resynth:dc2x3(c09)",
+      "parent": "c09",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 510.2 is good, but ltp=70 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (dc2x3) of c09",
+      "synth": {
+        "ok": true,
+        "area": 510.188,
+        "hier_area": null,
+        "ltp": 70,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 22,
+          "AND3_X1": 4,
+          "AOI211_X1": 3,
+          "AOI21_X1": 30,
+          "AOI221_X1": 1,
+          "AOI22_X1": 1,
+          "INV_X1": 26,
+          "MUX2_X1": 50,
+          "NAND2_X1": 52,
+          "NAND3_X1": 7,
+          "NAND4_X1": 1,
+          "NOR2_X1": 30,
+          "NOR3_X1": 2,
+          "OAI211_X1": 8,
+          "OAI21_X1": 40,
+          "OAI22_X1": 5,
+          "OR2_X1": 14,
+          "OR3_X1": 2,
+          "OR4_X1": 1,
+          "XNOR2_X1": 70,
+          "XOR2_X1": 43
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[0]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.result_reg[63]"
+        ],
+        "error": "",
+        "seconds": 14.17
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 4.61
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 29.32,
+          "trace_len": 0
+        },
+        "seconds": 37.13
+      }
+    },
+    {
+      "id": "c23",
+      "origin": "resynth:syn2_dch(c09)",
+      "parent": "c09",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (syn2_dch) of c09",
+      "synth": {
+        "ok": true,
+        "area": 556.738,
+        "hier_area": null,
+        "ltp": 54,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 16,
+          "AND3_X1": 4,
+          "AND4_X1": 1,
+          "AOI211_X1": 4,
+          "AOI21_X1": 35,
+          "AOI221_X1": 2,
+          "AOI22_X1": 4,
+          "INV_X1": 14,
+          "MUX2_X1": 56,
+          "NAND2_X1": 72,
+          "NAND3_X1": 9,
+          "NAND4_X1": 1,
+          "NOR2_X1": 53,
+          "NOR3_X1": 7,
+          "NOR4_X1": 1,
+          "OAI211_X1": 10,
+          "OAI21_X1": 36,
+          "OAI221_X1": 7,
+          "OAI22_X1": 3,
+          "OR2_X1": 14,
+          "OR3_X1": 1,
+          "XNOR2_X1": 51,
+          "XOR2_X1": 54
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[0]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.c4"
+        ],
+        "error": "",
+        "seconds": 14.22
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 5.83
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 28.77,
+          "trace_len": 0
+        },
+        "seconds": 38.82
+      }
+    },
+    {
+      "id": "c24",
+      "origin": "resynth:dc2x3(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "ltp-worse",
+      "problem": "[metrics] the design is functionally correct (verified) and area 511.5 is good, but ltp=74 exceeds the baseline ltp=66. Keep the logic but shorten the longest chain of cells (fewer levels between registers).",
+      "plan": "ABC logic re-synthesis (dc2x3) of c01",
+      "synth": {
+        "ok": true,
+        "area": 511.518,
+        "hier_area": null,
+        "ltp": 74,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 25,
+          "AND3_X1": 3,
+          "AOI211_X1": 2,
+          "AOI21_X1": 35,
+          "INV_X1": 10,
+          "MUX2_X1": 57,
+          "NAND2_X1": 47,
+          "NAND3_X1": 3,
+          "NOR2_X1": 37,
+          "NOR3_X1": 2,
+          "OAI211_X1": 6,
+          "OAI21_X1": 34,
+          "OAI22_X1": 3,
+          "OR2_X1": 24,
+          "XNOR2_X1": 77,
+          "XOR2_X1": 38
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[1]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.result_reg[63]"
+        ],
+        "error": "",
+        "seconds": 14.27
+      },
+      "course": null,
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 4500 vectors/cycles strict-VCD PASS; course stimuli PASS: case7_tb.v; formal: PROVED (temporal induction succeeded (length 4))",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [
+            "course-tb:case7_tb.v"
+          ],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 4500,
+          "seconds": 5.66
+        },
+        "formal": {
+          "kind": "seq",
+          "status": "proved",
+          "depth": 4,
+          "message": "temporal induction succeeded (length 4)",
+          "seconds": 25.12,
+          "trace_len": 0
+        },
+        "seconds": 33.94
+      }
+    },
+    {
+      "id": "c25",
+      "origin": "resynth:syn2_dch(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "not-better",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (syn2_dch) of c01",
+      "synth": {
+        "ok": true,
+        "area": 569.506,
+        "hier_area": null,
+        "ltp": 56,
+        "cells": {
+          "$_DFF_PN0_": 360,
+          "AND2_X1": 17,
+          "AND3_X1": 6,
+          "AOI211_X1": 7,
+          "AOI21_X1": 34,
+          "AOI221_X1": 4,
+          "AOI22_X1": 3,
+          "INV_X1": 18,
+          "MUX2_X1": 52,
+          "NAND2_X1": 66,
+          "NAND3_X1": 5,
+          "NAND4_X1": 3,
+          "NOR2_X1": 57,
+          "NOR3_X1": 4,
+          "NOR4_X1": 1,
+          "OAI211_X1": 10,
+          "OAI21_X1": 36,
+          "OAI221_X1": 8,
+          "OAI22_X1": 11,
+          "OR2_X1": 10,
+          "OR3_X1": 1,
+          "XNOR2_X1": 66,
+          "XOR2_X1": 45
+        },
+        "n_ff": 360,
+        "ltp_path": [
+          "adda[0]",
+          "rtlopt_default_config.c1",
+          "rtlopt_default_config.c2",
+          "rtlopt_default_config.c3",
+          "rtlopt_default_config.c4"
+        ],
+        "error": "",
+        "seconds": 10.49
+      },
+      "course": null,
+      "verify": null
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "78ddd3f77dac5c273a906698773f19087d4a915c0a003857137188da4c26b8cb",
+    "python": "3.10.12",
+    "yosys_version": "0.9",
+    "liberty_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "llm_model": null,
+    "budget": {
+      "course_guard": true,
+      "call_limit": null,
+      "arithmetic": true,
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 6,
+      "max_refine": 1,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "bounded",
+    "output_sha256": "d5b7662e78c393ad4397988a1e574ea0802ea0925a83a8e3b4363eff297ce288"
+  },
+  "gain": {
+    "area_pct": -9.43,
+    "ltp_pct": -18.18
+  }
+}

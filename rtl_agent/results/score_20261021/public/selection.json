@@ -1,0 +1,304 @@
+{
+  "selection_rule": "Accepted output; final parameterized results use inline guards with matching literal/flattened metrics; otherwise strict tier, normalized area/depth, tokens, runtime.",
+  "cost_note": "Winner runtime/tokens remain unchanged. Observed search costs include all supplied records; historical merged snapshots may omit earlier attempts. Runtime sums are case elapsed-time sums, not parallel wall time.",
+  "cases": [
+    {
+      "case": "case1_barrel_shifter",
+      "selected_source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case1_barrel_shifter/result.json",
+      "output_sha256": "dfff3027319f95400a3d493adee5dbdd0ae13245f3c55f3ec7bdf347fe5a3434",
+      "observed_search_tokens": 25028,
+      "observed_search_runtime_s": 68.4,
+      "search_costs_complete": false,
+      "runs": [
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/public/case1_barrel_shifter/result.json",
+          "result_sha256": "c667fe215d3fdc173d2aff51b0848655566337540f993bf5cfbcad65c8136e6d",
+          "tokens": 25028,
+          "runtime_s": 60.3,
+          "status": "no-gain",
+          "selected": false,
+          "earlier_search_costs_incomplete": true
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case1_barrel_shifter/result.json",
+          "result_sha256": "1e6314d227c7112b57d930b663d8772231d550757355e26a8c2ac936285267e5",
+          "tokens": 0,
+          "runtime_s": 8.1,
+          "status": "no-gain",
+          "selected": true,
+          "earlier_search_costs_incomplete": false
+        }
+      ]
+    },
+    {
+      "case": "case2_fp_rounding",
+      "selected_source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case2_fp_rounding/result.json",
+      "output_sha256": "1d42362b0d09e1fc16e12aab9dfee39583fb9af141fc363710e35c959cc16873",
+      "observed_search_tokens": 27247,
+      "observed_search_runtime_s": 115.1,
+      "search_costs_complete": false,
+      "runs": [
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/public/case2_fp_rounding/result.json",
+          "result_sha256": "c3b821d0460edc258c8ba93a35797fd41daf5ac0aee0d1583c183ddfdb8103bf",
+          "tokens": 12680,
+          "runtime_s": 43.5,
+          "status": "no-gain",
+          "selected": false,
+          "earlier_search_costs_incomplete": true
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case2_fp_rounding/result.json",
+          "result_sha256": "bac0f8bfa65cd4111a88f2b11cf70ae3254f8d66f8dbab2f5f73af7282778695",
+          "tokens": 0,
+          "runtime_s": 10.6,
+          "status": "no-gain",
+          "selected": true,
+          "earlier_search_costs_incomplete": false
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/qwen/case2_fp_rounding/result.json",
+          "result_sha256": "d8f5b5253e2027bd8deca07be53b78730c641c4f06f579808af25c80d1946b8f",
+          "tokens": 9599,
+          "runtime_s": 53.1,
+          "status": "no-gain",
+          "selected": false,
+          "earlier_search_costs_incomplete": false
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/deepseek/case2_fp_rounding/result.json",
+          "result_sha256": "083aaa8af93aa2f222c22b20e89ddd479ecc7d807e171288b1aca2ee6d0f45ae",
+          "tokens": 4968,
+          "runtime_s": 7.9,
+          "status": "no-gain",
+          "selected": false,
+          "earlier_search_costs_incomplete": false
+        }
+      ]
+    },
+    {
+      "case": "case3_fixed_point_subtractor",
+      "selected_source": "rtl_agent/results/score_20261021/inline/case3_fixed_point_subtractor/result.json",
+      "output_sha256": "42b35b6af81d3b0596e95e6ad4f3bd695536a273ec8de7358e9e106b088bce53",
+      "observed_search_tokens": 17115,
+      "observed_search_runtime_s": 407.1,
+      "search_costs_complete": false,
+      "runs": [
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/public/case3_fixed_point_subtractor/result.json",
+          "result_sha256": "46cefc8d8cd5090a4be3caf8ef5d6d45514f429f01a047b1c7dc8bb693e119fb",
+          "tokens": 17115,
+          "runtime_s": 154.5,
+          "status": "optimized",
+          "selected": false,
+          "earlier_search_costs_incomplete": true
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case3_fixed_point_subtractor/result.json",
+          "result_sha256": "c8018b5fe4e1f5a886052b4d0d0a7f1372fb0bc694aa44f7397711e8e2ca7002",
+          "tokens": 0,
+          "runtime_s": 107.8,
+          "status": "optimized",
+          "selected": false,
+          "earlier_search_costs_incomplete": false
+        },
+        {
+          "source": "rtl_agent/results/score_20261021/inline/case3_fixed_point_subtractor/result.json",
+          "result_sha256": "deaec0b5893f076461f698ad9f1661894627ac401ecb213a0138355e80e2a41d",
+          "tokens": 0,
+          "runtime_s": 144.8,
+          "status": "optimized",
+          "selected": true,
+          "earlier_search_costs_incomplete": false
+        }
+      ],
+      "selection_note": "Final inline parameter guard: course-literal and flattened metrics agree. Earlier helper-wrapper experiments are retained only as search history."
+    },
+    {
+      "case": "case4_div_16bit",
+      "selected_source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case4_div_16bit/result.json",
+      "output_sha256": "29234fb08eb361ace4da727583d7b5f4bed2d1a164fdff4811f3657da0a3ed84",
+      "observed_search_tokens": 57148,
+      "observed_search_runtime_s": 441.4,
+      "search_costs_complete": false,
+      "runs": [
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/public/case4_div_16bit/result.json",
+          "result_sha256": "3e633a5d0be86ee1d45eca4deda135d2c0554bc85f02745c89aee11820de926a",
+          "tokens": 57148,
+          "runtime_s": 314.9,
+          "status": "no-gain",
+          "selected": false,
+          "earlier_search_costs_incomplete": true
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case4_div_16bit/result.json",
+          "result_sha256": "a2428b577115dd4e2afc4b3cd73d2a175f8909c5dc250f7e463e7c139a7c2f08",
+          "tokens": 0,
+          "runtime_s": 126.5,
+          "status": "no-gain",
+          "selected": true,
+          "earlier_search_costs_incomplete": false
+        }
+      ]
+    },
+    {
+      "case": "case5_verified_accu",
+      "selected_source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case5_verified_accu/result.json",
+      "output_sha256": "280b2c17fd7a2b9d2ca1a7acdafcf45f3ee6e61ad6c9356a67603f93edda2605",
+      "observed_search_tokens": 16211,
+      "observed_search_runtime_s": 65.0,
+      "search_costs_complete": false,
+      "runs": [
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/public/case5_verified_accu/result.json",
+          "result_sha256": "e735c0888ba4e701112b9ba4bbb8b40c7e4bf81813a8ca3afb7105bc612e3e63",
+          "tokens": 16211,
+          "runtime_s": 47.4,
+          "status": "optimized",
+          "selected": false,
+          "earlier_search_costs_incomplete": true
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case5_verified_accu/result.json",
+          "result_sha256": "6cef3afaacb0f70e8ac6c0859854152907dd0ad7198676284ae27e2305acec9b",
+          "tokens": 0,
+          "runtime_s": 17.6,
+          "status": "optimized",
+          "selected": true,
+          "earlier_search_costs_incomplete": false
+        }
+      ]
+    },
+    {
+      "case": "case6_LIFObuffer",
+      "selected_source": "/mnt/f/Projects/EDA_work/rtl_agent/results/public/case6_LIFObuffer/result.json",
+      "output_sha256": "dd8cb8e2cad31e41fe05da59bf392660f5014c26c4efb150508a2917453d3bf5",
+      "observed_search_tokens": 46223,
+      "observed_search_runtime_s": 224.6,
+      "search_costs_complete": false,
+      "runs": [
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/public/case6_LIFObuffer/result.json",
+          "result_sha256": "a2226aae7619e9372c8797ef37500bcc4a22d6beba7e26824be2746a199faabd",
+          "tokens": 24279,
+          "runtime_s": 100.1,
+          "status": "optimized",
+          "selected": true,
+          "earlier_search_costs_incomplete": true
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case6_LIFObuffer/result.json",
+          "result_sha256": "0557755aded3101853944dbc372f7214af432cf4f81d99b2223d6ba30142ae59",
+          "tokens": 0,
+          "runtime_s": 14.2,
+          "status": "no-gain",
+          "selected": false,
+          "earlier_search_costs_incomplete": false
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/qwen/case6_LIFObuffer/result.json",
+          "result_sha256": "6b1469de4f7412aeefe3b21065f4c50c852395ecc22a412f91992f7fb0e41daa",
+          "tokens": 8579,
+          "runtime_s": 31.2,
+          "status": "no-gain",
+          "selected": false,
+          "earlier_search_costs_incomplete": false
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/deepseek/case6_LIFObuffer/result.json",
+          "result_sha256": "878d86cfb3365c3c3b79fed571aa4e676800190420adc89f0895a618d7e49d57",
+          "tokens": 13365,
+          "runtime_s": 79.1,
+          "status": "optimized",
+          "selected": false,
+          "earlier_search_costs_incomplete": false
+        }
+      ]
+    },
+    {
+      "case": "case7_verified_adder_64bit",
+      "selected_source": "rtl_agent/results/score_20261021/inline/case7_verified_adder_64bit/result.json",
+      "output_sha256": "c0276c4f8504b632eda2f46217d4e7b424abb81d6fefbfa28d51782a745d5844",
+      "observed_search_tokens": 37616,
+      "observed_search_runtime_s": 456.4,
+      "search_costs_complete": false,
+      "runs": [
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/public/case7_verified_adder_64bit/result.json",
+          "result_sha256": "864b13616165b82632c483c9ee73537624805b4291b20a2de36b0d6b59f771bf",
+          "tokens": 37616,
+          "runtime_s": 152.5,
+          "status": "no-gain",
+          "selected": false,
+          "earlier_search_costs_incomplete": true
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case7_verified_adder_64bit/result.json",
+          "result_sha256": "06f11638c3d8137c23520852b2b7f44173a1dc03ff606e0550d5f28e1f04f833",
+          "tokens": 0,
+          "runtime_s": 169.3,
+          "status": "optimized",
+          "selected": false,
+          "earlier_search_costs_incomplete": false
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/arithmetic/case7_verified_adder_64bit/result.json",
+          "result_sha256": "e035bd00b22907ec1e36676f110df3dccc026321de096019bfcbfe59c9bde1ed",
+          "tokens": 0,
+          "runtime_s": 30.9,
+          "status": "optimized",
+          "selected": false,
+          "earlier_search_costs_incomplete": false
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/fast/case7_verified_adder_64bit/result.json",
+          "result_sha256": "9140d217797dfc08a7498d4cee8ab1e024412b1a2303edfb58e597441df16b9d",
+          "tokens": 0,
+          "runtime_s": 44.0,
+          "status": "optimized",
+          "selected": false,
+          "earlier_search_costs_incomplete": false
+        },
+        {
+          "source": "rtl_agent/results/score_20261021/inline/case7_verified_adder_64bit/result.json",
+          "result_sha256": "29eaa68b5e5167d45b9fb779cad94e1c0ad3422a597b5953bb54b744a84a425a",
+          "tokens": 0,
+          "runtime_s": 59.7,
+          "status": "optimized",
+          "selected": true,
+          "earlier_search_costs_incomplete": false
+        }
+      ],
+      "selection_note": "Final inline parameter guard: course-literal and flattened metrics agree. Earlier helper-wrapper experiments are retained only as search history."
+    },
+    {
+      "case": "case8_verified_radix2_div",
+      "selected_source": "/mnt/f/Projects/EDA_work/rtl_agent/results/public/case8_verified_radix2_div/result.json",
+      "output_sha256": "fdd52d4e7f0247c666b218eaa0a9c4a7c1747b43f72e3c45f3feeb895bc675a7",
+      "observed_search_tokens": 23207,
+      "observed_search_runtime_s": 117.0,
+      "search_costs_complete": false,
+      "runs": [
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/public/case8_verified_radix2_div/result.json",
+          "result_sha256": "90305e1514ccea512cdb772d43f4ef140293072300fcdb94685e89e583a05da1",
+          "tokens": 23207,
+          "runtime_s": 76.1,
+          "status": "optimized",
+          "selected": true,
+          "earlier_search_costs_incomplete": true
+        },
+        {
+          "source": "/mnt/f/Projects/EDA_work/rtl_agent/results/score_20261021/offline/case8_verified_radix2_div/result.json",
+          "result_sha256": "c953a3525ecf91e76516ed23f8329e754c4bb68fd768b420094cb3ae90251a29",
+          "tokens": 0,
+          "runtime_s": 40.9,
+          "status": "no-gain",
+          "selected": false,
+          "earlier_search_costs_incomplete": false
+        }
+      ]
+    }
+  ]
+}

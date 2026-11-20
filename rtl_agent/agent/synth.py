@@ -38,6 +38,7 @@ class SynthResult:
     def __init__(self):
         self.ok = False
         self.area = None          # float (um^2), combinational cells only (FF area unknown => 0)
+        self.hier_area = None     # "Chip area for top module" (whole hierarchy), non-flattened runs only
         self.ltp = None           # int, longest topological path
         self.cells = {}           # cell type -> count (from the last stat block)
         self.n_ff = 0
@@ -48,7 +49,7 @@ class SynthResult:
         self.seconds = 0.0
 
     def to_dict(self):
-        return {"ok": self.ok, "area": self.area, "ltp": self.ltp, "cells": self.cells,
+        return {"ok": self.ok, "area": self.area, "hier_area": self.hier_area, "ltp": self.ltp, "cells": self.cells,
                 "n_ff": self.n_ff, "ltp_path": self.ltp_path, "error": self.error[-800:] if self.error else "",
                 "seconds": round(self.seconds, 2)}
 
@@ -60,6 +61,8 @@ def _parse_stat(log, result, use_top_line=False):
         result.area = float(tops[-1][1])
     elif areas:
         result.area = float(areas[-1][1])
+    if tops:
+        result.hier_area = float(tops[-1][1])
     lt = LTP_RE.findall(log)
     if lt:
         result.ltp = int(lt[-1])
@@ -162,7 +165,60 @@ def design_json(cfg, files, top, flatten=True, timeout=180):
         if rc != 0 or not os.path.isfile(jf):
             return None, _yosys_error(out + err)
         with open(jf, encoding="utf-8") as fh:
-            return json.load(fh), ""
+            data = json.load(fh)
+    mod = data.get("modules", {}).get(top)
+    if mod is not None and "parameter_default_values" not in mod:
+        # Yosys < 0.10 (e.g. Ubuntu 22.04's 0.9) does not export parameter defaults.
+        values = source_param_defaults(cfg, files, top)
+        if values:
+            mod["parameter_default_values"] = values
+    return data, ""
+
+
+def _top_param_names(files, top):
+    """Names of every `parameter` (header and body) declared by module `top`; [] if none/unknown."""
+    from .arithmetic import mask_comments
+    names = []
+    for f in files:
+        try:
+            with open(f, encoding="utf-8", errors="replace") as fh:
+                body = mask_comments(fh.read())
+        except OSError:
+            continue
+        m = re.search(r"\bmodule\s+" + re.escape(top) + r"\b", body)
+        e = re.search(r"\bendmodule\b", body[m.end():]) if m else None
+        if not e:
+            continue
+        text = body[m.end():m.end() + e.start()]
+        for d in re.finditer(r"\bparameter\b(.*?)(?=[;)]|\bparameter\b|\binput\b|\boutput\b|\binout\b)",
+                             text, flags=re.S):
+            decl = re.sub(r"^\s*(?:(?:integer|signed|unsigned|real)\s+|\[[^\]]*\]\s*)*", "", d.group(1))
+            names += re.findall(r"(?:^|,)\s*([A-Za-z_][A-Za-z0-9_$]*)\s*=(?!=)", decl)
+    return list(dict.fromkeys(names))
+
+
+def source_param_defaults(cfg, files, top):
+    """{name: binary string} of the top's default parameter values, elaborated by iverilog.
+
+    Matches the format of Yosys' `parameter_default_values` (MSB first, 32 bits for integers).
+    Returns {} when there are no parameters or they cannot be evaluated (callers fail closed)."""
+    names = _top_param_names(files, top)
+    if not names:
+        return {}
+    with tempfile.TemporaryDirectory(prefix="rtlagent_par_") as td:
+        tb = os.path.join(td, "par_tb.v")
+        lines = [f'    $display("RTLAGENT_PAR {n} %b", u.{n});' for n in names]
+        with open(tb, "w", encoding="utf-8") as fh:
+            fh.write("module rtlagent_par_tb;\n  " + top + " u ();\n  initial begin\n"
+                     + "\n".join(lines) + "\n    $finish;\n  end\nendmodule\n")
+        sim = os.path.join(td, "par.vvp")
+        rc, out, err, _ = run_cmd([cfg.iverilog, "-g2012", "-o", sim, "-s", "rtlagent_par_tb", tb]
+                                  + list(files), timeout=60)
+        if rc != 0:
+            return {}
+        rc, out, err, _ = run_cmd([cfg.vvp, "-n", sim], timeout=60)
+    values = dict(re.findall(r"^RTLAGENT_PAR (\S+) ([01]+)\s*$", out or "", flags=re.M))
+    return values if set(values) == set(names) else {}
 
 
 FF_TYPES = ("$dff", "$dffe", "$adff", "$adffe", "$sdff", "$sdffe", "$sdffce", "$dffsr", "$dffsre",
@@ -175,6 +231,7 @@ class DesignInfo:
     def __init__(self):
         self.top = ""
         self.ports = {}           # name -> (direction, width, signed)
+        self.parameters = {}      # elaborated defaults; interface must be preserved
         self.port_order = []
         self.clocks = {}          # port -> 'pos' | 'neg'
         self.async_resets = {}    # port -> active level 0/1
@@ -265,6 +322,7 @@ def analyze(cfg, files, top, source_text=""):
     mod = data.get("modules", {}).get(top)
     if mod is None:
         return None, f"top module {top} not found after elaboration"
+    info.parameters = mod.get("parameter_default_values", {})
     bit2port = {}
     for name, p in mod.get("ports", {}).items():
         width = len(p["bits"])

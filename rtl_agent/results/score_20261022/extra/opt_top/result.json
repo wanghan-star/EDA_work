@@ -1,0 +1,2307 @@
+{
+  "top": "opt_top",
+  "input": "/home/hansome_w/backup/rtl_agent/cases/extra/opt_top/opt_top.v",
+  "kind": "combinational",
+  "status": "optimized",
+  "tier": "strict",
+  "policy": {
+    "accept": "bounded",
+    "allow_relaxed": true
+  },
+  "error": "",
+  "baseline": {
+    "area": 764.218,
+    "ltp": 19,
+    "course_area": 764.218,
+    "course_ltp": 19,
+    "cells": {
+      "AND2_X1": 27,
+      "AND3_X1": 33,
+      "AND4_X1": 15,
+      "AOI21_X1": 51,
+      "AOI22_X1": 22,
+      "INV_X1": 29,
+      "MUX2_X1": 2,
+      "NAND2_X1": 109,
+      "NAND3_X1": 35,
+      "NAND4_X1": 9,
+      "NOR2_X1": 68,
+      "NOR3_X1": 12,
+      "OAI211_X1": 4,
+      "OAI21_X1": 86,
+      "OAI22_X1": 12,
+      "OR2_X1": 15,
+      "OR3_X1": 30,
+      "XNOR2_X1": 62,
+      "XOR2_X1": 59
+    }
+  },
+  "optimized": {
+    "area": 378.252,
+    "ltp": 17,
+    "cells": {
+      "AND2_X1": 14,
+      "AND3_X1": 4,
+      "AND4_X1": 10,
+      "AOI211_X1": 6,
+      "AOI21_X1": 26,
+      "AOI22_X1": 10,
+      "INV_X1": 8,
+      "MUX2_X1": 17,
+      "NAND2_X1": 74,
+      "NAND3_X1": 6,
+      "NAND4_X1": 4,
+      "NOR2_X1": 21,
+      "NOR3_X1": 1,
+      "OAI211_X1": 3,
+      "OAI21_X1": 20,
+      "OR2_X1": 6,
+      "OR3_X1": 7,
+      "XNOR2_X1": 45,
+      "XOR2_X1": 35
+    },
+    "candidate": "c22"
+  },
+  "verification": {
+    "ok": true,
+    "relaxed": false,
+    "stage": "done",
+    "message": "",
+    "mismatch": null,
+    "evidence": "sim: 20022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+    "sim": {
+      "ok": true,
+      "relaxed_ok": false,
+      "course_passed": [],
+      "error": "",
+      "mismatch": null,
+      "bad_outputs": [],
+      "n_vectors": 20022,
+      "seconds": 2.69
+    },
+    "formal": {
+      "kind": "comb",
+      "status": "proved",
+      "depth": 0,
+      "message": "ABC iprove: miter output is constant 0",
+      "seconds": 22.66,
+      "trace_len": 0
+    },
+    "seconds": 27.18
+  },
+  "usage": {
+    "calls": 6,
+    "logical_calls": 6,
+    "prompt_tokens": 10209,
+    "completion_tokens": 2236,
+    "reasoning_tokens": 0,
+    "cached_tokens": 6144,
+    "total_tokens": 12445,
+    "llm_seconds": 27.2
+  },
+  "runtime_s": 484.1,
+  "stop_reason": "budget exhausted",
+  "graph_trace": [
+    [
+      "setup",
+      0.51
+    ],
+    [
+      "generate",
+      4.89
+    ],
+    [
+      "evaluate",
+      44.51
+    ],
+    [
+      "repair",
+      6.05
+    ],
+    [
+      "evaluate",
+      35.76
+    ],
+    [
+      "refine",
+      3.92
+    ],
+    [
+      "evaluate_refine",
+      27.12
+    ],
+    [
+      "repair",
+      3.72
+    ],
+    [
+      "evaluate",
+      50.82
+    ],
+    [
+      "resynth",
+      122.81
+    ],
+    [
+      "evaluate_resynth",
+      156.53
+    ],
+    [
+      "finalize",
+      0.0
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "origin": "init:conservative",
+      "parent": null,
+      "depth": 0,
+      "strategy": "conservative",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `y` has the right values but your design produces extra zero-width events [(62000, '0'), (2482000, '0'), (3702000, '0')] (the output is assigned more than once in a time step). Assign it exactly once per evaluation: compute intermediates first, use `assign` or a single final assignment, no default-then-override, no explicit sensitivity lists.",
+      "plan": "- Share one multiplier: compute m = (sel ? c : a) * (sel ? d : b), since only one product is needed per cycle.\n- This is exactly equivalent to the original mux-of-products because multiplication is a pure function and the selected operands reproduce the selected product.\n- Keep same ports/params/widths; single assign, no extra state.\n- Reduces two 8x8 multipliers to one plus two 8-bit operand muxes, cutting area.",
+      "synth": {
+        "ok": true,
+        "area": 403.256,
+        "ltp": 18,
+        "cells": {
+          "AND2_X1": 17,
+          "AND3_X1": 16,
+          "AND4_X1": 7,
+          "AOI211_X1": 1,
+          "AOI21_X1": 31,
+          "AOI22_X1": 8,
+          "INV_X1": 9,
+          "MUX2_X1": 17,
+          "NAND2_X1": 57,
+          "NAND3_X1": 15,
+          "NAND4_X1": 4,
+          "NOR2_X1": 22,
+          "NOR3_X1": 2,
+          "OAI21_X1": 32,
+          "OAI22_X1": 6,
+          "OR2_X1": 9,
+          "OR3_X1": 15,
+          "XNOR2_X1": 36,
+          "XOR2_X1": 35
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "d[4]"
+        ],
+        "error": "",
+        "seconds": 0.23
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['y'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 62000,
+          "signal": "y",
+          "gold_only_events": [],
+          "opt_only_events": [
+            [
+              62000,
+              "0"
+            ],
+            [
+              2482000,
+              "0"
+            ],
+            [
+              3702000,
+              "0"
+            ]
+          ],
+          "inputs": {
+            "a": "0",
+            "b": "1",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "inputs_prev": {
+            "a": "1111111",
+            "b": "0",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "outputs_gold": {
+            "y": "0"
+          },
+          "outputs_opt": {
+            "y": "0"
+          },
+          "stimulus": "random",
+          "cycle": null
+        },
+        "evidence": "sim: 6022 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 62000,
+            "signal": "y",
+            "gold_only_events": [],
+            "opt_only_events": [
+              [
+                62000,
+                "0"
+              ],
+              [
+                2482000,
+                "0"
+              ],
+              [
+                3702000,
+                "0"
+              ]
+            ],
+            "inputs": {
+              "a": "0",
+              "b": "1",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "inputs_prev": {
+              "a": "1111111",
+              "b": "0",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "outputs_gold": {
+              "y": "0"
+            },
+            "outputs_opt": {
+              "y": "0"
+            },
+            "stimulus": "random",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "y"
+          ],
+          "n_vectors": 6022,
+          "seconds": 0.04
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 43.89,
+          "trace_len": 0
+        },
+        "seconds": 43.97
+      }
+    },
+    {
+      "id": "c02",
+      "origin": "init:datapath",
+      "parent": null,
+      "depth": 0,
+      "strategy": "datapath",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `y` has the right values but your design produces extra zero-width events [(62000, '0'), (2482000, '0'), (3702000, '0')] (the output is assigned more than once in a time step). Assign it exactly once per evaluation: compute intermediates first, use `assign` or a single final assignment, no default-then-override, no explicit sensitivity lists.",
+      "plan": "- Share one 8x8 multiplier: mux the multiplicand pair by sel, then multiply once: (sel?c:a)*(sel?d:b).\n- This is exactly equivalent since only one product is selected; the non-selected product is unobservable.\n- Muxing 8-bit operands (2 muxes of 8 bits) is far cheaper than a second 8x8 array multiplier.\n- Keep output width 2W; no width narrowing possible since all product bits are used.",
+      "synth": {
+        "ok": true,
+        "area": 403.256,
+        "ltp": 18,
+        "cells": {
+          "AND2_X1": 17,
+          "AND3_X1": 16,
+          "AND4_X1": 7,
+          "AOI211_X1": 1,
+          "AOI21_X1": 31,
+          "AOI22_X1": 8,
+          "INV_X1": 9,
+          "MUX2_X1": 17,
+          "NAND2_X1": 57,
+          "NAND3_X1": 15,
+          "NAND4_X1": 4,
+          "NOR2_X1": 22,
+          "NOR3_X1": 2,
+          "OAI21_X1": 32,
+          "OAI22_X1": 6,
+          "OR2_X1": 9,
+          "OR3_X1": 15,
+          "XNOR2_X1": 36,
+          "XOR2_X1": 35
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "d[4]"
+        ],
+        "error": "",
+        "seconds": 0.23
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['y'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 62000,
+          "signal": "y",
+          "gold_only_events": [],
+          "opt_only_events": [
+            [
+              62000,
+              "0"
+            ],
+            [
+              2482000,
+              "0"
+            ],
+            [
+              3702000,
+              "0"
+            ]
+          ],
+          "inputs": {
+            "a": "0",
+            "b": "1",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "inputs_prev": {
+            "a": "1111111",
+            "b": "0",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "outputs_gold": {
+            "y": "0"
+          },
+          "outputs_opt": {
+            "y": "0"
+          },
+          "stimulus": "random",
+          "cycle": null
+        },
+        "evidence": "sim: 6022 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 62000,
+            "signal": "y",
+            "gold_only_events": [],
+            "opt_only_events": [
+              [
+                62000,
+                "0"
+              ],
+              [
+                2482000,
+                "0"
+              ],
+              [
+                3702000,
+                "0"
+              ]
+            ],
+            "inputs": {
+              "a": "0",
+              "b": "1",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "inputs_prev": {
+              "a": "1111111",
+              "b": "0",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "outputs_gold": {
+              "y": "0"
+            },
+            "outputs_opt": {
+              "y": "0"
+            },
+            "stimulus": "random",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "y"
+          ],
+          "n_vectors": 6022,
+          "seconds": 0.02
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 44.21,
+          "trace_len": 0
+        },
+        "seconds": 44.27
+      }
+    },
+    {
+      "id": "c03",
+      "origin": "repair(c01)",
+      "parent": "c01",
+      "depth": 1,
+      "strategy": "conservative",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `y` has the right values but your design produces extra zero-width events [(62000, '0'), (2482000, '0'), (3702000, '0')] (the output is assigned more than once in a time step). Assign it exactly once per evaluation: compute intermediates first, use `assign` or a single final assignment, no default-then-override, no explicit sensitivity lists.",
+      "plan": "- Replace the two intermediate operand wires with a single continuous assignment `assign y = (sel ? c : a) * (sel ? d : b);` so y has exactly one driver and no intermediate wire re-evaluation.\n- This preserves the exact selected product (sel=0 -> a*b, sel=1 -> c*d) and the X behavior of the ternary.\n- Same mistake would affect any case where sel changes; inlining removes the extra delta events.\n- Keeps the one-multiplier area saving.",
+      "synth": {
+        "ok": true,
+        "area": 442.624,
+        "ltp": 19,
+        "cells": {
+          "AND2_X1": 8,
+          "AND3_X1": 14,
+          "AND4_X1": 6,
+          "AOI211_X1": 1,
+          "AOI21_X1": 26,
+          "AOI22_X1": 9,
+          "INV_X1": 15,
+          "MUX2_X1": 16,
+          "NAND2_X1": 75,
+          "NAND3_X1": 10,
+          "NAND4_X1": 2,
+          "NOR2_X1": 38,
+          "NOR3_X1": 2,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 31,
+          "OAI221_X1": 1,
+          "OAI22_X1": 4,
+          "OR2_X1": 14,
+          "OR3_X1": 13,
+          "XNOR2_X1": 42,
+          "XOR2_X1": 50
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "d[7]"
+        ],
+        "error": "",
+        "seconds": 0.25
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['y'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 62000,
+          "signal": "y",
+          "gold_only_events": [],
+          "opt_only_events": [
+            [
+              62000,
+              "0"
+            ],
+            [
+              2482000,
+              "0"
+            ],
+            [
+              3702000,
+              "0"
+            ]
+          ],
+          "inputs": {
+            "a": "0",
+            "b": "1",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "inputs_prev": {
+            "a": "1111111",
+            "b": "0",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "outputs_gold": {
+            "y": "0"
+          },
+          "outputs_opt": {
+            "y": "0"
+          },
+          "stimulus": "random",
+          "cycle": null
+        },
+        "evidence": "sim: 6022 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 62000,
+            "signal": "y",
+            "gold_only_events": [],
+            "opt_only_events": [
+              [
+                62000,
+                "0"
+              ],
+              [
+                2482000,
+                "0"
+              ],
+              [
+                3702000,
+                "0"
+              ]
+            ],
+            "inputs": {
+              "a": "0",
+              "b": "1",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "inputs_prev": {
+              "a": "1111111",
+              "b": "0",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "outputs_gold": {
+              "y": "0"
+            },
+            "outputs_opt": {
+              "y": "0"
+            },
+            "stimulus": "random",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "y"
+          ],
+          "n_vectors": 6022,
+          "seconds": 0.02
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 35.39,
+          "trace_len": 0
+        },
+        "seconds": 35.44
+      }
+    },
+    {
+      "id": "c04",
+      "origin": "repair(c02)",
+      "parent": "c02",
+      "depth": 1,
+      "strategy": "datapath",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `y` has the right values but your design produces extra zero-width events [(62000, '0'), (2482000, '0'), (3702000, '0')] (the output is assigned more than once in a time step). Assign it exactly once per evaluation: compute intermediates first, use `assign` or a single final assignment, no default-then-override, no explicit sensitivity lists.",
+      "plan": "- Keep the single shared multiplier (correct optimization).\n- Ensure y is produced by exactly one assignment with no intermediate continuous-assignment chain that re-triggers y: fold the operand muxing directly into the single y expression so y has one driver.\n- Same issue would affect any case where sel toggles; fixing the structure fixes all cases.",
+      "synth": {
+        "ok": true,
+        "area": 442.624,
+        "ltp": 19,
+        "cells": {
+          "AND2_X1": 8,
+          "AND3_X1": 14,
+          "AND4_X1": 6,
+          "AOI211_X1": 1,
+          "AOI21_X1": 26,
+          "AOI22_X1": 9,
+          "INV_X1": 15,
+          "MUX2_X1": 16,
+          "NAND2_X1": 75,
+          "NAND3_X1": 10,
+          "NAND4_X1": 2,
+          "NOR2_X1": 38,
+          "NOR3_X1": 2,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 31,
+          "OAI221_X1": 1,
+          "OAI22_X1": 4,
+          "OR2_X1": 14,
+          "OR3_X1": 13,
+          "XNOR2_X1": 42,
+          "XOR2_X1": 50
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "d[7]"
+        ],
+        "error": "",
+        "seconds": 0.25
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['y'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 62000,
+          "signal": "y",
+          "gold_only_events": [],
+          "opt_only_events": [
+            [
+              62000,
+              "0"
+            ],
+            [
+              2482000,
+              "0"
+            ],
+            [
+              3702000,
+              "0"
+            ]
+          ],
+          "inputs": {
+            "a": "0",
+            "b": "1",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "inputs_prev": {
+            "a": "1111111",
+            "b": "0",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "outputs_gold": {
+            "y": "0"
+          },
+          "outputs_opt": {
+            "y": "0"
+          },
+          "stimulus": "random",
+          "cycle": null
+        },
+        "evidence": "sim: 6022 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 62000,
+            "signal": "y",
+            "gold_only_events": [],
+            "opt_only_events": [
+              [
+                62000,
+                "0"
+              ],
+              [
+                2482000,
+                "0"
+              ],
+              [
+                3702000,
+                "0"
+              ]
+            ],
+            "inputs": {
+              "a": "0",
+              "b": "1",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "inputs_prev": {
+              "a": "1111111",
+              "b": "0",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "outputs_gold": {
+              "y": "0"
+            },
+            "outputs_opt": {
+              "y": "0"
+            },
+            "stimulus": "random",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "y"
+          ],
+          "n_vectors": 6022,
+          "seconds": 0.04
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 35.42,
+          "trace_len": 0
+        },
+        "seconds": 35.5
+      }
+    },
+    {
+      "id": "c05",
+      "origin": "init:logic",
+      "parent": null,
+      "depth": 0,
+      "strategy": "logic",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `y` has the right values but your design produces extra zero-width events [(62000, '0'), (2482000, '0'), (3702000, '0')] (the output is assigned more than once in a time step). Assign it exactly once per evaluation: compute intermediates first, use `assign` or a single final assignment, no default-then-override, no explicit sensitivity lists.",
+      "plan": "- Replace two multipliers + mux with one shared multiplier: mux the operand pairs first, then multiply once.\n- Since only one product is needed per cycle, compute m = sel ? c : a and n = sel ? d : b, then y = m * n.\n- This preserves exact bit-for-bit result for both sel values and X propagation on sel.\n- Reduces area by eliminating one full 8x8 multiplier.",
+      "synth": {
+        "ok": true,
+        "area": 403.256,
+        "ltp": 18,
+        "cells": {
+          "AND2_X1": 17,
+          "AND3_X1": 16,
+          "AND4_X1": 7,
+          "AOI211_X1": 1,
+          "AOI21_X1": 31,
+          "AOI22_X1": 8,
+          "INV_X1": 9,
+          "MUX2_X1": 17,
+          "NAND2_X1": 57,
+          "NAND3_X1": 15,
+          "NAND4_X1": 4,
+          "NOR2_X1": 22,
+          "NOR3_X1": 2,
+          "OAI21_X1": 32,
+          "OAI22_X1": 6,
+          "OR2_X1": 9,
+          "OR3_X1": 15,
+          "XNOR2_X1": 36,
+          "XOR2_X1": 35
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "d[4]"
+        ],
+        "error": "",
+        "seconds": 0.24
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['y'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 62000,
+          "signal": "y",
+          "gold_only_events": [],
+          "opt_only_events": [
+            [
+              62000,
+              "0"
+            ],
+            [
+              2482000,
+              "0"
+            ],
+            [
+              3702000,
+              "0"
+            ]
+          ],
+          "inputs": {
+            "a": "0",
+            "b": "1",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "inputs_prev": {
+            "a": "1111111",
+            "b": "0",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "outputs_gold": {
+            "y": "0"
+          },
+          "outputs_opt": {
+            "y": "0"
+          },
+          "stimulus": "random",
+          "cycle": null
+        },
+        "evidence": "sim: 6022 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 62000,
+            "signal": "y",
+            "gold_only_events": [],
+            "opt_only_events": [
+              [
+                62000,
+                "0"
+              ],
+              [
+                2482000,
+                "0"
+              ],
+              [
+                3702000,
+                "0"
+              ]
+            ],
+            "inputs": {
+              "a": "0",
+              "b": "1",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "inputs_prev": {
+              "a": "1111111",
+              "b": "0",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "outputs_gold": {
+              "y": "0"
+            },
+            "outputs_opt": {
+              "y": "0"
+            },
+            "stimulus": "random",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "y"
+          ],
+          "n_vectors": 6022,
+          "seconds": 0.02
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 26.82,
+          "trace_len": 0
+        },
+        "seconds": 26.88
+      }
+    },
+    {
+      "id": "c06",
+      "origin": "repair(c05)",
+      "parent": "c05",
+      "depth": 1,
+      "strategy": "logic",
+      "status": "relaxed",
+      "problem": "[waveform-events] Output `y` has the right values but your design produces extra zero-width events [(62000, '0'), (2482000, '0'), (3702000, '0')] (the output is assigned more than once in a time step). Assign it exactly once per evaluation: compute intermediates first, use `assign` or a single final assignment, no default-then-override, no explicit sensitivity lists.",
+      "plan": "- Keep the shared single multiplier (correct area optimization).\n- Drive y with a single continuous assignment whose operands are the muxed inputs, so y is assigned exactly once per evaluation.\n- The muxing of m/n is fine as intermediate wires; the issue is only that y itself must be a single assignment. Use one `assign y = (sel ? c : a) * (sel ? d : b);` — still one assignment to y.\n- Same fix applies to all cases; no other outputs affected.",
+      "synth": {
+        "ok": true,
+        "area": 442.624,
+        "ltp": 19,
+        "cells": {
+          "AND2_X1": 8,
+          "AND3_X1": 14,
+          "AND4_X1": 6,
+          "AOI211_X1": 1,
+          "AOI21_X1": 26,
+          "AOI22_X1": 9,
+          "INV_X1": 15,
+          "MUX2_X1": 16,
+          "NAND2_X1": 75,
+          "NAND3_X1": 10,
+          "NAND4_X1": 2,
+          "NOR2_X1": 38,
+          "NOR3_X1": 2,
+          "NOR4_X1": 1,
+          "OAI211_X1": 1,
+          "OAI21_X1": 31,
+          "OAI221_X1": 1,
+          "OAI22_X1": 4,
+          "OR2_X1": 14,
+          "OR3_X1": 13,
+          "XNOR2_X1": 42,
+          "XOR2_X1": 50
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "d[7]"
+        ],
+        "error": "",
+        "seconds": 0.83
+      },
+      "verify": {
+        "ok": false,
+        "relaxed": true,
+        "stage": "sim-relaxed",
+        "message": "strict waveform mismatch on ['y'] (power-up X / zero-width events only)",
+        "mismatch": {
+          "kind": "event",
+          "time": 62000,
+          "signal": "y",
+          "gold_only_events": [],
+          "opt_only_events": [
+            [
+              62000,
+              "0"
+            ],
+            [
+              2482000,
+              "0"
+            ],
+            [
+              3702000,
+              "0"
+            ]
+          ],
+          "inputs": {
+            "a": "0",
+            "b": "1",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "inputs_prev": {
+            "a": "1111111",
+            "b": "0",
+            "c": "0",
+            "d": "0",
+            "sel": "0"
+          },
+          "outputs_gold": {
+            "y": "0"
+          },
+          "outputs_opt": {
+            "y": "0"
+          },
+          "stimulus": "random",
+          "cycle": null
+        },
+        "evidence": "sim: 6022 vectors/cycles strict-VCD RELAXED-PASS (power-up X / glitch events differ); formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": false,
+          "relaxed_ok": true,
+          "course_passed": [],
+          "error": "",
+          "mismatch": {
+            "kind": "event",
+            "time": 62000,
+            "signal": "y",
+            "gold_only_events": [],
+            "opt_only_events": [
+              [
+                62000,
+                "0"
+              ],
+              [
+                2482000,
+                "0"
+              ],
+              [
+                3702000,
+                "0"
+              ]
+            ],
+            "inputs": {
+              "a": "0",
+              "b": "1",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "inputs_prev": {
+              "a": "1111111",
+              "b": "0",
+              "c": "0",
+              "d": "0",
+              "sel": "0"
+            },
+            "outputs_gold": {
+              "y": "0"
+            },
+            "outputs_opt": {
+              "y": "0"
+            },
+            "stimulus": "random",
+            "cycle": null
+          },
+          "bad_outputs": [
+            "y"
+          ],
+          "n_vectors": 6022,
+          "seconds": 0.07
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 49.8,
+          "trace_len": 0
+        },
+        "seconds": 49.98
+      }
+    },
+    {
+      "id": "c07",
+      "origin": "resynth:deep(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 732.83,
+        "ltp": 18,
+        "cells": {
+          "AND2_X1": 25,
+          "AND3_X1": 8,
+          "AND4_X1": 23,
+          "AOI211_X1": 16,
+          "AOI21_X1": 56,
+          "AOI22_X1": 32,
+          "INV_X1": 21,
+          "MUX2_X1": 7,
+          "NAND2_X1": 93,
+          "NAND3_X1": 16,
+          "NAND4_X1": 6,
+          "NOR2_X1": 76,
+          "NOR3_X1": 17,
+          "OAI211_X1": 9,
+          "OAI21_X1": 28,
+          "OAI22_X1": 3,
+          "OR2_X1": 23,
+          "OR3_X1": 7,
+          "XNOR2_X1": 99,
+          "XOR2_X1": 60
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[7]"
+        ],
+        "error": "",
+        "seconds": 11.93
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 5.51
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 6.27,
+          "trace_len": 0
+        },
+        "seconds": 23.66
+      }
+    },
+    {
+      "id": "c08",
+      "origin": "resynth:deep_s7(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 736.288,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 44,
+          "AND3_X1": 7,
+          "AND4_X1": 44,
+          "AOI21_X1": 56,
+          "AOI22_X1": 46,
+          "INV_X1": 35,
+          "MUX2_X1": 3,
+          "NAND2_X1": 65,
+          "NAND3_X1": 11,
+          "NAND4_X1": 20,
+          "NOR2_X1": 60,
+          "NOR3_X1": 8,
+          "OAI211_X1": 1,
+          "OAI21_X1": 58,
+          "OAI221_X1": 2,
+          "OAI22_X1": 5,
+          "OR2_X1": 10,
+          "OR3_X1": 23,
+          "XNOR2_X1": 85,
+          "XOR2_X1": 43
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[7]"
+        ],
+        "error": "",
+        "seconds": 16.04
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 5.44
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 5.98,
+          "trace_len": 0
+        },
+        "seconds": 22.82
+      }
+    },
+    {
+      "id": "c09",
+      "origin": "resynth:deep_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 732.83,
+        "ltp": 18,
+        "cells": {
+          "AND2_X1": 25,
+          "AND3_X1": 8,
+          "AND4_X1": 23,
+          "AOI211_X1": 16,
+          "AOI21_X1": 56,
+          "AOI22_X1": 32,
+          "INV_X1": 21,
+          "MUX2_X1": 7,
+          "NAND2_X1": 93,
+          "NAND3_X1": 16,
+          "NAND4_X1": 6,
+          "NOR2_X1": 76,
+          "NOR3_X1": 17,
+          "OAI211_X1": 9,
+          "OAI21_X1": 28,
+          "OAI22_X1": 3,
+          "OR2_X1": 23,
+          "OR3_X1": 7,
+          "XNOR2_X1": 99,
+          "XOR2_X1": 60
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[7]"
+        ],
+        "error": "",
+        "seconds": 17.5
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 6.21
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 6.87,
+          "trace_len": 0
+        },
+        "seconds": 25.56
+      }
+    },
+    {
+      "id": "c10",
+      "origin": "resynth:deep_s7_j400(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 736.288,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 44,
+          "AND3_X1": 7,
+          "AND4_X1": 44,
+          "AOI21_X1": 56,
+          "AOI22_X1": 46,
+          "INV_X1": 35,
+          "MUX2_X1": 3,
+          "NAND2_X1": 65,
+          "NAND3_X1": 11,
+          "NAND4_X1": 20,
+          "NOR2_X1": 60,
+          "NOR3_X1": 8,
+          "OAI211_X1": 1,
+          "OAI21_X1": 58,
+          "OAI221_X1": 2,
+          "OAI22_X1": 5,
+          "OR2_X1": 10,
+          "OR3_X1": 23,
+          "XNOR2_X1": 85,
+          "XOR2_X1": 43
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[7]"
+        ],
+        "error": "",
+        "seconds": 8.74
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 6.15
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 7.57,
+          "trace_len": 0
+        },
+        "seconds": 25.84
+      }
+    },
+    {
+      "id": "c11",
+      "origin": "resynth:deep_i3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_i3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 733.628,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 17,
+          "AND3_X1": 12,
+          "AND4_X1": 22,
+          "AOI211_X1": 2,
+          "AOI21_X1": 57,
+          "AOI22_X1": 34,
+          "INV_X1": 32,
+          "MUX2_X1": 3,
+          "NAND2_X1": 97,
+          "NAND3_X1": 20,
+          "NAND4_X1": 12,
+          "NOR2_X1": 74,
+          "NOR3_X1": 17,
+          "OAI211_X1": 4,
+          "OAI21_X1": 44,
+          "OAI22_X1": 11,
+          "OR2_X1": 19,
+          "OR3_X1": 15,
+          "XNOR2_X1": 91,
+          "XOR2_X1": 56
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "c[7]"
+        ],
+        "error": "",
+        "seconds": 14.11
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 5.52
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 6.19,
+          "trace_len": 0
+        },
+        "seconds": 22.57
+      }
+    },
+    {
+      "id": "c12",
+      "origin": "resynth:deep_bd(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 808.6 / ltp 18 is not better than baseline 764.2 / 19",
+      "plan": "ABC logic re-synthesis (deep_bd) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 808.64,
+        "ltp": 18,
+        "cells": {
+          "AND2_X1": 29,
+          "AND3_X1": 5,
+          "AND4_X1": 16,
+          "AOI211_X1": 5,
+          "AOI21_X1": 55,
+          "AOI22_X1": 25,
+          "INV_X1": 26,
+          "MUX2_X1": 4,
+          "NAND2_X1": 133,
+          "NAND3_X1": 29,
+          "NAND4_X1": 3,
+          "NOR2_X1": 62,
+          "NOR3_X1": 5,
+          "OAI211_X1": 10,
+          "OAI21_X1": 36,
+          "OAI22_X1": 5,
+          "OR2_X1": 18,
+          "OR3_X1": 6,
+          "XNOR2_X1": 135,
+          "XOR2_X1": 81
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[7]"
+        ],
+        "error": "",
+        "seconds": 13.98
+      },
+      "verify": null
+    },
+    {
+      "id": "c13",
+      "origin": "resynth:deep_s7_bds(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 713.678,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 25,
+          "AND3_X1": 11,
+          "AND4_X1": 20,
+          "AOI211_X1": 5,
+          "AOI21_X1": 48,
+          "AOI22_X1": 33,
+          "INV_X1": 15,
+          "MUX2_X1": 7,
+          "NAND2_X1": 105,
+          "NAND3_X1": 25,
+          "NAND4_X1": 12,
+          "NOR2_X1": 51,
+          "NOR3_X1": 9,
+          "OAI211_X1": 12,
+          "OAI21_X1": 49,
+          "OAI221_X1": 1,
+          "OAI22_X1": 11,
+          "OAI33_X1": 1,
+          "OR2_X1": 16,
+          "OR3_X1": 17,
+          "OR4_X1": 1,
+          "XNOR2_X1": 78,
+          "XOR2_X1": 56
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "c[7]"
+        ],
+        "error": "",
+        "seconds": 17.46
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 6.15
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 7.74,
+          "trace_len": 0
+        },
+        "seconds": 26.42
+      }
+    },
+    {
+      "id": "c14",
+      "origin": "resynth:dc2x3(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 776.2 / ltp 17 is not better than baseline 764.2 / 19",
+      "plan": "ABC logic re-synthesis (dc2x3) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 776.188,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 32,
+          "AND3_X1": 27,
+          "AND4_X1": 21,
+          "AOI21_X1": 63,
+          "AOI22_X1": 24,
+          "INV_X1": 20,
+          "MUX2_X1": 2,
+          "NAND2_X1": 100,
+          "NAND3_X1": 40,
+          "NAND4_X1": 12,
+          "NOR2_X1": 57,
+          "NOR3_X1": 11,
+          "NOR4_X1": 1,
+          "OAI211_X1": 4,
+          "OAI21_X1": 74,
+          "OAI22_X1": 7,
+          "OAI33_X1": 2,
+          "OR2_X1": 25,
+          "OR3_X1": 26,
+          "XNOR2_X1": 74,
+          "XOR2_X1": 54
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[7]"
+        ],
+        "error": "",
+        "seconds": 16.19
+      },
+      "verify": null
+    },
+    {
+      "id": "c15",
+      "origin": "resynth:syn2_dch(orig)",
+      "parent": null,
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "no-gain",
+      "problem": "[metrics] area 827.5 / ltp 17 is not better than baseline 764.2 / 19",
+      "plan": "ABC logic re-synthesis (syn2_dch) of the original RTL",
+      "synth": {
+        "ok": true,
+        "area": 827.526,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 29,
+          "AND3_X1": 21,
+          "AND4_X1": 20,
+          "AOI211_X1": 11,
+          "AOI21_X1": 81,
+          "AOI221_X1": 3,
+          "AOI22_X1": 27,
+          "INV_X1": 24,
+          "MUX2_X1": 4,
+          "NAND2_X1": 118,
+          "NAND3_X1": 25,
+          "NAND4_X1": 12,
+          "NOR2_X1": 82,
+          "NOR3_X1": 19,
+          "OAI211_X1": 13,
+          "OAI21_X1": 61,
+          "OAI221_X1": 2,
+          "OAI22_X1": 11,
+          "OAI33_X1": 2,
+          "OR2_X1": 22,
+          "OR3_X1": 22,
+          "OR4_X1": 1,
+          "XNOR2_X1": 71,
+          "XOR2_X1": 51
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "c[7]"
+        ],
+        "error": "",
+        "seconds": 10.15
+      },
+      "verify": null
+    },
+    {
+      "id": "c16",
+      "origin": "resynth:deep(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep) of c01",
+      "synth": {
+        "ok": true,
+        "area": 382.774,
+        "ltp": 18,
+        "cells": {
+          "AND2_X1": 11,
+          "AND3_X1": 7,
+          "AND4_X1": 8,
+          "AOI211_X1": 3,
+          "AOI21_X1": 23,
+          "AOI22_X1": 12,
+          "INV_X1": 5,
+          "MUX2_X1": 17,
+          "NAND2_X1": 61,
+          "NAND3_X1": 13,
+          "NAND4_X1": 3,
+          "NOR2_X1": 25,
+          "NOR3_X1": 4,
+          "OAI211_X1": 1,
+          "OAI21_X1": 23,
+          "OAI22_X1": 6,
+          "OR2_X1": 10,
+          "OR3_X1": 8,
+          "XNOR2_X1": 47,
+          "XOR2_X1": 31
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "d[1]"
+        ],
+        "error": "",
+        "seconds": 4.28
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 3.41
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 65.22,
+          "trace_len": 0
+        },
+        "seconds": 71.44
+      }
+    },
+    {
+      "id": "c17",
+      "origin": "resynth:deep_s7(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7) of c01",
+      "synth": {
+        "ok": true,
+        "area": 379.05,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 11,
+          "AND3_X1": 7,
+          "AND4_X1": 10,
+          "AOI211_X1": 6,
+          "AOI21_X1": 26,
+          "AOI22_X1": 11,
+          "INV_X1": 10,
+          "MUX2_X1": 17,
+          "NAND2_X1": 70,
+          "NAND3_X1": 5,
+          "NAND4_X1": 4,
+          "NOR2_X1": 23,
+          "NOR3_X1": 2,
+          "OAI211_X1": 2,
+          "OAI21_X1": 14,
+          "OAI22_X1": 2,
+          "OR2_X1": 7,
+          "OR3_X1": 7,
+          "OR4_X1": 1,
+          "XNOR2_X1": 46,
+          "XOR2_X1": 35
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[1]"
+        ],
+        "error": "",
+        "seconds": 4.26
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 3.57
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 64.18,
+          "trace_len": 0
+        },
+        "seconds": 73.37
+      }
+    },
+    {
+      "id": "c18",
+      "origin": "resynth:deep_j400(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_j400) of c01",
+      "synth": {
+        "ok": true,
+        "area": 382.774,
+        "ltp": 18,
+        "cells": {
+          "AND2_X1": 11,
+          "AND3_X1": 7,
+          "AND4_X1": 8,
+          "AOI211_X1": 3,
+          "AOI21_X1": 23,
+          "AOI22_X1": 12,
+          "INV_X1": 5,
+          "MUX2_X1": 17,
+          "NAND2_X1": 61,
+          "NAND3_X1": 13,
+          "NAND4_X1": 3,
+          "NOR2_X1": 25,
+          "NOR3_X1": 4,
+          "OAI211_X1": 1,
+          "OAI21_X1": 23,
+          "OAI22_X1": 6,
+          "OR2_X1": 10,
+          "OR3_X1": 8,
+          "XNOR2_X1": 47,
+          "XOR2_X1": 31
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "d[1]"
+        ],
+        "error": "",
+        "seconds": 4.15
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 2.39
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 75.57,
+          "trace_len": 0
+        },
+        "seconds": 80.43
+      }
+    },
+    {
+      "id": "c19",
+      "origin": "resynth:deep_s7_j400(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7_j400) of c01",
+      "synth": {
+        "ok": true,
+        "area": 379.05,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 11,
+          "AND3_X1": 7,
+          "AND4_X1": 10,
+          "AOI211_X1": 6,
+          "AOI21_X1": 26,
+          "AOI22_X1": 11,
+          "INV_X1": 10,
+          "MUX2_X1": 17,
+          "NAND2_X1": 70,
+          "NAND3_X1": 5,
+          "NAND4_X1": 4,
+          "NOR2_X1": 23,
+          "NOR3_X1": 2,
+          "OAI211_X1": 2,
+          "OAI21_X1": 14,
+          "OAI22_X1": 2,
+          "OR2_X1": 7,
+          "OR3_X1": 7,
+          "OR4_X1": 1,
+          "XNOR2_X1": 46,
+          "XOR2_X1": 35
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[1]"
+        ],
+        "error": "",
+        "seconds": 5.08
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 2.48
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 67.2,
+          "trace_len": 0
+        },
+        "seconds": 71.89
+      }
+    },
+    {
+      "id": "c20",
+      "origin": "resynth:deep_i3(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_i3) of c01",
+      "synth": {
+        "ok": true,
+        "area": 380.38,
+        "ltp": 18,
+        "cells": {
+          "AND2_X1": 11,
+          "AND3_X1": 7,
+          "AND4_X1": 9,
+          "AOI211_X1": 7,
+          "AOI21_X1": 18,
+          "AOI22_X1": 15,
+          "INV_X1": 10,
+          "MUX2_X1": 17,
+          "NAND2_X1": 64,
+          "NAND3_X1": 6,
+          "NAND4_X1": 5,
+          "NOR2_X1": 30,
+          "NOR3_X1": 1,
+          "OAI211_X1": 4,
+          "OAI21_X1": 21,
+          "OAI22_X1": 4,
+          "OR2_X1": 11,
+          "OR3_X1": 7,
+          "XNOR2_X1": 47,
+          "XOR2_X1": 26
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "a[1]"
+        ],
+        "error": "",
+        "seconds": 4.87
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 2.04
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 70.12,
+          "trace_len": 0
+        },
+        "seconds": 74.56
+      }
+    },
+    {
+      "id": "c21",
+      "origin": "resynth:deep_bd(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_bd) of c01",
+      "synth": {
+        "ok": true,
+        "area": 442.624,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 13,
+          "AND3_X1": 7,
+          "AND4_X1": 6,
+          "AOI211_X1": 5,
+          "AOI21_X1": 21,
+          "AOI22_X1": 11,
+          "INV_X1": 10,
+          "MUX2_X1": 16,
+          "NAND2_X1": 70,
+          "NAND3_X1": 13,
+          "NAND4_X1": 6,
+          "NOR2_X1": 26,
+          "NOR3_X1": 5,
+          "OAI211_X1": 3,
+          "OAI21_X1": 29,
+          "OAI22_X1": 6,
+          "OR2_X1": 4,
+          "OR3_X1": 12,
+          "XNOR2_X1": 70,
+          "XOR2_X1": 33
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "c[5]"
+        ],
+        "error": "",
+        "seconds": 7.55
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 4.61
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 84.76,
+          "trace_len": 0
+        },
+        "seconds": 93.57
+      }
+    },
+    {
+      "id": "c22",
+      "origin": "resynth:deep_s7_bds(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (deep_s7_bds) of c01",
+      "synth": {
+        "ok": true,
+        "area": 378.252,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 14,
+          "AND3_X1": 4,
+          "AND4_X1": 10,
+          "AOI211_X1": 6,
+          "AOI21_X1": 26,
+          "AOI22_X1": 10,
+          "INV_X1": 8,
+          "MUX2_X1": 17,
+          "NAND2_X1": 74,
+          "NAND3_X1": 6,
+          "NAND4_X1": 4,
+          "NOR2_X1": 21,
+          "NOR3_X1": 1,
+          "OAI211_X1": 3,
+          "OAI21_X1": 20,
+          "OR2_X1": 6,
+          "OR3_X1": 7,
+          "XNOR2_X1": 45,
+          "XOR2_X1": 35
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "c[1]"
+        ],
+        "error": "",
+        "seconds": 4.95
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 2.36
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 65.1,
+          "trace_len": 0
+        },
+        "seconds": 69.78
+      }
+    },
+    {
+      "id": "c23",
+      "origin": "resynth:dc2x3(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (dc2x3) of c01",
+      "synth": {
+        "ok": true,
+        "area": 408.31,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 17,
+          "AND3_X1": 15,
+          "AND4_X1": 9,
+          "AOI21_X1": 27,
+          "AOI22_X1": 10,
+          "INV_X1": 8,
+          "MUX2_X1": 17,
+          "NAND2_X1": 56,
+          "NAND3_X1": 18,
+          "NAND4_X1": 5,
+          "NOR2_X1": 22,
+          "NOR3_X1": 2,
+          "OAI21_X1": 30,
+          "OAI221_X1": 1,
+          "OAI22_X1": 5,
+          "OAI33_X1": 1,
+          "OR2_X1": 14,
+          "OR3_X1": 12,
+          "XNOR2_X1": 39,
+          "XOR2_X1": 33
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "c[1]"
+        ],
+        "error": "",
+        "seconds": 4.04
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 2.94
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 76.09,
+          "trace_len": 0
+        },
+        "seconds": 82.44
+      }
+    },
+    {
+      "id": "c24",
+      "origin": "resynth:syn2_dch(c01)",
+      "parent": "c01",
+      "depth": 0,
+      "strategy": "resynth",
+      "status": "verified",
+      "problem": "",
+      "plan": "ABC logic re-synthesis (syn2_dch) of c01",
+      "synth": {
+        "ok": true,
+        "area": 445.816,
+        "ltp": 17,
+        "cells": {
+          "AND2_X1": 23,
+          "AND3_X1": 13,
+          "AND4_X1": 6,
+          "AOI211_X1": 4,
+          "AOI21_X1": 38,
+          "AOI221_X1": 1,
+          "AOI22_X1": 13,
+          "INV_X1": 15,
+          "MUX2_X1": 16,
+          "NAND2_X1": 57,
+          "NAND3_X1": 17,
+          "NAND4_X1": 7,
+          "NOR2_X1": 39,
+          "NOR3_X1": 7,
+          "OAI211_X1": 5,
+          "OAI21_X1": 29,
+          "OAI22_X1": 2,
+          "OAI33_X1": 2,
+          "OR2_X1": 12,
+          "OR3_X1": 8,
+          "XNOR2_X1": 41,
+          "XOR2_X1": 30
+        },
+        "n_ff": 0,
+        "ltp_path": [
+          "d[1]"
+        ],
+        "error": "",
+        "seconds": 5.08
+      },
+      "verify": {
+        "ok": true,
+        "relaxed": false,
+        "stage": "done",
+        "message": "",
+        "mismatch": null,
+        "evidence": "sim: 6022 vectors/cycles strict-VCD PASS; formal: PROVED (ABC iprove: miter output is constant 0)",
+        "sim": {
+          "ok": true,
+          "relaxed_ok": false,
+          "course_passed": [],
+          "error": "",
+          "mismatch": null,
+          "bad_outputs": [],
+          "n_vectors": 6022,
+          "seconds": 2.96
+        },
+        "formal": {
+          "kind": "comb",
+          "status": "proved",
+          "depth": 0,
+          "message": "ABC iprove: miter output is constant 0",
+          "seconds": 56.39,
+          "trace_len": 0
+        },
+        "seconds": 61.25
+      }
+    }
+  ],
+  "reproducibility": {
+    "input_sha256": "5c544c07b5533393ebeeafede12a79ed5d3bf7d8e19a7a398a3ceae8e1a167b5",
+    "python": "3.14.4",
+    "yosys_version": "0.52",
+    "llm_model": "deepseek-v4.1-flash",
+    "budget": {
+      "allow_mem": false,
+      "allow_relaxed": true,
+      "accept": "bounded",
+      "rescue_calls": 4,
+      "resynth": "full",
+      "resynth_seconds": 30,
+      "max_calls": 6,
+      "max_refine": 1,
+      "max_repair": 1,
+      "time_limit": 900,
+      "n_init": 2,
+      "patience": 1,
+      "min_gain": 0.005
+    },
+    "formal_required": "proved"
+  },
+  "gain": {
+    "area_pct": -50.5,
+    "ltp_pct": -10.53
+  },
+  "run": "extra2",
+  "runs_compared": [
+    "extra2",
+    "final2x"
+  ]
+}
